@@ -47,6 +47,5 @@ class PathGenerator {
             new Vector2(W/2, H/2 + 200),
             new Vector2(W/2, H + 100)
         ];
-    }
-    
+    }   
 }

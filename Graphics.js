@@ -70,13 +70,63 @@ class Graphics {
 
         for (let i = 0; i < path_locs.length - 1; ++i) {
 
-            let p1 = path_locs[i];
-            let p2 = path_locs[i+1];
+            const p1 = path_locs[i];
+            const p2 = path_locs[i+1];
+            const dir = p2.sub(p1);
+            const perp = dir.normal();
+            const len = dir.mag();
 
-            this.draw_line(p1, p2, color, line_width);
+            const p1_right = p1.add(perp.mult(T/2)).add(dir.mult((T/2)/len));
+            const p2_right = p1_right.add(dir.mult((len - T)/len));
+            const p1_left = p1.sub(perp.mult(T/2)).add(dir.mult((T/2)/len));
+            const p2_left = p1_left.add(dir.mult((len - T)/len));
             
+            this.draw_line(p1_right, p2_right, color, line_width);
+            this.draw_line(p1_left, p2_left, color, line_width);
+
+            if (i > path_locs.length - 3) {continue;}
+
+            // Draw path corners
+
+            const p3 = path_locs[i+2];
+            const v1 = p2.sub(p1);
+            const v2 = p3.sub(p2);
+            const turn_dir = v1.cross(v2);
+            let c1;
+            let c2;
+            let c3;
+
+            if (turn_dir < 0) { // clockwise
+                c1 = p2_right;
+                c2 = p2_right.add(dir.mult(T * 1/len));
+                c3 = p2_left.add(dir.mult(T * 1/len));
+            }
+            else {  //counter-clockwise
+                c1 = p2_left;
+                c2 = p2_left.add(dir.mult(T * 1/len));
+                c3 = p2_right.add(dir.mult(T * 1/len));
+            }
+
+            this.draw_line(c1, c2, color, line_width);
+            this.draw_line(c2, c3, color, line_width);
         }
     }
+
+    // draw_path_corner(p1, p2, p3, thickness, color, line_width) {
+
+        
+    //     let c1, c2, c3;
+
+    //     if (turn_dir < 0) { // clockwise
+    //         c1 = 
+    //     }
+    //     else {  //counter-clockwise
+
+    //     }
+
+    //     this.draw_line(c1, c2, color, line_width);
+    //     this.draw_line(c2, c3, color, line_width);
+    // }
 
     grid(size) {
         const {ctx} = this;

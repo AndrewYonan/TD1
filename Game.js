@@ -18,7 +18,7 @@ class Game {
         let path_locs;
 
         if (path_config == "zig-zag") {
-            path_locs = this.path_generator.square_zig_zag(50, H/2, 80);
+            path_locs = this.path_generator.square_zig_zag(-30, H/2, 80);
         }
         else if (path_config == "default-1") {
             path_locs = this.path_generator.default_path_1();

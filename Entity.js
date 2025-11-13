@@ -15,7 +15,6 @@ class Entity {
         this.update_velocity();
     }
 
-
     move() {
 
         if (this.path_completed) {return;}
@@ -67,8 +66,6 @@ class Entity {
     }
 
     move_to_next_target_node() {
-
-        this.show_target_marks();
         this.loc = (this.loc).add(this.velocity);
     }
 

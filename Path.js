@@ -4,7 +4,7 @@ class Path {
         this.path_locs = path_locs;
         this.path_nodes = this.generate_path_nodes(path_locs);
         this.set_path_node_adjacencies();
-        this.path_thickness = 5;
+        this.path_thickness = 50;
     }
 
     generate_path_nodes(locs) {
