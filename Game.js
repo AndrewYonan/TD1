@@ -26,6 +26,9 @@ class Game {
         else if (path_config == "default-2") {
             path_locs = this.path_generator.default_path_2();
         }
+        else {
+            console.log("PATH PRESET NOT FOUND");
+        }
 
         this.path = new Path(path_locs);
     }

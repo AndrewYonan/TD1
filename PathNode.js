@@ -1,7 +1,6 @@
 class PathNode {
-    constructor(x, y) {
-        this.x = x
-        this.y = y
+    constructor(loc) {
+        this.loc = loc;
         this.next_node = null;
     }
 
@@ -14,6 +13,6 @@ class PathNode {
     }
 
     draw() {
-        graphics.draw_path_node(this.x, this.y, 15, 15, "#222", 2);
+        graphics.draw_path_node(this.loc, 15, 15, "#222", 2);
     }
 }

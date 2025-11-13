@@ -1,32 +1,27 @@
 class Entity {
     constructor(speed) {
-        this.x = 0;
-        this.y = 0;
         this.speed = speed;
-        this.velocity = {x: 0, y: 0};
+        this.loc = new Vector2(0,0);
+        this.scale = new Vector2(10,10);
+        this.velocity = new Vector2(0,0);
         this.path_node_target = null;
         this.path_completed = false;
     }   
 
     join(path) {
         let first = path.first_node();
-        this.x = first.x;
-        this.y = first.y;
+        this.loc = first.loc;
         this.path_node_target = first.next();
         this.update_velocity();
     }
-    
-    set_path_node_target(target_path_node) {
-        this.path_node_target = target_path_node;   
-    }
+
 
     move() {
 
         if (this.path_completed) {return;}
 
         if (this.passed_target()) {
-            this.x = this.path_node_target.x;
-            this.y = this.path_node_target.y;
+            this.loc = this.path_node_target.loc;
             this.update_target();
         }
         else {
@@ -45,7 +40,7 @@ class Entity {
     }
 
     to_target_vec() {
-        return {x : this.path_node_target.x - this.x, y : this.path_node_target.y - this.y};
+        return (this.path_node_target.loc).sub(this.loc);
     }
 
     update_velocity() {
@@ -53,36 +48,31 @@ class Entity {
     }
 
     passed_target() {
-        return dot(this.to_target_vec(), this.velocity) < 0;
+        return (this.to_target_vec()).dot(this.velocity) < 0;
     }
 
     get_velocity() {
 
-        let target = {x : this.path_node_target.x, y : this.path_node_target.y};
-        let target_v = {x : (target.x - this.x), y : (target.y - this.y)};
-        let mag = Math.sqrt(Math.pow(target_v.x, 2) + Math.pow(target_v.y, 2));
+        let target_v = this.to_target_vec();
+        let mag = target_v.mag();
 
         if (mag == 0) {return;}
-
-        return {x : (target_v.x / mag) * this.speed, y : (target_v.y / mag) * this.speed};
+        return target_v.div(mag).mult(this.speed);
     }
 
     show_target_marks() {
 
-        let target = {x : this.path_node_target.x, y : this.path_node_target.y};
-
-        graphics.draw_mark(target.x, target.y);
-        graphics.draw_line(this.x, this.y, target.x, target.y);
+        graphics.draw_mark_circle(this.path_node_target.loc, 20);
+        graphics.draw_mark_line(this.loc, this.path_node_target.loc);
     }
 
     move_to_next_target_node() {
 
-        // this.show_target_marks();
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
+        this.show_target_marks();
+        this.loc = (this.loc).add(this.velocity);
     }
 
     draw() {
-        graphics.draw_entity(this.x, this.y);
+        graphics.draw_entity(this.loc, this.scale);
     }
 }

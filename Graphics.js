@@ -3,7 +3,7 @@ class Graphics {
     constructor(ctx) {
         this.ctx = ctx;
         this.pixel_ratio = 1;
-        this.camera = {x : 0, y: 0};
+        this.camera = new Vector2(0,0);
     }
 
     clear_canvas() {
@@ -11,47 +11,55 @@ class Graphics {
         ctx.clearRect(0,0,W,H);
     }
 
-    draw_entity(x,y) {
-        const size = 20;
+    draw_entity(loc, scale) {
         const color = "#f22";
-        this.draw_rect(x,y,size,size,color,2);
+        this.draw_rect(loc,scale,color,2);
     }
 
-    draw_path_node(x,y) {
+    draw_path_node(loc) {
         const size = 15;
         const color = "#333";
-        this.draw_rect(x,y,size,size,color,1);
+        this.draw_rect(loc.x,loc.y,size,size,color,1);
     }
 
-    draw_mark(x,y) {
-        const radius = 20
-        this.draw_arc(x,y,radius);
+    draw_mark_circle(loc,r) {
+        const color = "#f00";
+        const line_width = 1;
+        this.draw_arc(loc, r, color, line_width);
     }
 
-    draw_line(x1,y1,x2,y2,color,line_width) {
+    draw_mark_line(loc1, loc2) {
+        const color = "#f00";
+        const line_width = 1;
+        this.draw_line(loc1, loc2, color, line_width);
+    }
+
+    draw_line(loc1,loc2,color,line_width) {
         const {ctx} = this;
         ctx.strokeStyle = color;
         ctx.lineWidth = line_width;
         ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
+        ctx.moveTo(loc1.x, loc1.y);
+        ctx.lineTo(loc2.x, loc2.y);
         ctx.stroke();
     }
 
 
-    draw_arc(x, y, radius) {
+    draw_arc(loc, radius, color, line_width) {
         const {ctx} = this;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = line_width;
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.arc(loc.x, loc.y, radius, 0, Math.PI * 2);
         ctx.stroke();
     }
 
-    draw_rect(x, y, x_size, y_size, color, line_width) {
+    draw_rect(loc, scale, color, line_width) {
         const {ctx} = this;
         ctx.strokeStyle = color;
         ctx.fillStyle = color;
         ctx.lineWidth = line_width;
-        ctx.fillRect(x - x_size/2, y - y_size/2, x_size, y_size);
+        ctx.fillRect(loc.x - scale.x/2, loc.y - scale.y/2, scale.x, scale.y);
     }  
     
     draw_path(path_locs, thickness) {
@@ -65,7 +73,7 @@ class Graphics {
             let p1 = path_locs[i];
             let p2 = path_locs[i+1];
 
-            this.draw_line(p1[0], p1[1], p2[0], p2[1], color, line_width);
+            this.draw_line(p1, p2, color, line_width);
             
         }
     }

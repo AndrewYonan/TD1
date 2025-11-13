@@ -9,11 +9,11 @@ class PathGenerator {
 
         while (x < W + 100) {
 
-            locs.push([x,y]);
-            locs.push([x + size, y]);
-            locs.push([x + size, y + size]);
-            locs.push([x + size*2, y + size]);
-
+            locs.push(new Vector2(x,y));
+            locs.push(new Vector2(x + size, y));
+            locs.push(new Vector2(x + size, y + size));
+            locs.push(new Vector2(x + size*2, y + size));
+        
             x += (size*2);
 
         }
@@ -22,28 +22,31 @@ class PathGenerator {
     }
 
     default_path_1() {
-        
-        return [[-100, H/2],
-                [100, H/2], 
-                [W/3, H/2 + 100],
-                [2*W/3, H/2 - 100],
-                [W-100, H/2]];
-
+        return [
+            new Vector2(-100, H/2),
+            new Vector2(100, H/2),
+            new Vector2(W/3, H/2 + 100),
+            new Vector2(2*W/3, H/2 - 100),
+            new Vector2(W-100, H/2)
+        ];
     }
     
     default_path_2() {
-        return [[-100, H/2],
-                [600, H/2], 
-                [600, H/2 -150],
-                [600 - 150, H/2 - 150],
-                [600 - 150, H/2 + 250],
-                [600 - 300, H/2 + 250],
-                [600 - 300, H/2 + 100],
-                [600 + 200, H/2 + 100],
-                [600 + 200, H/2 - 100],
-                [600 + 350, H/2 - 100],
-                [600 + 350, H/2 + 200],
-                [W/2, H/2 + 200],
-                [W/2, H + 100]];
+        return [
+            new Vector2(-100, H/2),
+            new Vector2(600, H/2),
+            new Vector2(600, H/2 - 150),
+            new Vector2(600 - 150, H/2 - 150),
+            new Vector2(600 - 150, H/2 + 250),
+            new Vector2(600 - 300, H/2 + 250),
+            new Vector2(600 - 300, H/2 + 100),
+            new Vector2(600 + 200, H/2 + 100),
+            new Vector2(600 + 200, H/2 - 100),
+            new Vector2(600 + 350, H/2 - 100),
+            new Vector2(600 + 350, H/2 + 200),
+            new Vector2(W/2, H/2 + 200),
+            new Vector2(W/2, H + 100)
+        ];
     }
+    
 }

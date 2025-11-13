@@ -8,7 +8,7 @@ class RoundManager {
 
         let round_config = [];
 
-        for (let i = 0; i < 75; ++i) {round_config.push([0.5, 2]);}
+        for (let i = 0; i < 75; ++i) {round_config.push([0.5, 3]);}
         return round_config;
     }
 }
