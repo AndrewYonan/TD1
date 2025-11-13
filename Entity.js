@@ -1,12 +1,11 @@
 class Entity {
     constructor(speed) {
-        this.x = null;
-        this.y = null;
+        this.x = 0;
+        this.y = 0;
         this.speed = speed;
         this.velocity = {x: 0, y: 0};
         this.path_node_target = null;
         this.path_completed = false;
-
     }   
 
     join(path) {
@@ -68,13 +67,17 @@ class Entity {
         return {x : (target_v.x / mag) * this.speed, y : (target_v.y / mag) * this.speed};
     }
 
-    move_to_next_target_node() {
-        
+    show_target_marks() {
+
         let target = {x : this.path_node_target.x, y : this.path_node_target.y};
 
         graphics.draw_mark(target.x, target.y);
-        graphics.draw_line(this.x, this.y, target.x, target.y)
+        graphics.draw_line(this.x, this.y, target.x, target.y);
+    }
 
+    move_to_next_target_node() {
+
+        // this.show_target_marks();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
     }

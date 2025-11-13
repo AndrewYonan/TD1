@@ -14,7 +14,7 @@ class Graphics {
     draw_entity(x,y) {
         const size = 20;
         const color = "#f22";
-        this.draw_rect(x,y,size,size,color,1);
+        this.draw_rect(x,y,size,size,color,2);
     }
 
     draw_path_node(x,y) {
@@ -28,8 +28,10 @@ class Graphics {
         this.draw_arc(x,y,radius);
     }
 
-    draw_line(x1,y1,x2,y2) {
+    draw_line(x1,y1,x2,y2,color,line_width) {
         const {ctx} = this;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = line_width;
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
@@ -47,9 +49,26 @@ class Graphics {
     draw_rect(x, y, x_size, y_size, color, line_width) {
         const {ctx} = this;
         ctx.strokeStyle = color;
+        ctx.fillStyle = color;
         ctx.lineWidth = line_width;
-        ctx.strokeRect(x - x_size/2, y - y_size/2, x_size, y_size);
-    }   
+        ctx.fillRect(x - x_size/2, y - y_size/2, x_size, y_size);
+    }  
+    
+    draw_path(path_locs, thickness) {
+
+        const color = "#222";
+        const line_width = 2;
+        const T = thickness;
+
+        for (let i = 0; i < path_locs.length - 1; ++i) {
+
+            let p1 = path_locs[i];
+            let p2 = path_locs[i+1];
+
+            this.draw_line(p1[0], p1[1], p2[0], p2[1], color, line_width);
+            
+        }
+    }
 
     grid(size) {
         const {ctx} = this;
@@ -69,10 +88,3 @@ class Graphics {
         }
     }
 }
-
-
-
-
-
-
-

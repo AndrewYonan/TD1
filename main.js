@@ -10,7 +10,7 @@ var FRAME_COUNT = 0
 
 init_canvas_params();
 
-game.set_path("zig-zag");
+game.set_path("default-2");
 game.set_round(1);
 game.start();
 

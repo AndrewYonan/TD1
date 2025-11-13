@@ -23,6 +23,9 @@ class Game {
         else if (path_config == "default-1") {
             path_locs = this.path_generator.default_path_1();
         }
+        else if (path_config == "default-2") {
+            path_locs = this.path_generator.default_path_2();
+        }
 
         this.path = new Path(path_locs);
     }

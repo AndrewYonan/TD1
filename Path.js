@@ -1,9 +1,11 @@
 class Path {
 
     constructor(path_locs) {
+        this.path_locs = path_locs;
         this.path_nodes = this.generate_path_nodes(path_locs);
         console.log(this.path_nodes);
         this.set_path_node_adjacencies();
+        this.path_thickness = 5;
     }
 
     generate_path_nodes(locs) {
@@ -25,9 +27,6 @@ class Path {
     }
 
     draw() {
-        for (const node of this.path_nodes) {
-            node.draw();
-        }
+        graphics.draw_path(this.path_locs, this.path_thickness);
     }
-
 }
