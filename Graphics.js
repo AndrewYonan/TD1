@@ -11,9 +11,16 @@ class Graphics {
         ctx.clearRect(0,0,W,H);
     }
 
-    draw_entity(loc, scale) {
-        const color = "#f22";
-        this.draw_rect(loc,scale,color,2);
+    draw_entity(loc, rank) {
+        const color = ENTITY_RANK_DATA[rank - 1]["color"];
+        const scale = ENTITY_RANK_DATA[rank - 1]["size"];
+        this.draw_arc_filled(loc, scale, color);
+    }
+
+    draw_lives_count(count) {
+        ctx.font = '75px "Font1"';
+        ctx.fillStyle = "#000";
+        ctx.fillText(count.toString(), 100, 100);
     }
 
     draw_path_node(loc) {
@@ -44,7 +51,6 @@ class Graphics {
         ctx.stroke();
     }
 
-
     draw_arc(loc, radius, color, line_width) {
         const {ctx} = this;
         ctx.strokeStyle = color;
@@ -52,6 +58,14 @@ class Graphics {
         ctx.beginPath();
         ctx.arc(loc.x, loc.y, radius, 0, Math.PI * 2);
         ctx.stroke();
+    }
+
+    draw_arc_filled(loc, radius, color) {
+        const {ctx} = this;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(loc.x, loc.y, radius, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     draw_rect(loc, scale, color, line_width) {

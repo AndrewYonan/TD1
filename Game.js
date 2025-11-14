@@ -1,8 +1,11 @@
 class Game {
     
     constructor() {
+
         this.round = 0;
+        this.lives = 100;
         this.paused = true;
+       
         this.spawn_idx = 0;
         this.entities = [];
         this.path = null;
@@ -46,9 +49,10 @@ class Game {
         let t = 0
         for (let i = 0; i < this.round_config.length; ++i) {
             let spawn = this.round_config[i];
-            let spacing = spawn[0] * 100;
-            let speed = spawn[1];
-            let spawn_interval = Math.floor(spacing / speed);
+            let spacing = spawn[0] * 200;
+            let rank = spawn[1];
+            let speed = ENTITY_RANK_DATA[rank - 1]["speed"];
+            let spawn_interval = Math.ceil(spacing / speed);
             map.push(t);
             t += spawn_interval;
         }
@@ -75,10 +79,19 @@ class Game {
         }
     }
 
+    display_lives() {
+        graphics.draw_lives_count(this.lives);
+    }
+
+    display_game_data() {
+        this.display_lives();
+    }
+
 
     draw() {
         this.path.draw();
         this.draw_entities();
+        this.display_game_data();
         
     }
 
@@ -87,10 +100,28 @@ class Game {
             entity.draw();
         }
     }
+
+    leak(entity) {
+        const damage = ENTITY_RANK_DATA[entity.rank - 1]["leak_damage"];
+        this.lives = max(0, this.lives - damage);
+    }
     
-    move_entities() {
-        for (const entity of this.entities) {
-            entity.move();
+    update_entities() {
+
+        let i = 0;
+
+        while (i < this.entities.length) {
+
+            if (this.entities[i].path_completed) {
+                const leaked = this.entities[i];
+                this.entities.splice(i, 1);
+                this.leak(leaked);
+            }
+            else {
+                this.entities[i].move();
+                i++;
+            }
+            
         }
     }
 
@@ -102,12 +133,13 @@ class Game {
         }
 
         if (!this.finished_spawning && FRAME_COUNT == this.spawn_times[this.spawn_idx]) {
-            let speed = this.round_config[this.spawn_idx][1];
-            this.spawn_entity(speed);
+            let rank = this.round_config[this.spawn_idx][1];
+            console.log("spawning rank", rank);
+            this.spawn_entity(rank);
         }
 
         if (!this.paused) {
-            this.move_entities();
+            this.update_entities();
         }       
     }
 

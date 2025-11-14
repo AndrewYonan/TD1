@@ -1,18 +1,24 @@
 class Entity {
-    constructor(speed) {
-        this.speed = speed;
+    constructor(rank) {
+
+        this.rank = rank;
+        this.speed = this.get_speed(rank);
         this.loc = new Vector2(0,0);
-        this.scale = new Vector2(10,10);
         this.velocity = new Vector2(0,0);
         this.path_node_target = null;
         this.path_completed = false;
-    }   
+
+    } 
 
     join(path) {
         let first = path.first_node();
         this.loc = first.loc;
         this.path_node_target = first.next();
         this.update_velocity();
+    }
+
+    get_speed(rank) {
+        return ENTITY_RANK_DATA[rank - 1]["speed"];
     }
 
     move() {
@@ -26,6 +32,7 @@ class Entity {
         else {
             this.move_to_next_target_node();
         }
+
     }
 
     update_target() {
@@ -36,6 +43,10 @@ class Entity {
         else {
             this.update_velocity();
         }
+    }
+
+    dist_to_target() {
+        return this.to_target_vec().mag();
     }
 
     to_target_vec() {
@@ -66,10 +77,11 @@ class Entity {
     }
 
     move_to_next_target_node() {
+
         this.loc = (this.loc).add(this.velocity);
     }
 
     draw() {
-        graphics.draw_entity(this.loc, this.scale);
+        graphics.draw_entity(this.loc, this.rank);
     }
 }
