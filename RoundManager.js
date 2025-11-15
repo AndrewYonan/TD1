@@ -12,7 +12,7 @@ class RoundManager {
         for (let i = 0; i < 5; ++i) {round_config.push([0.4, 2]);}
         for (let i = 0; i < 5; ++i) {round_config.push([0.4, 3]);}
         for (let i = 0; i < 5; ++i) {round_config.push([0.4, 4]);}
-        for (let i = 0; i < 5; ++i) {round_config.push([0.2, 5]);}
+        for (let i = 0; i < 5; ++i) {round_config.push([0.4, 5]);}
         return round_config;
     }
 }

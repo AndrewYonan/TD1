@@ -26,7 +26,7 @@ class Graphics {
     draw_path_node(loc) {
         const size = 15;
         const color = "#333";
-        this.draw_rect(loc.x,loc.y,size,size,color,1);
+        this.draw_rect(loc, new Vector2(size, size), color, 1);
     }
 
     draw_mark_circle(loc,r) {
@@ -71,16 +71,23 @@ class Graphics {
     draw_rect(loc, scale, color, line_width) {
         const {ctx} = this;
         ctx.strokeStyle = color;
-        ctx.fillStyle = color;
         ctx.lineWidth = line_width;
-        ctx.fillRect(loc.x - scale.x/2, loc.y - scale.y/2, scale.x, scale.y);
+        ctx.strokeRect(loc.x - scale.x/2, loc.y - scale.y/2, scale.x, scale.y);
     }  
+
+    draw_rect_filled(loc, scale, color) {
+        const {ctx} = this;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.fillRect(loc.x - scale.x/2, loc.y - scale.y/2, scale.x, scale.y);
+    }
     
     draw_path(path_locs, thickness) {
 
         const color = "#222";
         const line_width = 2;
         const T = thickness;
+
 
         for (let i = 0; i < path_locs.length - 1; ++i) {
 
@@ -110,12 +117,12 @@ class Graphics {
             let c2;
             let c3;
 
-            if (turn_dir < 0) { // clockwise
+            if (turn_dir < 0) { // clockwise turn
                 c1 = p2_right;
                 c2 = p2_right.add(dir.mult(T * 1/len));
                 c3 = p2_left.add(dir.mult(T * 1/len));
             }
-            else {  //counter-clockwise
+            else {  //counter-clockwise turn
                 c1 = p2_left;
                 c2 = p2_left.add(dir.mult(T * 1/len));
                 c3 = p2_right.add(dir.mult(T * 1/len));

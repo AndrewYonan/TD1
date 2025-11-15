@@ -13,6 +13,6 @@ class PathNode {
     }
 
     draw() {
-        graphics.draw_path_node(this.loc, 15, 15, "#222", 2);
+        graphics.draw_path_node(this.loc);
     }
 }

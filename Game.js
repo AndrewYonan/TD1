@@ -134,7 +134,6 @@ class Game {
 
         if (!this.finished_spawning && FRAME_COUNT == this.spawn_times[this.spawn_idx]) {
             let rank = this.round_config[this.spawn_idx][1];
-            console.log("spawning rank", rank);
             this.spawn_entity(rank);
         }
 
