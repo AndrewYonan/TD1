@@ -19,7 +19,7 @@ class Graphics {
     }
 
     draw_bezier_control_point(loc, bound_to_mouse) {
-        let line_width = (bound_to_mouse) ? 4 : 1;
+        let line_width = (bound_to_mouse) ? 6 : 1;
         let color = (bound_to_mouse) ? "#000" : "#333";
         const r = CURSOR_RAD;
         this.draw_arc(loc, r, color, line_width);
@@ -32,8 +32,23 @@ class Graphics {
         this.draw_arc(loc, r, color, line_width);
     }
 
+    draw_bezier_sub_control_point(loc) {
+        const color = "#111";
+        const line_width = 1;
+        const r = 10;
+        this.draw_arc(loc, r, color, line_width);
+    }
+
     draw_bezier_curve_segment(p1, p2) {
-        this.draw_line(p1, p2, "#f33", 4);
+
+        this.draw_line(p1, p2, "#f3f", 6);
+
+        let spine_len = 20;
+
+        let dir = (p2.sub(p1)).normal();
+        let spine_start = p1.add(dir.mult(spine_len / 2));
+        let spine_end = p1.sub(dir.mult(spine_len / 2));
+        this.draw_line(spine_start, spine_end, "#f3f", 1);
     }
 
     draw_bezier_skeleton_line(p1, p2) {
@@ -41,10 +56,16 @@ class Graphics {
         const color = "#aaa";
         const line_width = 2;
         const dash_l = 4;
+        const bisect_len = 20;
         
         let dir = p2.sub(p1)
         const len = dir.mag();
         dir = dir.div(len);
+
+        const bisector = dir.normal();
+        const mid = p1.add((p2.sub(p1)).div(2));
+
+        this.draw_line(mid.add(bisector.mult(bisect_len/2)), mid.sub(bisector.mult(bisect_len/2)), "#000", 2);
 
         for (let i = 0; i < Math.floor(len / dash_l); ++i) {
             if (i % 2 == 0) {
@@ -54,6 +75,27 @@ class Graphics {
             }
         }
 
+    }
+
+    display_conformity(conformity) {
+        ctx.font = '30px "Arial"';
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "left";
+        ctx.fillText("Conformity: " + conformity.toString(), 50, 50);
+    }
+
+    display_subdivisions(subdivisions) {
+        ctx.font = '30px "Arial"';
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "left";
+        ctx.fillText("Subdivisions: " + subdivisions.toString(), 50, 90);
+    }
+
+    display_control_point_count(count) {
+        ctx.font = '30px "Arial"';
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "left";
+        ctx.fillText("Effective control points: " + count.toString(), 50, 130);
     }
 
     draw_line(loc1,loc2,color,line_width) {

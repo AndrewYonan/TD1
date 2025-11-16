@@ -2,6 +2,9 @@ class BezierCurve {
 
     constructor() {
         this.control_points = [];
+        this.effective_control_points = []; // after all subdivisions are applied
+        this.conformity = 0;
+        this.subdivisions = 0;
         this.resolution = 1;
     }
 
@@ -33,10 +36,63 @@ class BezierCurve {
         return this.bezier_interp(t, inter_points);
     }
 
+    /* get effective control point list, 
+    including control points from subdivision */
+
+    recalculate_effective_control_points() {
+
+        let pts = [];
+        let S = this.subdivisions;
+        let N = this.control_points.length;
+
+        if (N == 0) {return [];}
+
+        if (N == 1) {return [this.control_points[0]];}
+
+        pts.push(this.control_points[0]);
+
+        for (let i = 0; i < this.control_points.length - 1; ++i) {
+
+            let p1 = this.control_points[i].loc;
+            let p2 = this.control_points[i + 1].loc;
+
+            let dir = p2.sub(p1);
+            let subdivide_region = (dir.div(this.conformity + 1)).div(2);
+            let non_subdivide_region = dir.sub(subdivide_region.mult(2));
+            
+            for (let j = 0; j < S; ++j) {
+                
+                let ds = subdivide_region.mult((1 - Math.pow(Math.E, -(j + 1))));
+                let sub_p = p1.add(subdivide_region).sub(ds);
+                pts.push(new BezierControlPoint(sub_p, true));
+            }
+            
+            for (let j = 0; j < S; ++j) {
+                
+                let ds = subdivide_region.mult((1 - Math.pow(Math.E, -(j + 1))));
+                let sub_p = p1.add(subdivide_region).add(non_subdivide_region).add(ds);
+                pts.push(new BezierControlPoint(sub_p, true));
+            }
+
+
+            pts.push(this.control_points[i + 1]);
+        }
+
+        return pts;
+    }
+
+    get_control_point_vecs() {
+        let vecs = [];
+        for (let i = 0; i < this.effective_control_points.length; ++i) {
+            vecs.push(this.effective_control_points[i].loc);
+        }
+        return vecs;
+    }
+
     update_curve_resolution() {
         let len = this.length_approx();
         if (len > 0) {
-            this.resolution = 1 / (4 * Math.sqrt(len));
+            this.resolution = 1 / (3 * Math.sqrt(len));
         }
         else {
             this.resolution = 1;
@@ -54,12 +110,27 @@ class BezierCurve {
         return sum;
     }
 
-    get_control_point_vecs() {
-        let vecs = [];
-        for (const cp of this.control_points) {
-            vecs.push(cp.loc);
-        }
-        return vecs;
+
+    increase_subdivisions() {
+        this.subdivisions++;
+    }
+
+    decrease_subdivisions() {
+        this.subdivisions = Math.max(0, this.subdivisions - 1);
+    }
+
+    increase_conformity() {
+        this.conformity++;
+    }
+    
+    decrease_conformity() {
+        this.conformity = Math.max(0, this.conformity - 1);
+    }
+
+    get_effective_control_point_count() {
+        let N = this.control_points.length;
+        let S = this.subdivisions;
+        return (N - 1)*2*S + N;
     }
 
     draw_curve() {
@@ -81,14 +152,20 @@ class BezierCurve {
     }
 
     draw_control_points() {
-        for (const cp of this.control_points) {
+        for (const cp of this.effective_control_points) {
             cp.draw();
         }
+    }
+
+    update_effective_control_points() {
+        this.effective_control_points = this.recalculate_effective_control_points();
     }
 
     add_control_point(vec) {
         this.control_points.push(new BezierControlPoint(vec));
         this.update_curve_resolution();
+        this.update_effective_control_points();
+        
     }
 
     draw_skeleton() {
@@ -117,6 +194,12 @@ class BezierCurve {
         graphics.draw_bezier_control_point(last);
     }
 
+    display_stats() {
+        graphics.display_conformity(this.conformity);
+        graphics.display_subdivisions(this.subdivisions);
+        graphics.display_control_point_count(this.get_effective_control_point_count());
+    }
+
     update_mouse_bound_control_points(mouse_loc) {
         for (let i = 0; i < this.control_points.length; ++i) {
             let point = this.control_points[i];
@@ -124,6 +207,7 @@ class BezierCurve {
                 point.loc = mouse_loc;
             }
         }
+        this.update_effective_control_points();
     }
 
     release_all_control_points() {
