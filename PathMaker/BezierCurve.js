@@ -105,7 +105,7 @@ class BezierCurve {
         for (let i = 0; i < this.control_points.length - 1; ++i) {
             let p1 = this.control_points[i].loc;
             let p2 = this.control_points[i + 1].loc;
-            sum += p2.sub(p1).mag();
+            sum += (p2.sub(p1)).mag();
         }
         return sum;
     }
@@ -172,26 +172,14 @@ class BezierCurve {
 
         let N = this.control_points.length;
 
-        if (N == 0) {return;}
-
-        else if (N == 1) {
-
-            graphics.draw_bezier_control_point(this.control_points[0].loc);
-            return;
-
-        }
+        if (N <= 1) {return;}
     
         for (let i = 0; i < N - 1; ++i) {
 
             let p1 = this.control_points[i].loc;
             let p2 = this.control_points[i + 1].loc;
             graphics.draw_bezier_skeleton_line(p1, p2);
-            graphics.draw_bezier_control_point(p1);
-
         }
-    
-        let last = this.control_points[N - 1].loc;
-        graphics.draw_bezier_control_point(last);
     }
 
     display_stats() {

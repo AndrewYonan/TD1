@@ -18,5 +18,8 @@ class BezierControlPoint {
         else if (this.bound_to_mouse) {
             graphics.draw_bezier_control_point_selected(this.loc);
         }
+        else {
+            graphics.draw_bezier_control_point(this.loc);
+        }
     }
 }

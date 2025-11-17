@@ -13,6 +13,7 @@ function init_bezier_interact_handlers(canvas) {
             active_curve = hovered_curve;
             let selected = active_curve.control_points[control_point_hover_idx];
             selected.bind_to_mouse();
+            selected.hovered = false;
             CONTROL_POINT_SELECTED = true;
         }
         else if (CREATING_NEW_CURVE) {
