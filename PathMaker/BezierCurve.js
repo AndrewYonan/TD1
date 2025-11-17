@@ -151,6 +151,23 @@ class BezierCurve {
         return;
     }
 
+    get_baked_path_points() {
+
+        let points = [];
+        let cp_vecs = this.get_control_point_vecs();
+        let dt = this.resolution;
+        let t = dt;
+
+        points.push(this.control_points[0].loc);
+        
+        while (t <= 1) {
+            points.push(this.bezier_interp(t, cp_vecs));
+            t += dt;
+        }
+        
+        return points;
+    }
+
     draw_control_points() {
         for (const cp of this.control_points) {
             cp.draw();

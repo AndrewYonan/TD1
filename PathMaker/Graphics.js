@@ -18,6 +18,10 @@ class Graphics {
         this.draw_arc(loc, r, color, line_width);
     }
 
+    draw_path_point(loc) {
+        this.draw_arc(loc, 10, "#f33", 1);
+    }
+
     draw_bezier_control_point(loc) {
         this.draw_arc(loc, CURSOR_RAD, "#888", 1);
     }
@@ -46,10 +50,10 @@ class Graphics {
 
     draw_bezier_curve_segment(p1, p2) {
 
-        const curve_color = "#666";
+        const curve_color = "rgb(81, 195, 107)";
         const spine_color = curve_color;
 
-        this.draw_line(p1, p2, curve_color, 6);
+        this.draw_line(p1, p2, curve_color, 4);
 
         let spine_len = 20;
 
