@@ -47,6 +47,9 @@ function init_bezier_interact_handlers(canvas) {
         if (evt.key === "n") {
             CREATING_NEW_CURVE = true;
         }
+        if (evt.key === " ") {
+            GRID_LOCK = !GRID_LOCK;
+        }
 
     })
 }

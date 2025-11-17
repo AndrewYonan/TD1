@@ -3,6 +3,7 @@ class BezierControlPoint {
         this.loc = loc;
         this.is_sub_control_point = is_sub_point;
         this.bound_to_mouse = false;
+        this.hovered = false;
     }
     bind_to_mouse() { 
         this.bound_to_mouse = true;
@@ -11,12 +12,11 @@ class BezierControlPoint {
         this.bound_to_mouse = false;
     }
     draw() {
-        if (this.is_sub_control_point) {
-            // graphics.draw_bezier_sub_control_point(this.loc);
+        if (this.hovered) {
+            graphics.draw_bezier_control_point_hovered(this.loc);
         }
-        else {
-            graphics.draw_bezier_control_point(this.loc, this.bound_to_mouse);
+        else if (this.bound_to_mouse) {
+            graphics.draw_bezier_control_point_selected(this.loc);
         }
-        
     }
 }

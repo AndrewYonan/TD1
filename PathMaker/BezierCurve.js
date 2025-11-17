@@ -152,7 +152,7 @@ class BezierCurve {
     }
 
     draw_control_points() {
-        for (const cp of this.effective_control_points) {
+        for (const cp of this.control_points) {
             cp.draw();
         }
     }
@@ -208,6 +208,12 @@ class BezierCurve {
             }
         }
         this.update_effective_control_points();
+    }
+
+    set_all_points_unhovered() {
+        for (let i = 0; i < this.control_points.length; ++i) {
+            this.control_points[i].hovered = false;
+        }
     }
 
     release_all_control_points() {

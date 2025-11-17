@@ -8,6 +8,7 @@ const CURSOR_RAD = 30;
 const GRID_SCALE = 50;
 let FRAME_COUNT = 0 
 
+let GRID_LOCK = true;
 let CURSOR_LOC = new Vector2(0,0);
 let MOUSE_ON_CONTROL_POINT = false;
 let control_point_hover_idx = -1;
@@ -28,7 +29,10 @@ function frame() {
 
     graphics.clear_canvas();
     graphics.grid(GRID_SCALE);
-    graphics.draw_mouse_loc(CURSOR_LOC);
+
+    if (!MOUSE_ON_CONTROL_POINT) {
+        graphics.draw_mouse_loc(CURSOR_LOC);
+    }
 
 
     for (let i = 0; i < bezier_curves.length; ++i) {
@@ -58,15 +62,17 @@ function nearest_grid_vertex(grid_size, loc) {
 
 function update_cursor_loc(true_mouse_loc) {
 
-    CURSOR_LOC = nearest_grid_vertex(GRID_SCALE, true_mouse_loc);
+    CURSOR_LOC = GRID_LOCK ? nearest_grid_vertex(GRID_SCALE, true_mouse_loc) : true_mouse_loc;
 
     for (const curve of bezier_curves) {
         control_point_hover_idx = on_control_point(CURSOR_LOC, curve);
         if (control_point_hover_idx >= 0 && !CONTROL_POINT_SELECTED) {
             MOUSE_ON_CONTROL_POINT = true;
             hovered_curve = curve;
+            curve.control_points[control_point_hover_idx].hovered = true;
             return;
         }
+        curve.set_all_points_unhovered();
     }
 
     MOUSE_ON_CONTROL_POINT = false;

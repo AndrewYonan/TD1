@@ -18,11 +18,16 @@ class Graphics {
         this.draw_arc(loc, r, color, line_width);
     }
 
-    draw_bezier_control_point(loc, bound_to_mouse) {
-        let line_width = (bound_to_mouse) ? 6 : 1;
-        let color = (bound_to_mouse) ? "#000" : "#333";
-        const r = CURSOR_RAD;
-        this.draw_arc(loc, r, color, line_width);
+    draw_bezier_control_point(loc) {
+        this.draw_arc(loc, CURSOR_RAD, "#888", 1);
+    }
+
+    draw_bezier_control_point_selected(loc) {
+        this.draw_arc(loc, CURSOR_RAD, "#000", 6);
+    }
+
+    draw_bezier_control_point_hovered(loc) {
+        this.draw_arc(loc, CURSOR_RAD, "#aaa", 6);
     }
 
     draw_bezier_curve_point(loc) {
@@ -41,14 +46,17 @@ class Graphics {
 
     draw_bezier_curve_segment(p1, p2) {
 
-        this.draw_line(p1, p2, "#f3f", 6);
+        const curve_color = "#666";
+        const spine_color = curve_color;
+
+        this.draw_line(p1, p2, curve_color, 6);
 
         let spine_len = 20;
 
         let dir = (p2.sub(p1)).normal();
         let spine_start = p1.add(dir.mult(spine_len / 2));
         let spine_end = p1.sub(dir.mult(spine_len / 2));
-        this.draw_line(spine_start, spine_end, "#f3f", 1);
+        this.draw_line(spine_start, spine_end, spine_color, 1);
     }
 
     draw_bezier_skeleton_line(p1, p2) {
