@@ -4,11 +4,10 @@ const BG_MAIN_COLOR = "#fff"
 const frame_rate = 60;
 const iterator = setInterval(frame, 1000 / frame_rate);
 const graphics = new Graphics(ctx);
-const path_generator = new PathGenerator();
 const game = new Game();
-var FRAME_COUNT = 0 
 
-init_canvas_params();
+init_canvas_params(canvas);
+init_event_handlers(game);
 
 game.set_path("zig-zag");
 game.set_round(1);
@@ -22,18 +21,17 @@ function frame() {
 
     game.draw();
     game.update();
-    FRAME_COUNT++;
-    
+        
 }
 
 
-function init_canvas_params() {
-    canvas.width = W;
-    canvas.height = H;
-    canvas.style.backgroundColor = BG_MAIN_COLOR;
-    canvas.style.position = "absolute";
-    canvas.style.left = "50%";
-    canvas.style.marginLeft = "-" + (W/2).toString() + "px";
+function init_canvas_params(c) {
+    c.width = W;
+    c.height = H;
+    c.style.backgroundColor = BG_MAIN_COLOR;
+    // c.style.position = "absolute";
+    c.style.left = "50%";
+    c.style.marginLeft = "-" + (W/2).toString() + "px";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 }

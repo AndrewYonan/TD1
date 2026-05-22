@@ -5,6 +5,7 @@ class Game {
         this.round = 0;
         this.lives = 100;
         this.paused = true;
+        this.frame = 0;
        
         this.spawn_idx = 0;
         this.entities = [];
@@ -65,6 +66,10 @@ class Game {
 
     start() {
         this.paused = false;
+    }
+
+    toggle_pause() {
+        this.paused = !this.paused;
     }
 
     spawn_entity(speed) {
@@ -132,15 +137,16 @@ class Game {
             return;
         }
 
-        if (!this.finished_spawning && FRAME_COUNT == this.spawn_times[this.spawn_idx]) {
+        if (!this.finished_spawning && this.frame == this.spawn_times[this.spawn_idx]) {
             let rank = this.round_config[this.spawn_idx][1];
             this.spawn_entity(rank);
         }
 
         if (!this.paused) {
             this.update_entities();
-        }       
+            this.frame++;
+        }
+    
     }
-
 
 }

@@ -1,4 +1,6 @@
 const canvas = document.getElementById("canvas")
+const bake_curve_bttn = document.getElementById("bake-curve");
+const run_game_bttn = document.getElementById("run-game");
 const ctx = canvas.getContext("2d")
 const BG_MAIN_COLOR = "#fff"
 const frame_rate = 60;
@@ -17,13 +19,11 @@ let CREATING_NEW_CURVE = true;
 let active_curve = null;
 let hovered_curve = null;
 let bezier_curves = [];
-let path = new Path();
-
-// TODO : Bake bezier curve to list of points.
 
 
 init_canvas_params();
 init_bezier_interact_handlers(canvas);
+init_UI_button_handlers();
 
 
 function frame() {
@@ -64,7 +64,7 @@ function init_canvas_params() {
     canvas.width = W;
     canvas.height = H;
     canvas.style.backgroundColor = BG_MAIN_COLOR;
-    canvas.style.position = "absolute";
+    canvas.style.position = "relative";
     canvas.style.left = "50%";
     canvas.style.marginLeft = "-" + (W/2).toString() + "px";
     ctx.textAlign = "center";

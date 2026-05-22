@@ -1,4 +1,14 @@
 
+function init_UI_button_handlers() {
+    bake_curve_bttn.addEventListener("click", function() {
+        console.log("Curve Baked");
+    });
+    run_game_bttn.addEventListener("click", function() {
+        console.log("Game Run")
+    });
+}
+
+
 
 function init_bezier_interact_handlers(canvas) {
 
