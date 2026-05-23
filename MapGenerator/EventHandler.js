@@ -1,10 +1,16 @@
 
+
 function init_UI_button_handlers() {
+    
     bake_curve_bttn.addEventListener("click", function() {
-        console.log("Curve Baked");
+        baked_path_points = bake_path(PATH_BAKE_RES);
+        MAIN_PATH = new Path(baked_path_points);
     });
+
     run_game_bttn.addEventListener("click", function() {
-        console.log("Game Run")
+        if (RUNNING_GAME) {run_game_bttn.innerHTML = "Run Game";}
+        else {run_game_bttn.innerHTML = "Stop Game";}
+        RUNNING_GAME = !RUNNING_GAME;
     });
 }
 

@@ -1,3 +1,40 @@
+const BG_MAIN_COLOR = "#fff"
+
+
+function build_canvas(canvas, adaptive_res) {
+
+    const dpr = window.devicePixelRatio || 1; 
+
+    if (adaptive_res) {
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+    }
+    else {
+        canvas.width = W;
+        canvas.height = H;
+    }
+    
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+    
+    canvas.style.position = "absolute";
+    canvas.style.left = "50%";
+    canvas.style.transform = "translateX(-50%)"
+    canvas.style.backgroundColor = BG_MAIN_COLOR;;
+
+    const ctx = canvas.getContext('2d');
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    if (adaptive_res) {
+        ctx.scale(dpr, dpr);
+    }
+
+    return ctx;
+}
+
+
+
 class Graphics {
     
     constructor(ctx) {
@@ -16,6 +53,12 @@ class Graphics {
         const line_width = 3;
         const r = CURSOR_RAD
         this.draw_arc(loc, r, color, line_width);
+    }
+
+    draw_entity(loc, rank) {
+        const color = ENTITY_RANK_DATA[rank - 1]["color"];
+        const scale = ENTITY_RANK_DATA[rank - 1]["size"];
+        this.draw_arc_filled(loc, scale, color);
     }
 
     draw_path_point(loc) {
@@ -88,6 +131,16 @@ class Graphics {
         }
 
     }
+
+    draw_baked_points(points) {
+        for (const p of points) {
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+    }    
 
     display_conformity(conformity) {
         ctx.font = '30px "Arial"';

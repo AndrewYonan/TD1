@@ -151,11 +151,11 @@ class BezierCurve {
         return;
     }
 
-    get_baked_path_points() {
+    bake(N) {
 
         let points = [];
         let cp_vecs = this.get_control_point_vecs();
-        let dt = this.resolution;
+        let dt = 1 / N;
         let t = dt;
 
         points.push(this.control_points[0].loc);

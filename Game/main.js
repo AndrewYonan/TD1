@@ -29,7 +29,7 @@ function init_canvas_params(c) {
     c.width = W;
     c.height = H;
     c.style.backgroundColor = BG_MAIN_COLOR;
-    // c.style.position = "absolute";
+    c.style.position = "absolute";
     c.style.left = "50%";
     c.style.marginLeft = "-" + (W/2).toString() + "px";
     ctx.textAlign = "center";
