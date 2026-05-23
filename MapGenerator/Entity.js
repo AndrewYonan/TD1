@@ -27,8 +27,8 @@ class Entity {
 
         if (this.path_completed) {return;}
 
-        if (this.passed_target()) {
-            this.loc = this.path_node_target.loc;
+        if (this.achieved_target()) {
+            // this.loc = this.path_node_target.loc;
             this.update_target();
         }
         else {
@@ -59,8 +59,9 @@ class Entity {
         this.velocity = this.get_velocity();
     }
 
-    passed_target() {
-        return (this.to_target_vec()).dot(this.velocity) < 0;
+    achieved_target() {
+        // return (this.to_target_vec().mag() < 10);
+        return (this.to_target_vec().dot(this.velocity) < 0);
     }
 
     get_velocity() {

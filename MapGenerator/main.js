@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas")
 const bake_curve_bttn = document.getElementById("bake-curve");
 const run_game_bttn = document.getElementById("run-game");
+const show_widget_bttn = document.getElementById("show-widgets");
 
 const ctx = build_canvas(canvas, adaptive_res=true);
 const frame_rate = 60;
@@ -8,7 +9,7 @@ const graphics = new Graphics(ctx);
 const iterator = setInterval(frame, 1000 / frame_rate);
 const CURSOR_RAD = 30;
 const GRID_SCALE = 40;
-const PATH_BAKE_RES = 10;
+const PATH_BAKE_RES = 15;
 let FRAME_COUNT = 0 
 
 let GRID_LOCK = true;
@@ -17,6 +18,7 @@ let MOUSE_ON_CONTROL_POINT = false;
 let control_point_hover_idx = -1;
 let CONTROL_POINT_SELECTED = false;
 let CREATING_NEW_CURVE = true;
+let SHOW_WIDGETS = true;
 let active_curve = null;
 let hovered_curve = null;
 let bezier_curves = [];
@@ -42,7 +44,7 @@ function frame() {
         graphics.draw_mouse_loc(CURSOR_LOC);
     }
 
-    if (baked_path_points.length > 0) {
+    if (baked_path_points.length > 0 && SHOW_WIDGETS) {
         graphics.draw_baked_points(baked_path_points);
     }
 

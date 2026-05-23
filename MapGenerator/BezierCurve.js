@@ -229,8 +229,10 @@ class BezierCurve {
 
 
     draw() {
-        this.draw_skeleton();
-        this.draw_control_points();
+        if (SHOW_WIDGETS) {
+            this.draw_skeleton();
+            this.draw_control_points();
+        }
         this.draw_curve();
     }
 }

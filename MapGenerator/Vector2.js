@@ -30,6 +30,9 @@ class Vector2 {
     mag() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
+    manhattan_mag() {
+        return Math.abs(this.x) + Math.abs(this.y);
+    }
 }
 
 function dist(v1, v2) {

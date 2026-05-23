@@ -1,7 +1,7 @@
 
 
 function init_UI_button_handlers() {
-    
+
     bake_curve_bttn.addEventListener("click", function() {
         baked_path_points = bake_path(PATH_BAKE_RES);
         MAIN_PATH = new Path(baked_path_points);
@@ -12,6 +12,12 @@ function init_UI_button_handlers() {
         else {run_game_bttn.innerHTML = "Stop Game";}
         RUNNING_GAME = !RUNNING_GAME;
     });
+
+    show_widget_bttn.addEventListener("click", function() {
+        if (SHOW_WIDGETS) {show_widget_bttn.innerHTML = "Show Widgets";}
+        else {show_widget_bttn.innerHTML = "Hide Widgets";}
+        SHOW_WIDGETS = !SHOW_WIDGETS;
+    })
 }
 
 

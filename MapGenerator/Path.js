@@ -5,7 +5,6 @@ class Path {
         this.path_locs = this.remove_duplicates(path_locs);
         this.path_nodes = this.generate_path_nodes(this.path_locs);
         this.set_path_node_adjacencies();
-        this.path_thickness = 50;
     }
 
     generate_path_nodes(locs) {
@@ -46,9 +45,5 @@ class Path {
 
         console.log("Duplicate nodes removed: ", path_locs.length - new_path_locs.length);
         return new_path_locs;
-    }
-
-    draw() {
-        graphics.draw_path(this.path_locs, this.path_thickness);
     }
 }
