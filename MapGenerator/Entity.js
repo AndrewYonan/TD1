@@ -2,12 +2,11 @@ class Entity {
     constructor(rank, path) {
 
         this.rank = rank;
-        this.speed = this.get_speed(rank);
+        this.speed = this.get_speed(rank) * 3;
         this.loc = new Vector2(0,0);
         this.velocity = new Vector2(0,0);
         this.path_node_target = null;
         this.path_completed = false;
-
         this.join(path);
 
     } 
@@ -24,16 +23,9 @@ class Entity {
     }
 
     move() {
-
         if (this.path_completed) {return;}
-
-        if (this.achieved_target()) {
-            // this.loc = this.path_node_target.loc;
-            this.update_target();
-        }
-        else {
-            this.move_to_next_target_node();
-        }
+        if (this.achieved_target()) {this.update_target();}
+        else {this.move_to_next_target_node();}
 
     }
 
@@ -60,7 +52,6 @@ class Entity {
     }
 
     achieved_target() {
-        // return (this.to_target_vec().mag() < 10);
         return (this.to_target_vec().dot(this.velocity) < 0);
     }
 

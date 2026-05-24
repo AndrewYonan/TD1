@@ -9,7 +9,7 @@ const graphics = new Graphics(ctx);
 const iterator = setInterval(frame, 1000 / frame_rate);
 const CURSOR_RAD = 30;
 const GRID_SCALE = 40;
-const PATH_BAKE_RES = 15;
+const PATH_BAKE_RES = 2;
 let FRAME_COUNT = 0 
 
 let GRID_LOCK = true;
@@ -84,19 +84,19 @@ function update_entities() {
 
 function entity_spawning(frame) {
     if (frame % ENTITY_SPAWN_INTERVAL == 0) {
-        entities.push(new Entity(1, MAIN_PATH));
+        entities.push(new Entity(randint(1,5), MAIN_PATH));
     }
 }
 
 
-function bake_path(N) {
+function bake_path() {
     let pts = [];
     for (const curve of bezier_curves) {
         if (curve.control_points.length <= 2) {
             for (const cp of curve.control_points) {pts.push(cp.loc);}
         }
         else {
-            for (const pt of curve.bake(N)) {pts.push(pt);}
+            for (const pt of curve.bake(PATH_BAKE_RES)) {pts.push(pt);}
         }
     }
     return pts;
