@@ -9,7 +9,7 @@ const graphics = new Graphics(ctx);
 const iterator = setInterval(frame, 1000 / frame_rate);
 const CURSOR_RAD = 30;
 const GRID_SCALE = 40;
-const PATH_BAKE_RES = 2;
+const PATH_BAKE_RES = 3;
 let FRAME_COUNT = 0 
 
 let GRID_LOCK = true;
@@ -26,7 +26,7 @@ let baked_path_points = [];
 
 let RUNNING_GAME = false;
 let MAIN_PATH = null;
-let ENTITY_SPAWN_INTERVAL = 20;
+let ENTITY_SPAWN_INTERVAL = 10;
 let entities = [];
 
 init_bezier_interact_handlers(canvas);

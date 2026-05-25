@@ -1,0 +1,65 @@
+ move() {
+        if (this.path_completed) {return;}
+        if (this.achieved_target()) {this.update_target();}
+        else {this.move_to_next_target_node();}
+
+    }
+
+    update_target() {
+        this.target_idx++;
+        if (this.target_idx > this.path.get_length() - 1) {
+            this.path_completed = true;
+        }
+        else {
+            this.prev_loc = this.target_loc;
+            this.target_loc = this.path.locs[this.target_idx];
+            this.len_current_segment = this.target_loc.sub(this.prev_loc).mag();
+            this.update_velocity();
+        }
+    }
+
+    to_target_vec() {
+        return (this.target_loc).sub(this.loc);
+    }
+
+    update_velocity() {
+        this.velocity = this.get_velocity();
+    }
+
+    achieved_target() {
+        return (this.to_target_vec().dot(this.velocity) < 0);
+    }
+
+    percent_segment_progress() {
+        return (this.target_loc.sub(this.loc).mag()) / this.len_current_segment;
+    }
+
+    get_velocity() {
+
+        let d1 = this.to_target_vec();
+        let d2 = d1;
+        
+        if (this.target_idx < this.path.get_length() - 1) {
+            d2 = this.path.locs[this.target_idx + 1].sub(this.loc)
+        }
+
+        let t = this.percent_segment_progress();
+        console.log(t)
+
+        let d = d1.add(d2).div(2);
+
+        let mag = d.mag();
+        if (mag == 0) {return;}
+        return d.div(mag).mult(this.speed);
+    }
+
+    move_to_next_target_node() {
+        this.loc = (this.loc).add(this.velocity);
+    }
+    update() {
+        this.move();
+    }
+
+    draw() {
+        graphics.draw_entity(this.loc, this.rank);
+    }

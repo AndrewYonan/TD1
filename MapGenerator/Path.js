@@ -1,9 +1,9 @@
 class Path {
 
-    constructor(path_locs) {
+    constructor(locs) {
         this.remove_duplicate_threshold = 5;
-        this.path_locs = this.remove_duplicates(path_locs);
-        this.path_nodes = this.generate_path_nodes(this.path_locs);
+        this.locs = this.remove_duplicates(locs);
+        this.path_nodes = this.generate_path_nodes(this.locs);
         this.set_path_node_adjacencies();
     }
 
@@ -13,6 +13,9 @@ class Path {
             path_nodes.push(new PathNode(loc));
         }
         return path_nodes;
+    }
+    get_length() {
+        return this.locs.length;
     }
 
     first_node() {
@@ -25,25 +28,25 @@ class Path {
         }
     }
 
-    remove_duplicates(path_locs) {
+    remove_duplicates(locs) {
 
-        if (path_locs.length == 0) {return [];}
-        let new_path_locs = [path_locs[0]];
+        if (locs.length == 0) {return [];}
+        let new_locs = [locs[0]];
 
         let i = 1;
-        while (i < path_locs.length) {
+        while (i < locs.length) {
 
-            const last_kept = new_path_locs[new_path_locs.length - 1];
-            const d = dist(path_locs[i], last_kept);
+            const last_kept = new_locs[new_locs.length - 1];
+            const d = dist(locs[i], last_kept);
 
             if (d > this.remove_duplicate_threshold) {
-                new_path_locs.push(path_locs[i]);
+                new_locs.push(locs[i]);
             }
 
             i++;
         }
 
-        console.log("Duplicate nodes removed: ", path_locs.length - new_path_locs.length);
-        return new_path_locs;
+        console.log("Duplicate nodes removed: ", locs.length - new_locs.length);
+        return new_locs;
     }
 }

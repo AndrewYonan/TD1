@@ -2,82 +2,86 @@ class Entity {
     constructor(rank, path) {
 
         this.rank = rank;
-        this.speed = this.get_speed(rank) * 3;
-        this.loc = new Vector2(0,0);
-        this.velocity = new Vector2(0,0);
-        this.path_node_target = null;
+        this.speed = this.get_speed(rank) * 5;
+        this.target_idx = 1;
+
+        this.path = path;
+        this.prev_loc = this.path.locs[0];
+        this.loc = this.path.locs[0];
+        this.target_loc = this.path.locs[1];
+        this.seg_vec = this.segment_vec();
+        this.seg_dist = this.segment_dist();
         this.path_completed = false;
-        this.join(path);
+
+        this.t = 0;
 
     } 
-
-    join(path) {
-        let first = path.first_node();
-        this.loc = first.loc;
-        this.path_node_target = first.next();
-        this.update_velocity();
-    }
 
     get_speed(rank) {
         return ENTITY_RANK_DATA[rank - 1]["speed"];
     }
 
-    move() {
-        if (this.path_completed) {return;}
-        if (this.achieved_target()) {this.update_target();}
-        else {this.move_to_next_target_node();}
-
+    segment_dist() {
+        return this.target_loc.sub(this.prev_loc).mag();
     }
 
-    update_target() {
-        this.path_node_target = this.path_node_target.next();
-        if (this.path_node_target == null) {
-            this.path_completed = true;
-        }
-        else {
-            this.update_velocity();
-        }
-    }
-
-    dist_to_target() {
-        return this.to_target_vec().mag();
+    segment_vec() {
+        return this.target_loc.sub(this.prev_loc);
     }
 
     to_target_vec() {
-        return (this.path_node_target.loc).sub(this.loc);
-    }
-
-    update_velocity() {
-        this.velocity = this.get_velocity();
+        return this.target_loc.sub(this.loc);
     }
 
     achieved_target() {
-        return (this.to_target_vec().dot(this.velocity) < 0);
+        return this.t >= 1 || (this.seg_vec).dot(this.to_target_vec()) < 0;
     }
 
-    get_velocity() {
+    advance_target() {
 
-        let target_v = this.to_target_vec();
-        let mag = target_v.mag();
+        if (this.target_idx >= this.path.get_length() - 1) {
+            this.path_completed = true;
+            return;
+        }
 
-        if (mag == 0) {return;}
-        return target_v.div(mag).mult(this.speed);
+        this.prev_loc = this.target_loc;
+        this.target_loc = this.path.locs[++this.target_idx];
+        this.seg_vec = this.segment_vec();
+        this.seg_dist = this.segment_dist();
+        this.t = 0;
     }
 
-    show_target_marks() {
-
-        graphics.draw_mark_circle(this.path_node_target.loc, 20);
-        graphics.draw_mark_line(this.loc, this.path_node_target.loc);
-    }
-
-    move_to_next_target_node() {
-        this.loc = (this.loc).add(this.velocity);
-    }
     update() {
-        this.move();
+
+        if (this.path_completed == true) return;
+
+        let remaining = this.speed;
+
+        while (remaining > 0 && !this.path_completed) {
+            
+            const dist = this.seg_dist;
+            const dist_left = (1 - this.t) * dist;
+
+            if (remaining < dist_left) {
+                this.t += remaining / dist;
+                remaining = 0;
+            }
+            else {
+                remaining -= dist_left;
+                this.advance_target();
+            }
+
+        }
+
+        if (!this.path_completed) {
+            const progress = this.seg_vec.mult(this.t);
+            this.loc = this.prev_loc.add(progress);
+        }
+        
     }
 
     draw() {
         graphics.draw_entity(this.loc, this.rank);
     }
+  
 }
