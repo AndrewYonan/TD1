@@ -121,7 +121,7 @@ function export_path(bz_curves) {
             rel_x = Math.trunc(cps[j].loc.x / W * Math.pow(10, r)) / Math.pow(10, r);
             rel_y = Math.trunc(cps[j].loc.y / H * Math.pow(10, r)) / Math.pow(10, r);
 
-            dec += `(${rel_x.toString()}, ${rel_y.toString()})`;
+            dec += `[${rel_x.toString()}, ${rel_y.toString()}]`;
             if (j < cps.length - 1) {dec += ",";}
 
         }
