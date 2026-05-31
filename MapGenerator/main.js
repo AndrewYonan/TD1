@@ -2,15 +2,17 @@ const canvas = document.getElementById("canvas")
 const bake_curve_bttn = document.getElementById("bake-curve");
 const run_game_bttn = document.getElementById("run-game");
 const show_widget_bttn = document.getElementById("show-widgets");
+const export_curve_bttn = document.getElementById("export-curve");
+const coordinate_window = document.getElementById("coordinate-window");
 
 const ctx = build_canvas(canvas, adaptive_res=true);
 const frame_rate = 60;
 const graphics = new Graphics(ctx);
 const iterator = setInterval(frame, 1000 / frame_rate);
 const CURSOR_RAD = 30;
-const GRID_SCALE = 40;
+const GRID_SCALE = 39;
 const PATH_BAKE_RES = 3;
-let FRAME_COUNT = 0 
+let FRAME_COUNT = 0;
 
 let GRID_LOCK = true;
 let CURSOR_LOC = new Vector2(0,0);
@@ -89,9 +91,9 @@ function entity_spawning(frame) {
 }
 
 
-function bake_path() {
+function bake_path(bz_curves) {
     let pts = [];
-    for (const curve of bezier_curves) {
+    for (const curve of bz_curves) {
         if (curve.control_points.length <= 2) {
             for (const cp of curve.control_points) {pts.push(cp.loc);}
         }
@@ -101,6 +103,39 @@ function bake_path() {
     }
     return pts;
 }
+
+
+
+function export_path(bz_curves) {
+
+    let dec = "[";
+    const r = 5;
+
+    for (let i = 0; i < bz_curves.length; ++i) {
+
+        let cps = bz_curves[i].control_points;
+        dec += "[";
+
+        for (let j = 0; j < cps.length; j++) {
+
+            rel_x = Math.trunc(cps[j].loc.x / W * Math.pow(10, r)) / Math.pow(10, r);
+            rel_y = Math.trunc(cps[j].loc.y / H * Math.pow(10, r)) / Math.pow(10, r);
+
+            dec += `(${rel_x.toString()}, ${rel_y.toString()})`;
+            if (j < cps.length - 1) {dec += ",";}
+
+        }
+
+        dec += "]"
+        if (i < bz_curves.length - 1) {dec += ",";}
+    }
+
+    dec += "]";
+    coordinate_window.style.display = "block";
+    coordinate_window.innerHTML = dec;
+
+}
+
 
 
 function create_new_bezier_curve(loc) {

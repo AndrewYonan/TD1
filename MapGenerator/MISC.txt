@@ -1,3 +1,20 @@
+// for (let i = 0; i < pts.length; ++i) {
+    //     x_rel = Math.trunc((pts[i].x)/W * Math.pow(10, r)) / Math.pow(10, r);
+    //     y_rel = Math.trunc((pts[i].y)/H * Math.pow(10, r)) / Math.pow(10, r);
+    //     dec += "(" + x_rel.toString() + ", " + y_rel.toString() + ")";
+    //     if (i < pts.length - 1) {dec += ",";}
+    // }
+
+    // coordinate_window.style.display = "block";
+    // coordinate_window.innerHTML = str_path_declaration(pts);
+    // return pts;
+
+
+
+
+
+
+
  move() {
         if (this.path_completed) {return;}
         if (this.achieved_target()) {this.update_target();}

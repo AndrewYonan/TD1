@@ -3,7 +3,7 @@
 function init_UI_button_handlers() {
 
     bake_curve_bttn.addEventListener("click", function() {
-        baked_path_points = bake_path();
+        baked_path_points = bake_path(bezier_curves);
         MAIN_PATH = new Path(baked_path_points);
     });
 
@@ -18,6 +18,9 @@ function init_UI_button_handlers() {
         else {show_widget_bttn.innerHTML = "Hide Widgets";}
         SHOW_WIDGETS = !SHOW_WIDGETS;
     })
+    export_curve_bttn.addEventListener("click", function() {
+        export_path(bezier_curves);
+    });
 }
 
 
@@ -76,6 +79,9 @@ function init_bezier_interact_handlers(canvas) {
         }
         if (evt.key === " ") {
             GRID_LOCK = !GRID_LOCK;
+        }
+        if (evt.key === "Escape") {
+            coordinate_window.style.display = "none";
         }
 
     })
