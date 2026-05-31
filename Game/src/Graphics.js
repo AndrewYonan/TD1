@@ -1,4 +1,5 @@
-const BG_MAIN_COLOR = "#fff"
+const BG_MAIN_COLOR = "rgb(85, 255, 127)";
+const PATH_COLOR = "rgb(255, 255, 255)";
 
 
 function build_canvas(canvas, adaptive_res) {
@@ -89,14 +90,15 @@ class Graphics {
         const line_width = 1;
         const r = 10;
         this.draw_arc(loc, r, color, line_width);
+    
     }
 
-    draw_bezier_curve_segment(p1, p2) {
+    draw_bezier_spined_segment(p1, p2) {
 
         const curve_color = "rgb(184, 67, 67)";
         const spine_color = curve_color;
 
-        this.draw_line(p1, p2, curve_color, 4);
+        this.draw_line(p1, p2, curve_color, 5);
 
         let spine_len = 20;
 
@@ -106,6 +108,12 @@ class Graphics {
         this.draw_line(spine_start, spine_end, spine_color, 1);
     }
 
+    draw_bezier_curve_segment(p1, p2) {
+
+        const curve_color = PATH_COLOR;
+        this.draw_line(p1, p2, curve_color, 10);
+    }
+
     draw_bezier_skeleton_line(p1, p2) {
 
         const color = "#aaa";
@@ -113,7 +121,7 @@ class Graphics {
         const dash_l = 4;
         const bisect_len = 20;
         
-        let dir = p2.sub(p1)
+        let dir = p2.sub(p1);
         const len = dir.mag();
         dir = dir.div(len);
 
@@ -227,7 +235,7 @@ class Graphics {
 
     grid(size) {
         const {ctx} = this;
-        ctx.strokeStyle = "#ccc"
+        ctx.strokeStyle = "#000";
         ctx.lineWidth = 1;
         for (let i = 0; i < W/size; ++i) {
             ctx.beginPath();
