@@ -1,5 +1,5 @@
-const BG_MAIN_COLOR = "rgb(85, 255, 127)";
-const PATH_COLOR = "rgb(255, 255, 255)";
+const BG_MAIN_COLOR = "rgb(185, 255, 132)";
+const PATH_COLOR = "rgb(62, 62, 62)";
 
 
 function build_canvas(canvas, adaptive_res) {
@@ -114,6 +114,10 @@ class Graphics {
         this.draw_line(p1, p2, curve_color, 10);
     }
 
+    draw_path_segment(p1) {
+        this.draw_arc_filled(p1, PATH_WIDTH/2, PATH_COLOR);
+    }
+
     draw_bezier_skeleton_line(p1, p2) {
 
         const color = "#aaa";
@@ -137,7 +141,6 @@ class Graphics {
                 this.draw_line(c1, c2, color, line_width);
             }
         }
-
     }
 
     draw_baked_points(points) {

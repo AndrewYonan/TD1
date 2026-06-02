@@ -6,13 +6,14 @@ const ctx = build_canvas(canvas, adaptive_res=true);
 const graphics = new Graphics(ctx);
 const CURSOR_RAD = 20;
 const PATH_BAKE_RES = 5;
+const PATH_WIDTH = 30;
 const ENTITY_SPAWN_INTERVAL = 20;
 let FRAME_COUNT = 0; 
 
-let piecewise_list = PATH_CONFIGS["path1"];
+let piecewise_list = PATH_CONFIGS["path4"];
 let piecewise_bz_path = make_bezier_path(piecewise_list);
 let baked_points = bake_path(piecewise_bz_path, PATH_BAKE_RES);
-let path = new Path(baked_points);
+let path_control = new Path(baked_points);
 let entities = [];
 
 
@@ -34,4 +35,12 @@ function frame() {
     entity_spawning(FRAME_COUNT, ENTITY_SPAWN_INTERVAL);
     FRAME_COUNT++;
     
+}
+
+
+
+function entity_spawning(frame, spawn_interval) {
+    if (frame % spawn_interval == 0) {
+        entities.push(new Entity(randint(1,5), path_control));
+    }
 }

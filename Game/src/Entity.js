@@ -105,10 +105,3 @@ function update_entities() {
         }
     }
 }
-
-
-function entity_spawning(frame, spawn_interval) {
-    if (frame % spawn_interval == 0) {
-        entities.push(new Entity(randint(1,5), path));
-    }
-}

@@ -80,13 +80,56 @@ class BezierCurve {
         let prev = this.control_points[0].loc;
         let t = dt;
 
-        while (t <= 1 + dt) {
+        while (t <= 1) {
             let point_t = this.bezier_interp(t, cp_vecs);
-            graphics.draw_bezier_curve_segment(prev, point_t);
+            graphics.draw_path_segment(point_t);
             prev = point_t;
             t += dt;
         }
-        return;
+    }
+
+    draw_curve_arc_len_step(ds) {
+
+        if (this.control_points.length === 0) return;
+        if (ds <= 0) return;
+    
+        const cp_vecs = this.get_control_point_vecs();
+    
+        const dt = this.resolution;
+        let prev = this.control_points[0].loc;
+    
+        graphics.draw_path_segment(prev);
+    
+        let dist_since_last_drawn = 0;
+        let t = dt;
+    
+        while (t <= 1) {
+
+            const curr = this.bezier_interp(t, cp_vecs);
+    
+            let segment_vec = curr.sub(prev);
+            let segment_len = segment_vec.mag();
+    
+            
+            while (dist_since_last_drawn + segment_len >= ds) {
+
+                const remaining = ds - dist_since_last_drawn;
+                const alpha = remaining / segment_len;
+    
+                const draw_point = prev.add(segment_vec.mult(alpha));
+                graphics.draw_path_segment(draw_point);
+                
+                prev = draw_point;
+                segment_vec = curr.sub(prev);
+                segment_len = segment_vec.mag();
+    
+                dist_since_last_drawn = 0;
+            }
+    
+            dist_since_last_drawn += segment_len;
+            prev = curr;
+            t += dt;
+        }
     }
 
     bake(res) {
@@ -152,7 +195,8 @@ class BezierCurve {
 
 
     draw() {
-        this.draw_curve();
+        this.draw_curve_arc_len_step(5);
+        // this.draw_curve();
     }
 }
 
