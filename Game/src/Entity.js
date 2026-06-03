@@ -2,7 +2,7 @@ class Entity {
     constructor(rank, path) {
 
         this.rank = rank;
-        this.speed = this.get_speed(rank) * 30;
+        this.speed = this.get_speed(rank) * 20;
         this.target_idx = 1;
 
         this.path = path;

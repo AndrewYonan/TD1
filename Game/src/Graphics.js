@@ -2,8 +2,6 @@ const BG_MAIN_COLOR = "rgb(185, 255, 132)";
 const PATH_COLOR = "rgb(51, 51, 51)";
 
 
-
-
 function build_canvas(canv, width, height, adaptive_res) {
 
     const dpr = window.devicePixelRatio || 1; 
@@ -37,8 +35,6 @@ function build_canvas(canv, width, height, adaptive_res) {
 }
 
 
-
-
 class Graphics {
     
     constructor(ctx, width, height) {
@@ -51,13 +47,6 @@ class Graphics {
     clear_canvas() {
         this.ctx.clearRect(0, 0, this.W, this.H);
     }
-
-    draw_frame_rate(val) {
-        ctx.font = '40px "Times New Roman"';
-        ctx.fillStyle = "#000";
-        ctx.fillText("FPS : " + val.toString(), 400, 50);
-    }
-
 
     draw_control_path(control_path) {
         this.ctx.strokeStyle = "#f00";

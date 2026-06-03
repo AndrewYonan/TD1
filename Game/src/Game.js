@@ -1,20 +1,24 @@
 class Game {
 
-    constructor(ctx, width, height) {
+    constructor(ctx, width, height, UI_data) {
         
+        this.UI_data = UI_data;
+        this.graphics = new Graphics(ctx, width, height);
+
         this.last_time = null;
         this.running = false;
         this.loop = this.loop.bind(this);
-        this.graphics = new Graphics(ctx, width, height);
+        this.high_speed_toggled = false;
+        this.game_run_speed = 1;
         
-        this.frame = 0;
         this.path_res = 10;
         this.path_width = 100;
         this.control_path_bake_res = 50;
-        this.spawn_interval = 30;
+        this.spawn_interval = 0.25;
         this.fps = 0;
         this.fps_update_interval = 20;
         this.fps_update_timer = 0;
+        this.spawn_timer = 0;
 
         this.entities = [];
         this.control_path = null;
@@ -35,13 +39,23 @@ class Game {
         this.running = false;
     }
 
+    set_high_speed() {
+        this.game_run_speed = 2;
+        this.high_speed_toggled = true;
+    }
+
+    set_normal_speed() {
+        this.game_run_speed = 1;
+        this.high_speed_toggled = false;
+    }
+
     loop(now) {
 
         if (!this.running) return;
 
         const dt = (now - this.last_time) / 1000;
         this.last_time = now;
-        this.update(dt);
+        this.update(dt * this.game_run_speed);
         this.update_fps(dt);
         this.draw();
 
@@ -53,6 +67,7 @@ class Game {
         if (this.fps_update_timer > this.fps_update_interval) {
             this.fps_update_timer = 0;
             this.fps = Math.trunc(100 / dt) / 100;
+            this.UI_data.fps_log.innerHTML = "FPS | " + this.fps.toString();
         }
 
         this.fps_update_timer++;
@@ -60,15 +75,13 @@ class Game {
 
     update(dt) {
         this.update_entities(dt);
-        this.entity_spawning(this.frame, this.spawn_interval);
-        this.frame++;
+        this.entity_spawning(dt, this.spawn_interval);
     }
 
     draw() {
         this.graphics.clear_canvas();
         this.graphics.draw_map_path(this.piecewise_bezier_list, this.path_res, this.path_width);
         this.graphics.draw_entities(this.entities);
-        this.graphics.draw_frame_rate(this.fps);
     }
 
     init_path(path_preset) {
@@ -81,10 +94,12 @@ class Game {
     
     }
 
-    entity_spawning(frame, spawn_interval) {
-        if (frame % spawn_interval == 0) {
+    entity_spawning(dt, spawn_interval) {
+        if (this.spawn_timer >= spawn_interval) {
             this.entities.push(new Entity(randint(5,5), this.control_path));
+            this.spawn_timer = 0;
         }
+        this.spawn_timer += dt;
     }
 
     update_entities(dt) {
