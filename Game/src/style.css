@@ -2,3 +2,9 @@
     margin-top: 100px;
     border-radius: 10px;
 }
+
+@font-face {
+    font-family: "Font1";
+    src: url("../../Fonts/square.ttf") format("truetype");
+    font-display: swap;
+}

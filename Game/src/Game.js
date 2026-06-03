@@ -1,18 +1,20 @@
 class Game {
 
-    constructor(ctx, width, height, frame_rate) {
+    constructor(ctx, width, height) {
         
         this.last_time = null;
         this.running = false;
         this.loop = this.loop.bind(this);
         this.graphics = new Graphics(ctx, width, height);
-        this.frame_rate = frame_rate;
+        
         this.frame = 0;
-
-        this.path_res = 5;
-        this.path_width = 75;
+        this.path_res = 10;
+        this.path_width = 100;
         this.control_path_bake_res = 50;
         this.spawn_interval = 30;
+        this.fps = 0;
+        this.fps_update_interval = 20;
+        this.fps_update_timer = 0;
 
         this.entities = [];
         this.control_path = null;
@@ -23,10 +25,8 @@ class Game {
     start() {
 
         if (this.running) return;
-
         this.running = true;
         this.last_time = performance.now();
-
         requestAnimationFrame(this.loop);
 
     }
@@ -41,11 +41,21 @@ class Game {
 
         const dt = (now - this.last_time) / 1000;
         this.last_time = now;
-
         this.update(dt);
+        this.update_fps(dt);
         this.draw();
 
         requestAnimationFrame(this.loop);
+    }
+
+    update_fps(dt) {
+
+        if (this.fps_update_timer > this.fps_update_interval) {
+            this.fps_update_timer = 0;
+            this.fps = Math.trunc(100 / dt) / 100;
+        }
+
+        this.fps_update_timer++;
     }
 
     update(dt) {
@@ -55,11 +65,10 @@ class Game {
     }
 
     draw() {
-        
         this.graphics.clear_canvas();
         this.graphics.draw_map_path(this.piecewise_bezier_list, this.path_res, this.path_width);
-        this.graphics.draw_control_path(this.control_path);
-
+        this.graphics.draw_entities(this.entities);
+        this.graphics.draw_frame_rate(this.fps);
     }
 
     init_path(path_preset) {
@@ -74,7 +83,7 @@ class Game {
 
     entity_spawning(frame, spawn_interval) {
         if (frame % spawn_interval == 0) {
-            this.entities.push(new Entity(randint(1,5), this.control_path));
+            this.entities.push(new Entity(randint(5,5), this.control_path));
         }
     }
 

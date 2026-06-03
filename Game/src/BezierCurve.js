@@ -75,6 +75,8 @@ class BezierCurve {
         let prev = this.control_points[0].loc;
         let dist_since_last_drawn = 0;
         let t = dt;
+
+        points.push(prev);
     
         while (t <= 1) {
 

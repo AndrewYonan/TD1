@@ -49,8 +49,13 @@ class Graphics {
     }
 
     clear_canvas() {
-        const {ctx} = this;
-        ctx.clearRect(0, 0, this.W, this.H);
+        this.ctx.clearRect(0, 0, this.W, this.H);
+    }
+
+    draw_frame_rate(val) {
+        ctx.font = '40px "Times New Roman"';
+        ctx.fillStyle = "#000";
+        ctx.fillText("FPS : " + val.toString(), 400, 50);
     }
 
 
@@ -69,11 +74,15 @@ class Graphics {
         this.ctx.lineCap = "round";
         this.ctx.lineWidth = path_width/2;
         this.ctx.strokeStyle = PATH_COLOR;
+
+        this.ctx.beginPath();
         
         for (let i = 0; i < piecewise_bezier_list.length; ++i) {
             const bz_curve = piecewise_bezier_list[i];
             this.draw_bezier_map_path_seg(bz_curve, render_res);
         }
+
+        this.ctx.stroke();
     }
 
     draw_bezier_map_path_seg(bz_curve, ds) {
@@ -83,11 +92,11 @@ class Graphics {
     
         const cp_vecs = bz_curve.get_control_point_vecs();
         const dt = bz_curve.resolution;
+
         let prev = bz_curve.control_points[0].loc;
         let dist_since_last_drawn = 0;
         let t = dt;
 
-        this.ctx.beginPath();
         this.ctx.moveTo(prev.x, prev.y);
     
         while (t <= 1) {
@@ -119,13 +128,27 @@ class Graphics {
             t += dt;
         }
 
-        this.ctx.stroke();
+        const last = cp_vecs[cp_vecs.length - 1];
+        this.ctx.lineTo(last.x, last.y);
     }
 
-    draw_entity(loc, rank) {
+    draw_entities(entities) {
+        for (let i = 0; i < entities.length; ++i) {
+            this.draw_entity(entities[i])
+        }
+    }
+
+    draw_entity(entity) {
+
+        const loc = entity.loc;
+        const rank = entity.rank;
         const color = ENTITY_RANK_DATA[rank - 1]["color"];
         const scale = ENTITY_RANK_DATA[rank - 1]["size"];
-        this.draw_arc_filled(loc, scale, color);
+
+        this.ctx.beginPath();
+        this.ctx.fillStyle = color;
+        this.ctx.arc(loc.x, loc.y, scale, 0, 2*Math.PI);
+        this.ctx.fill();
     }   
 
     grid(size) {

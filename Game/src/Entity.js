@@ -2,7 +2,7 @@ class Entity {
     constructor(rank, path) {
 
         this.rank = rank;
-        this.speed = this.get_speed(rank);
+        this.speed = this.get_speed(rank) * 30;
         this.target_idx = 1;
 
         this.path = path;
@@ -55,7 +55,7 @@ class Entity {
 
         if (this.path_completed == true) return;
 
-        let remaining = this.speed;
+        let remaining = this.speed * dt;
 
         while (remaining > 0 && !this.path_completed) {
             
@@ -79,29 +79,5 @@ class Entity {
         }
         
     }
-
-    draw() {
-        graphics.draw_entity(this.loc, this.rank);
-    }
   
-}
-
-
-function draw_entities() {
-    for (let i = 0; i < entities.length; ++i) {
-        entities[i].draw();
-    }
-}
-
-function update_entities() {
-    let i = 0;
-    while (i < entities.length) {
-        if (entities[i].path_completed) {
-            entities.splice(i, 1);
-        }
-        else {
-            entities[i].update();
-            i++;
-        }
-    }
 }
