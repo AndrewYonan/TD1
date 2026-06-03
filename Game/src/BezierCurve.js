@@ -63,35 +63,16 @@ class BezierCurve {
         return sum;
     }
 
-    draw_curve() {
-
-        if (this.control_points.length == 0) {return;}
-
-        let cp_vecs = this.get_control_point_vecs();
-        let dt = this.resolution;
-        let prev = this.control_points[0].loc;
-        let t = dt;
-
-        while (t <= 1) {
-            let point_t = this.bezier_interp(t, cp_vecs);
-            graphics.draw_path_segment(point_t);
-            prev = point_t;
-            t += dt;
-        }
-    }
-
-    draw_curve_arc_len_step(ds) {
-
+    bake(ds) {
+        
+        let points = [];
+        
         if (this.control_points.length === 0) return;
         if (ds <= 0) return;
     
         const cp_vecs = this.get_control_point_vecs();
-    
         const dt = this.resolution;
         let prev = this.control_points[0].loc;
-    
-        graphics.draw_path_segment(prev);
-    
         let dist_since_last_drawn = 0;
         let t = dt;
     
@@ -102,16 +83,15 @@ class BezierCurve {
             let segment_vec = curr.sub(prev);
             let segment_len = segment_vec.mag();
     
-            
             while (dist_since_last_drawn + segment_len >= ds) {
 
                 const remaining = ds - dist_since_last_drawn;
                 const alpha = remaining / segment_len;
     
-                const draw_point = prev.add(segment_vec.mult(alpha));
-                graphics.draw_path_segment(draw_point);
+                const bake_point = prev.add(segment_vec.mult(alpha));
+                points.push(bake_point);
                 
-                prev = draw_point;
+                prev = bake_point;
                 segment_vec = curr.sub(prev);
                 segment_len = segment_vec.mag();
     
@@ -122,59 +102,14 @@ class BezierCurve {
             prev = curr;
             t += dt;
         }
-    }
 
-    bake(res) {
-        
-        let points = [];
-        let cps = this.control_points;
-        let cp_vecs = this.get_control_point_vecs();
-        let N = cps.length * res;
-        let dt = 1 / N;
-        let t = dt;
-
-        points.push(cps[0].loc);
-        
-        while (t < 1) {
-            points.push(this.bezier_interp(t, cp_vecs));
-            t += dt;
-        }
-
-        const last = cps[cps.length - 1];
-        points.push(last.loc);
-        
         return points;
+
     }
 
     add_control_point(vec) {
         this.control_points.push(new BezierControlPoint(vec));
         this.update_curve_resolution();
-    }
-
-    draw_skeleton() {
-
-        let N = this.control_points.length;
-
-        if (N <= 1) {return;}
-    
-        for (let i = 0; i < N - 1; ++i) {
-
-            let p1 = this.control_points[i].loc;
-            let p2 = this.control_points[i + 1].loc;
-            graphics.draw_bezier_skeleton_line(p1, p2);
-        }
-    }
-
-    draw_control_points() {
-        for (const cp of this.control_points) {
-            cp.draw();
-        }
-    }
-
-
-    draw() {
-        this.draw_curve_arc_len_step(5);
-        // this.draw_curve();
     }
 }
 

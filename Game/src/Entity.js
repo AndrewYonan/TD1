@@ -51,7 +51,7 @@ class Entity {
         this.t = 0;
     }
 
-    update() {
+    update(dt) {
 
         if (this.path_completed == true) return;
 
