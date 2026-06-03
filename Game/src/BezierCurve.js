@@ -63,14 +63,6 @@ class BezierCurve {
         return sum;
     }
 
-    get_control_point_vecs() {
-        let vecs = [];
-        for (let i = 0; i < this.control_points.length; ++i) {
-            vecs.push(this.control_points[i].loc);
-        }
-        return vecs;
-    }
-
     draw_curve() {
 
         if (this.control_points.length == 0) {return;}
@@ -179,20 +171,6 @@ class BezierCurve {
         }
     }
 
-    draw_skeleton() {
-
-        let N = this.control_points.length;
-
-        if (N <= 1) {return;}
-    
-        for (let i = 0; i < N - 1; ++i) {
-
-            let p1 = this.control_points[i].loc;
-            let p2 = this.control_points[i + 1].loc;
-            graphics.draw_bezier_skeleton_line(p1, p2);
-        }
-    }
-
 
     draw() {
         this.draw_curve_arc_len_step(5);
@@ -215,12 +193,12 @@ function bake_path(bz_curves, res) {
 }
 
 
-function make_bezier_path(piecewise_path_coordinate_list) {
-    bz_path = [];
+function make_bezier_path(piecewise_path_coordinate_list, screen_w, screen_h) {
+    let bz_path = [];
     for (const curve of piecewise_path_coordinate_list) {
-        bz = new BezierCurve();
+        let bz = new BezierCurve();
         for (const cp_relative_loc of curve) {
-            loc_vec = new Vector2(cp_relative_loc[0] * W, cp_relative_loc[1] * H);
+            let loc_vec = new Vector2(cp_relative_loc[0] * screen_w, cp_relative_loc[1] * screen_h);
             bz.add_control_point(loc_vec);
         }
         bz_path.push(bz);
