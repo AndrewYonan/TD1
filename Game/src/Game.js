@@ -6,6 +6,9 @@ class Game {
         this.graphics = new Graphics(ctx, width, height);
         this.loop = this.loop.bind(this);
         this.config = config;
+        this.UI_manager.init_UI_buttn_handlers(this);
+        this.animation_frame_id = null;
+
         this.initialize_game();
         
     }
@@ -34,7 +37,9 @@ class Game {
         this.piecewise_bezier_list = null;
         this.init_path(this.path_preset);
 
-        this.UI_manager.restart();
+        this.UI_manager.reset();    
+        this.update_money();
+        this.update_lives();
     }
 
     start() {
@@ -42,18 +47,25 @@ class Game {
         if (this.running) return;
         this.running = true;
         this.last_time = performance.now();
-        requestAnimationFrame(this.loop);
-
+        this.animation_frame_id = requestAnimationFrame(this.loop);
     }
 
+
     stop() {
+        if (this.animation_frame_id != null) {
+            cancelAnimationFrame(this.animation_frame_id);
+            this.animation_frame_id = null;
+        }
         this.running = false;
     }
 
     restart() {
         this.stop();
         this.initialize_game();
-        this.start();
+        this.update_lives();
+        this.update_money();
+        this.draw();
+        this.UI_manager.pause();
     }
 
     set_high_speed() {
@@ -75,8 +87,7 @@ class Game {
         this.update(dt * this.game_run_speed);
         this.update_fps(dt);
         this.draw();
-
-        requestAnimationFrame(this.loop);
+        this.animation_frame_id = requestAnimationFrame(this.loop);
     }
 
     update_fps(dt) {
@@ -84,23 +95,20 @@ class Game {
         if (this.fps_update_timer > this.fps_update_interval) {
             this.fps_update_timer = 0;
             const fps = Math.trunc(100 / dt) / 100;
-            this.UI_manager.update("fps", "FPS | " + fps.toString());
+            this.UI_manager.update_fps(fps);
         }
         this.fps_update_timer++;
     }
 
     update_lives() {
-        this.UI_manager.update("lives", "Lives | " + this.lives.toString());
+        this.UI_manager.update_lives(this.lives);
     }
 
     update_money() {
-        this.UI_manager.update("money", "Money | " + this.money.toString());
+        this.UI_manager.update_money(this.money);
     }
 
     update(dt) {
-        if (this.game_is_over) {
-            this.game_over();
-        }
         this.update_entities(dt);
         this.entity_spawning(dt, this.spawn_interval);
         this.update_lives();

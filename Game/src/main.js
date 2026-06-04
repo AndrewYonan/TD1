@@ -23,13 +23,14 @@ const UI_manager = new UI_Manager({
 
 const game = new Game(ctx, W, H, UI_manager, 
 {
-    spawnInterval: 0.25,
-    pathWidth: 100,
-    pathRes: 10,
-    controlPathBakeRes: 50,
-    lives: 1,
+    spawn_interval: 0.5,
+    path_width: 80,
+    path_res: 10,
+    control_path_bake_res: 50,
+    lives: 100,
     money: 650,
     path_preset: "path4"
 });
 
-game.start();
+
+game.draw();

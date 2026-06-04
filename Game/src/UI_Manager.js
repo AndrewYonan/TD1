@@ -8,9 +8,23 @@ class UI_Manager {
         this.UI_endpoints[UI_id].innerHTML = val;
     }
 
-    restart() {
-        this.init_UI_buttn_handlers();
+    reset() {
         this.cancel_game_over_screen();
+        this.restore_controls();
+        this.UI_endpoints["pause_bttn"].innerHTML = "Play";
+        this.UI_endpoints["speed_bttn"].innerHTML = "Fast >>";
+    }
+
+    update_fps(fps) {
+        this.update("fps", "FPS | " + fps.toString());
+    }
+
+    update_money(money) {
+        this.update("money", "$" + money.toString());
+    }
+
+    update_lives(lives) {
+        this.update("lives", "Lives | " + lives.toString());
     }
 
     show_game_over_screen() {
@@ -21,14 +35,17 @@ class UI_Manager {
         this.UI_endpoints["game_over_screen"].style.display = "none";
     }
 
+    pause() {
+        this.UI_endpoints["pause_bttn"].innerHTML = "Play";
+    }
 
-    init_UI_buttn_handlers() {
+    init_UI_buttn_handlers(game) {
 
         const pause_bttn = this.UI_endpoints["pause_bttn"];
         const speed_bttn = this.UI_endpoints["speed_bttn"];
         const restart_bttn = this.UI_endpoints["restart_bttn"];
 
-        this.pause_handler = () => {
+        this.toggle_pause = () => {
 
             if (!game.running) {
                 game.start();
@@ -40,7 +57,7 @@ class UI_Manager {
             }
         };
     
-        this.speed_handler = () => {
+        this.toggle_speed = () => {
 
             if (game.high_speed_toggled) {
                 game.set_normal_speed();
@@ -53,21 +70,22 @@ class UI_Manager {
         };
 
         this.restart_handler = () => {
-            // game.restart();
+            game.restart();
         }
     
-        pause_bttn.addEventListener("click", this.pause_handler);
-        speed_bttn.addEventListener("click", this.speed_handler);
+        pause_bttn.addEventListener("click", this.toggle_pause);
+        speed_bttn.addEventListener("click", this.toggle_speed);
         restart_bttn.addEventListener("click", this.restart_handler)
     
     }
 
     cancel_controls() {
+        this.UI_endpoints["pause_bttn"].disabled = true;
+        this.UI_endpoints["speed_bttn"].disabled = true;
+    }
 
-        const pause_bttn = this.UI_endpoints["pause_bttn"];
-        const speed_bttn = this.UI_endpoints["speed_bttn"];
-
-        pause_bttn.removeEventListener("click", this.pause_handler);
-        speed_bttn.removeEventListener("click", this.speed_handler);
+    restore_controls() {
+        this.UI_endpoints["pause_bttn"].disabled = false;
+        this.UI_endpoints["speed_bttn"].disabled = false;
     }
 }
