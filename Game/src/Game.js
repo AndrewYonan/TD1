@@ -1,29 +1,29 @@
 class Game {
 
-    constructor(ctx, width, height, UI_data) {
+    constructor(ctx, width, height, UI_data, config = {}) {
         
         this.UI_data = UI_data;
         this.graphics = new Graphics(ctx, width, height);
-
-        this.last_time = null;
-        this.running = false;
         this.loop = this.loop.bind(this);
+
+        this.game_run_speed = config.game_run_speed ?? 1;
+        this.fps_update_interval = config.fps_update_interval ?? 20;
+        this.control_path_bake_res = config.control_path_bake_res ?? 50;
+        this.spawn_interval = config.spawn_interval ?? 0.25;
+        this.path_res = config.path_res ?? 10;
+        this.path_width = config.path_width ?? 100;
+
         this.high_speed_toggled = false;
-        this.game_run_speed = 1;
-        
-        this.path_res = 10;
-        this.path_width = 100;
-        this.control_path_bake_res = 50;
-        this.spawn_interval = 0.25;
-        this.fps = 0;
-        this.fps_update_interval = 20;
+        this.running = false;
+        this.last_time = null;
         this.fps_update_timer = 0;
         this.spawn_timer = 0;
-
-        this.entities = [];
         this.control_path = null;
         this.piecewise_bezier_list = null;
 
+        this.entities = [];
+
+        
     }
 
     start() {
@@ -66,8 +66,8 @@ class Game {
 
         if (this.fps_update_timer > this.fps_update_interval) {
             this.fps_update_timer = 0;
-            this.fps = Math.trunc(100 / dt) / 100;
-            this.UI_data.fps_log.innerHTML = "FPS | " + this.fps.toString();
+            const fps = Math.trunc(100 / dt) / 100;
+            this.UI_data.fps_log.innerHTML = "FPS | " + fps.toString();
         }
 
         this.fps_update_timer++;
@@ -94,9 +94,13 @@ class Game {
     
     }
 
+    spawn_entity(type, path) {
+        this.entities.push(new Entity(type, path));
+    }
+
     entity_spawning(dt, spawn_interval) {
         if (this.spawn_timer >= spawn_interval) {
-            this.entities.push(new Entity(randint(5,5), this.control_path));
+            this.spawn_entity(randint(1,5), this.control_path);
             this.spawn_timer = 0;
         }
         this.spawn_timer += dt;

@@ -1,4 +1,6 @@
-function init_UI_buttn_handlers(game) {
+function init_UI_buttn_handlers(game, buttons) {
+
+    const {pause_bttn, speed_bttn} = buttons;
 
     pause_bttn.addEventListener("click", (evt) => {
 
@@ -13,14 +15,14 @@ function init_UI_buttn_handlers(game) {
         
     });
 
-    game_speed_bttn.addEventListener("click", (evt) => {
+    speed_bttn.addEventListener("click", (evt) => {
         if (game.high_speed_toggled) {
             game.set_normal_speed();
-            game_speed_bttn.innerHTML = "Fast";
+            speed_bttn.innerHTML = "Fast >>";
         }
         else {
             game.set_high_speed();
-            game_speed_bttn.innerHTML = "Normal";
+            speed_bttn.innerHTML = "Normal";
         }
     });
 

@@ -67,8 +67,8 @@ class BezierCurve {
         
         let points = [];
         
-        if (this.control_points.length === 0) return;
-        if (ds <= 0) return;
+        if (this.control_points.length === 0) return [];
+        if (ds <= 0) return [];
     
         const cp_vecs = this.get_control_point_vecs();
         const dt = this.resolution;

@@ -61,6 +61,7 @@ class Graphics {
     draw_map_path(piecewise_bezier_list, render_res, path_width) {
 
         this.ctx.lineCap = "round";
+        this.ctx.lineJoin = "round";
         this.ctx.lineWidth = path_width/2;
         this.ctx.strokeStyle = PATH_COLOR;
 
