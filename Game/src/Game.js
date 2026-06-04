@@ -1,29 +1,40 @@
 class Game {
 
-    constructor(ctx, width, height, UI_data, config = {}) {
+    constructor(ctx, width, height, UI_manager, config = {}) {
         
-        this.UI_data = UI_data;
+        this.UI_manager = UI_manager;
         this.graphics = new Graphics(ctx, width, height);
         this.loop = this.loop.bind(this);
+        this.config = config;
+        this.initialize_game();
+        
+    }
 
-        this.game_run_speed = config.game_run_speed ?? 1;
-        this.fps_update_interval = config.fps_update_interval ?? 20;
-        this.control_path_bake_res = config.control_path_bake_res ?? 50;
-        this.spawn_interval = config.spawn_interval ?? 0.25;
-        this.path_res = config.path_res ?? 10;
-        this.path_width = config.path_width ?? 100;
+    initialize_game() {
 
+        this.game_run_speed = this.config.game_run_speed ?? 1;
+        this.fps_update_interval = this.config.fps_update_interval ?? 20;
+        this.control_path_bake_res = this.config.control_path_bake_res ?? 50;
+        this.spawn_interval = this.config.spawn_interval ?? 0.25;
+        this.path_res = this.config.path_res ?? 10;
+        this.path_width = this.config.path_width ?? 100;
+        this.lives = this.config.lives ?? 250;
+        this.money = this.config.money ?? 250;
+        this.path_preset = this.config.path_preset ?? "path0";
+
+        this.game_is_over = false;
         this.high_speed_toggled = false;
         this.running = false;
         this.last_time = null;
         this.fps_update_timer = 0;
         this.spawn_timer = 0;
-        this.control_path = null;
-        this.piecewise_bezier_list = null;
-
         this.entities = [];
 
-        
+        this.control_path = null;
+        this.piecewise_bezier_list = null;
+        this.init_path(this.path_preset);
+
+        this.UI_manager.restart();
     }
 
     start() {
@@ -37,6 +48,12 @@ class Game {
 
     stop() {
         this.running = false;
+    }
+
+    restart() {
+        this.stop();
+        this.initialize_game();
+        this.start();
     }
 
     set_high_speed() {
@@ -67,15 +84,27 @@ class Game {
         if (this.fps_update_timer > this.fps_update_interval) {
             this.fps_update_timer = 0;
             const fps = Math.trunc(100 / dt) / 100;
-            this.UI_data.fps_log.innerHTML = "FPS | " + fps.toString();
+            this.UI_manager.update("fps", "FPS | " + fps.toString());
         }
-
         this.fps_update_timer++;
     }
 
+    update_lives() {
+        this.UI_manager.update("lives", "Lives | " + this.lives.toString());
+    }
+
+    update_money() {
+        this.UI_manager.update("money", "Money | " + this.money.toString());
+    }
+
     update(dt) {
+        if (this.game_is_over) {
+            this.game_over();
+        }
         this.update_entities(dt);
         this.entity_spawning(dt, this.spawn_interval);
+        this.update_lives();
+        this.update_money();
     }
 
     draw() {
@@ -85,6 +114,8 @@ class Game {
     }
 
     init_path(path_preset) {
+
+        this.path_preset = path_preset;
 
         const piecewise_bz_list = PATH_CONFIGS[path_preset];
         this.piecewise_bezier_list = make_bezier_path(piecewise_bz_list, W, H);
@@ -106,10 +137,28 @@ class Game {
         this.spawn_timer += dt;
     }
 
+    entity_passed(entity) {
+        this.lives = Math.max(0, this.lives - entity.get_leak_damage());
+        if (this.lives == 0) {
+            this.game_over();
+        }
+    }
+
+    game_over() {
+
+        if (this.game_is_over) return;
+
+        this.game_is_over = true;
+        this.set_normal_speed();
+        this.UI_manager.show_game_over_screen();
+        this.UI_manager.cancel_controls();
+    }
+
     update_entities(dt) {
         let i = 0;
         while (i < this.entities.length) {
             if (this.entities[i].path_completed) {
+                this.entity_passed(this.entities[i]);
                 this.entities.splice(i, 1);
             }
             else {

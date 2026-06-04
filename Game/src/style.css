@@ -17,10 +17,44 @@ body {
 
 }
 
+#game-over-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 1400px;
+    height: 800px;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(59, 59, 59, 0.748);
+    margin-top: 55px;
+    border-radius: 20px;
+
+    font-family: "Font1";
+    color: #fff;
+    font-size: 60px;
+
+    z-index: 1;
+}
+
 .edit-button {
     padding: 15px;
     margin: 20px;
     background-color: rgb(177, 255, 190);
+    border: none;
+    border-radius: 10px;
+    font-family: "Font1";
+    font-size: 30px;
+}
+
+.stat-pad {
+    padding: 15px;
+    margin: 20px;
+    background-color: rgb(41, 255, 76);
     border: none;
     border-radius: 10px;
     font-family: "Font1";
@@ -32,7 +66,7 @@ body {
     color: white;
 }
 
-#edit-menu {
+#top-bar {
     margin-top: 20px;
     display: flex;
     flex-direction: row;

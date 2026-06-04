@@ -21,6 +21,10 @@ class Entity {
         return ENTITY_RANK_DATA[rank - 1]["speed"];
     }
 
+    get_leak_damage() {
+        return ENTITY_RANK_DATA[this.rank - 1]["leak_damage"];
+    }
+
     segment_dist() {
         return this.target_loc.sub(this.prev_loc).mag();
     }
