@@ -39,13 +39,13 @@ class Graphics {
     
     constructor(ctx, width, height) {
         this.ctx = ctx;
-        this.W = width;
-        this.H = height;
+        this.width = width;
+        this.height = height;
         this.pixel_ratio = 1;
     }
 
     clear_canvas() {
-        this.ctx.clearRect(0, 0, this.W, this.H);
+        this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
     draw_control_path(control_path) {
@@ -145,13 +145,13 @@ class Graphics {
         const {ctx} = this;
         ctx.strokeStyle = "#000";
         ctx.lineWidth = 1;
-        for (let i = 0; i < W/size; ++i) {
+        for (let i = 0; i < this.width/size; ++i) {
             ctx.beginPath();
             ctx.moveTo(0, size*i);
             ctx.lineTo(W, size*i);
             ctx.stroke();
         }
-        for (let i = 0; i < W/size; ++i) {
+        for (let i = 0; i < this.width/size; ++i) {
             ctx.beginPath();
             ctx.moveTo(size*i, 0);
             ctx.lineTo(size*i, H);

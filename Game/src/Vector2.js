@@ -25,7 +25,9 @@ class Vector2 {
         return this.x * vec.x + this.y * vec.y;
     }
     normalized() {
-        return this.div(this.mag());
+        const m = this.mag();
+        if (m === 0) return new Vector2(0,0);
+        return this.div(m);
     }
     mag() {
         return Math.sqrt(this.x * this.x + this.y * this.y);

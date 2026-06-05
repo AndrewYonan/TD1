@@ -2,6 +2,10 @@ body {
     background-color: #2b2b2b;
 }
 
+button:focus {
+    outline: none;
+}
+
 #canvas {
     margin-top: 10px;
     border-radius: 10px;
@@ -18,13 +22,14 @@ body {
 }
 
 #game-over-screen {
+
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
     width: 1200px;
-    height: 700px;
+    height: 500px;
 
     display: none;
     justify-content: center;

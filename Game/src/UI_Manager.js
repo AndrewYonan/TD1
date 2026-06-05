@@ -44,6 +44,7 @@ class UI_Manager {
         const pause_bttn = this.UI_endpoints["pause_bttn"];
         const speed_bttn = this.UI_endpoints["speed_bttn"];
         const restart_bttn = this.UI_endpoints["restart_bttn"];
+        const game_window = this.UI_endpoints["window"];
 
         this.toggle_pause = () => {
 
@@ -72,20 +73,29 @@ class UI_Manager {
         this.restart_handler = () => {
             game.restart();
         }
+
+        this.key_up = (evt) => {
+            if (evt.code === "Space") {
+                this.toggle_pause();
+                evt.preventDefault();
+            }
+        }
     
         pause_bttn.addEventListener("click", this.toggle_pause);
         speed_bttn.addEventListener("click", this.toggle_speed);
-        restart_bttn.addEventListener("click", this.restart_handler)
-    
+        restart_bttn.addEventListener("click", this.restart_handler);
+        game_window.addEventListener("keyup", this.key_up);
     }
 
     cancel_controls() {
         this.UI_endpoints["pause_bttn"].disabled = true;
         this.UI_endpoints["speed_bttn"].disabled = true;
+        this.UI_endpoints["window"].removeEventListener("keyup", this.key_up);
     }
 
     restore_controls() {
         this.UI_endpoints["pause_bttn"].disabled = false;
         this.UI_endpoints["speed_bttn"].disabled = false;
+        this.UI_endpoints["window"].addEventListener("keyup", this.key_up);
     }
 }

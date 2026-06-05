@@ -2,6 +2,8 @@ class Game {
 
     constructor(ctx, width, height, UI_manager, config = {}) {
         
+        this.width = width;
+        this.height = height;
         this.UI_manager = UI_manager;
         this.graphics = new Graphics(ctx, width, height);
         this.loop = this.loop.bind(this);
@@ -9,11 +11,11 @@ class Game {
         this.UI_manager.init_UI_buttn_handlers(this);
         this.animation_frame_id = null;
 
-        this.initialize_game();
+        this.initialize_game_params();
         
     }
 
-    initialize_game() {
+    initialize_game_params() {
 
         this.game_run_speed = this.config.game_run_speed ?? 1;
         this.fps_update_interval = this.config.fps_update_interval ?? 20;
@@ -61,7 +63,7 @@ class Game {
 
     restart() {
         this.stop();
-        this.initialize_game();
+        this.initialize_game_params();
         this.update_lives();
         this.update_money();
         this.draw();
@@ -126,7 +128,7 @@ class Game {
         this.path_preset = path_preset;
 
         const piecewise_bz_list = PATH_CONFIGS[path_preset];
-        this.piecewise_bezier_list = make_bezier_path(piecewise_bz_list, W, H);
+        this.piecewise_bezier_list = make_bezier_path(piecewise_bz_list, this.width, this.height);
 
         const baked_points = bake_path(this.piecewise_bezier_list, this.control_path_bake_res);
         this.control_path = new Path(baked_points);
