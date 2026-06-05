@@ -80,6 +80,6 @@ button:focus {
 
 @font-face {
     font-family: "Font1";
-    src: url("../../Fonts/square.ttf") format("truetype");
+    src: url("../Fonts/square.ttf") format("truetype");
     font-display: swap;
 }

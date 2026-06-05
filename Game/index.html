@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Game</title>
         <link rel = "stylesheet" href = "src/style.css">
     </head>
+
     <body>
-        <div id = "fps">FPS</div>
-        <div id = "top-bar">
-            <button class = "edit-button" id = "pause-game" type = "button">Pause</button>
-            <button class = "edit-button" id = "game-speed" type = "button">Fast >> </button>
-            <button class = "edit-button" id = "restart-game" type = "button">Restart</button>
-            <div class = "stat-pad" id = "lives">Lives</div>
-            <div class = "stat-pad" id = "money">Money</div>
+        <div id = "game-ui">
+            <div id = "fps">FPS</div>
+            <div id = "top-bar">
+
+                <button class = "edit-button" id = "pause-game" type = "button">Pause</button>
+                <button class = "edit-button" id = "game-speed" type = "button">Fast >> </button>
+                <button class = "edit-button" id = "restart-game" type = "button">Restart</button>
+                
+                <div class = "stat-pad" id = "lives">Lives</div>
+                <div class = "stat-pad" id = "money">Money</div>
+            </div>
+
+            <div id = "game-over-screen">
+                <div id = "game-over-text">Game Over</div>
+            </div>
         </div>
-        <div id = "game-over-screen">
-            <div id = "game-over-text">Game Over</div>
-        </div>
-        <canvas id = "canvas"></canvas>
+        
+        <canvas id = "game-canvas"></canvas>
+
+        <script type="module" src = "src/main.js"></script>
+
     </body>
-    <script src = "src/Vector2.js"></script>
-    <script src = "src/EntityConfig.js"></script>
-    <script src = "src/Entity.js"></script>
-    <script src = "src/Path.js"></script>
-    <script src = "src/PathConfig.js"></script>
-    <script src = "src/Graphics.js"></script>
-    <script src = "src/BezierControlPoint.js"></script>
-    <script src = "src/BezierCurve.js"></script>
-    <script src = "src/Game.js"></script>
-    <script src = "src/UI_Manager.js"></script>
-    <script src = "src/main.js"></script>
 </html>

@@ -1,38 +1,59 @@
+import Game from "./core/Game.js";
 
-const W = 1400;
-const H = 800;
+import WorldFactory from "./world/WorldFactory.js"
+import CanvasRenderer from "./rendering/CanvasRenderer.js";
+import UIManager from "./ui/UIManager.js";
+import InputController from "./input/InputController.js";
+import Clock from "./core/Clock.js";
 
-const canvas = document.getElementById("canvas");
-const pause_button = document.getElementById("pause-game");
-const speed_button = document.getElementById("game-speed");
-const lives_text = document.getElementById("lives");
-const money_text = document.getElementById("money");
-const restart_button = document.getElementById("restart-game");
-const fps_text = document.getElementById("fps");
-const game_over_screen = document.getElementById("game-over-screen");
-
-const ctx = build_canvas(canvas, W, H, true);
-const UI_manager = new UI_Manager({
-                                "lives" : lives_text, 
-                                "money" : money_text, 
-                                "fps" : fps_text,
-                                "game_over_screen" : game_over_screen,
-                                "pause_bttn" : pause_button,
-                                "speed_bttn" : speed_button,
-                                "restart_bttn" : restart_button,
-                                "window" : window});
+import { ENTITY_CONFIGS } from "./config/EntityConfigs.js";
+import { PATH_CONFIGS } from "./config/PathConfigs.js";
+import { GAME_CONFIG } from "./config/GameConfig.js";
 
 
-const game = new Game(ctx, W, H, UI_manager, 
-{
-    spawn_interval: 0.5,
-    path_width: 80,
-    path_res: 10,
-    control_path_bake_res: 50,
-    lives: 1,
-    money: 650,
-    path_preset: "path0"
+// **********************************************************************
+// **********************************************************************
+
+
+const canvas = document.querySelector("#game-canvas");
+const ctx = canvas.getContext("2d");
+
+
+const worldFactory = new WorldFactory({
+    entityConfigs: ENTITY_CONFIGS,
+    pathConfigs: PATH_CONFIGS,
+    gameConfig: GAME_CONFIG
 });
 
 
-game.draw();
+const renderer = new CanvasRenderer({
+    ctx,
+    width: canvas.width,
+    height: canvas.height
+});
+
+
+const ui = new UIManager({
+    root: document.querySelector("#game-ui")
+})
+
+
+const input = new InputController({
+    root: document
+});
+
+
+const clock = new Clock();
+
+
+const game = new Game({
+    worldFactory,
+    renderer,
+    ui,
+    input,
+    clock,
+    config: GAME_CONFIG
+});
+
+
+game.initialize();
