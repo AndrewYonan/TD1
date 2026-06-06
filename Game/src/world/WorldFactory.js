@@ -1,5 +1,24 @@
+
+import World from "./World.js";
+
 export default class WorldFactory {
-    constructor(config = {}) {
-        this.config = config;
+
+    constructor({entityConfigs, pathConfigs, gameConfig}) {
+
+        this.entityConfigs = entityConfigs;
+        this.pathConfigs = pathConfigs;
+        this.gameConfig = gameConfig;
+
+    }
+
+    makeDefaultWorld(pathPreset) {
+
+        const path = this.pathConfigs[pathPreset];
+
+        return new World({
+            path,
+            startingLives: 100,
+            startingMoney: 100
+        });
     }
 }

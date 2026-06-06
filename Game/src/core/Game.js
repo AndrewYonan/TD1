@@ -1,6 +1,6 @@
 export default class Game {
 
-    constructor({worldFactory, renderer, ui, input, clock, config = {}}) {
+    constructor({worldFactory, renderer, ui, input, clock, gameConfig = {}}) {
 
         this.worldFactory = worldFactory;
         this.renderer = renderer;
@@ -12,14 +12,15 @@ export default class Game {
             initialSpeedMultiplier: 1,
             fastSpeedMultiplier: 2,
             fpsUpdateIntervalFrames: 20,
-            ...config
+            ...gameConfig
         };
 
-        this.world = null;
+        const pathPreset = this.config.pathPreset;
+
+        this.world = this.worldFactory.makeDefaultWorld(pathPreset);
         this.isRunning = false;
         this.animationFrameId = null;
         this.speedMultiplier =  this.config.initialSpeedMultiplier;
-        this.frameCount = 0;
         this.loop = this.loop.bind(this);
     }
 
@@ -33,8 +34,9 @@ export default class Game {
 
         this.isRunning = true;
         this.clock.reset();
-        this.animationFrameId = requestAnimationFrame(this.loop);
         this.syncUI();
+        this.animationFrameId = requestAnimationFrame(this.loop);
+
     }
 
     loop() {
@@ -47,7 +49,7 @@ export default class Game {
         this.update(scaledDt, rawDt);
         this.render();
         this.animationFrameId = requestAnimationFrame(this.loop);
-        this.frameCount++;
+
     }
 
 

@@ -1,8 +1,10 @@
 class BezierCurve {
 
-    constructor() {
-        this.control_points = [];
-        this.resolution = 1;
+    constructor(control_points = []) {
+
+        this.control_points = control_points;
+        this.resolution = calculate_curve_resolution();
+
     }
 
     lerp(v1, v2, t) {
@@ -42,7 +44,7 @@ class BezierCurve {
         return vecs;
     }
 
-    update_curve_resolution() {
+    calculate_curve_resolution() {
         let len = this.length_approx();
         if (len > 0) {
             this.resolution = 1 / (3 * Math.sqrt(len));
@@ -110,7 +112,7 @@ class BezierCurve {
     }
 
     add_control_point(vec) {
-        this.control_points.push(new BezierControlPoint(vec));
+        this.control_points.push(vec);
         this.update_curve_resolution();
     }
 }

@@ -52,7 +52,7 @@ const game = new Game({
     ui,
     input,
     clock,
-    config: GAME_CONFIG
+    gameConfig: GAME_CONFIG
 });
 
 

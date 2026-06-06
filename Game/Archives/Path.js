@@ -9,6 +9,10 @@ class Path {
         return this.locs.length;
     }
 
+    get_point_sequence() {
+        return this.locs;
+    }
+
     remove_duplicates(locs) {
 
         if (locs.length == 0) {return [];}
