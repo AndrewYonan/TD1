@@ -25,7 +25,7 @@ export default class Game {
     }
 
     initialize() {
-        console.log("initializing game...");
+        // console.log("initializing game...");
     }
 
     start() {
@@ -74,14 +74,14 @@ export default class Game {
     }
 
     updateFPS(rawDt) {
-        console.log(rawDt);
+        // console.log(rawDt);
     }
 
     syncUI() {
-        console.log("Syncing UI...");
+        // console.log("Syncing UI...");
     }
 
     handleGameOver() {
-        console.log("Game Over...");
+        // console.log("Game Over...");
     }
 }

@@ -16,7 +16,7 @@ export default class World {
 
     getRenderSnapshot() {
         return {
-            path: this.gamePath.getRenderPoints(),
+            gamePathPoints: this.gamePath.getRenderPoints(),
             entities: this.entities.map(entity => ({
                 position: entity.getPosition(),
                 radius: entity.getRadius(),
@@ -27,7 +27,7 @@ export default class World {
     }
 
     update(dt) {
-        console.log("updating world...");
+        // console.log("updating world...");
     }
 
     isGameOver() {

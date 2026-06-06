@@ -1,4 +1,5 @@
 
+import GamePath from "../path/GamePath.js";
 import World from "./World.js";
 
 export default class WorldFactory {
@@ -13,10 +14,13 @@ export default class WorldFactory {
 
     makeDefaultWorld(pathPreset) {
 
-        const path = this.pathConfigs[pathPreset];
+        const controlPoints = this.pathConfigs[pathPreset];
+        const canvasW = this.gameConfig.width;
+        const canvasH = this.gameConfig.height;
+        const gamePath = new GamePath(controlPoints, canvasW, canvasH);
 
         return new World({
-            path,
+            gamePath,
             startingLives: 100,
             startingMoney: 100
         });

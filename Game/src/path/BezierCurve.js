@@ -1,9 +1,10 @@
-class BezierCurve {
+
+export default class BezierCurve {
 
     constructor(control_points = []) {
 
         this.control_points = control_points;
-        this.resolution = calculate_curve_resolution();
+        this.resolution = this.calculate_curve_resolution();
 
     }
 
@@ -36,14 +37,6 @@ class BezierCurve {
     }
 
 
-    get_control_point_vecs() {
-        let vecs = [];
-        for (let i = 0; i < this.control_points.length; ++i) {
-            vecs.push(this.control_points[i].loc);
-        }
-        return vecs;
-    }
-
     calculate_curve_resolution() {
         let len = this.length_approx();
         if (len > 0) {
@@ -58,8 +51,8 @@ class BezierCurve {
     length_approx() {
         let sum = 0;
         for (let i = 0; i < this.control_points.length - 1; ++i) {
-            let p1 = this.control_points[i].loc;
-            let p2 = this.control_points[i + 1].loc;
+            let p1 = this.control_points[i]
+            let p2 = this.control_points[i + 1]
             sum += (p2.sub(p1)).mag();
         }
         return sum;
@@ -72,9 +65,9 @@ class BezierCurve {
         if (this.control_points.length === 0) return [];
         if (ds <= 0) return [];
     
-        const cp_vecs = this.get_control_point_vecs();
+        const cp_vecs = this.control_points;
         const dt = this.resolution;
-        let prev = this.control_points[0].loc;
+        let prev = this.control_points[0];
         let dist_since_last_drawn = 0;
         let t = dt;
 
@@ -111,36 +104,45 @@ class BezierCurve {
 
     }
 
-    add_control_point(vec) {
-        this.control_points.push(vec);
-        this.update_curve_resolution();
-    }
+    // add_control_point(vec) {
+    //     this.control_points.push(vec);
+    //     this.update_curve_resolution();
+    // }
+
+
+    // get_control_point_vecs() {
+    //     let vecs = [];
+    //     for (let i = 0; i < this.control_points.length; ++i) {
+    //         vecs.push(this.control_points[i].loc);
+    //     }
+    //     return vecs;
+    // }
 }
 
 
-function bake_path(bz_curves, res) {
-    let pts = [];
-    for (const curve of bz_curves) {
-        if (curve.control_points.length <= 2) {
-            for (const cp of curve.control_points) {pts.push(cp.loc);}
-        }
-        else {
-            for (const pt of curve.bake(res)) {pts.push(pt);}
-        }
-    }
-    return pts;
-}
+// function bake_path(bz_curves, res) {
+//     let pts = [];
+//     for (const curve of bz_curves) {
+//         if (curve.control_points.length <= 2) {
+//             for (const cp of curve.control_points) {pts.push(cp.loc);}
+//         }
+//         else {
+//             for (const pt of curve.bake(res)) {pts.push(pt);}
+//         }
+//     }
+//     return pts;
+// }
 
 
-function make_bezier_path(piecewise_path_coordinate_list, screen_w, screen_h) {
-    let bz_path = [];
-    for (const curve of piecewise_path_coordinate_list) {
-        let bz = new BezierCurve();
-        for (const cp_relative_loc of curve) {
-            let loc_vec = new Vector2(cp_relative_loc[0] * screen_w, cp_relative_loc[1] * screen_h);
-            bz.add_control_point(loc_vec);
-        }
-        bz_path.push(bz);
-    }
-    return bz_path;
-}
+// function make_bezier_path(piecewise_path_coordinate_list, screen_w, screen_h) {
+//     let bz_path = [];
+//     for (const curve of piecewise_path_coordinate_list) {
+//         let bz = new BezierCurve();
+//         for (const cp_relative_loc of curve) {
+//             let loc_vec = new Vector2(cp_relative_loc[0] * screen_w, cp_relative_loc[1] * screen_h);
+//             bz.add_control_point(loc_vec);
+//         }
+//         bz_path.push(bz);
+//     }
+//     return bz_path;
+// }

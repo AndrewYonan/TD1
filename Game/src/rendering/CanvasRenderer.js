@@ -6,10 +6,7 @@ export default class CanvasRenderer {
         this.ctx = ctx;
         this.width = width;
         this.height = height;
-
-        this.BG_MAIN_COLOR = "rgb(185, 255, 132)";
-        this.PATH_COLOR = "rgb(51, 51, 51)";
-        this.PATH_WIDTH = 100;
+        
     }
 
     render(world) {
@@ -17,7 +14,7 @@ export default class CanvasRenderer {
         const snapshot = world.getRenderSnapshot();
 
         this.clear();
-        this.renderPath(snapshot.path);
+        this.renderPath(snapshot.gamePathPoints);
         this.renderEntities(snapshot.entities);
     }   
 
@@ -25,9 +22,7 @@ export default class CanvasRenderer {
         this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
-    renderPath(path) {
-
-        const locs = path.get_point_sequence();
+    renderPath(locs) {
 
         this.ctx.lineCap = "round";
         this.ctx.lineJoin = "round";
@@ -35,7 +30,7 @@ export default class CanvasRenderer {
         this.ctx.strokeStyle = this.PATH_COLOR;
 
         this.ctx.beginPath();
-        this.ctx.moveTo(locs[0]);
+        this.ctx.moveTo(locs[0].x, locs[0].y);
         
         for (let i = 1; i < locs.length; ++i) {this.ctx.lineTo(locs[i].x, locs[i].y)}
 
