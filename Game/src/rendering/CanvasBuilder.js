@@ -1,11 +1,6 @@
 
 
-export function buildCanvasContext({
-    canvas,
-    width,
-    height,
-    graphicsConfig
-}) {
+export function buildCanvasContext({canvas, width, height, graphicsConfig}) {
 
     const dpr = window.devicePixelRatio || 1; 
     const adaptiveResolution = graphicsConfig.ADAPTIVE_CANVAS_RES;
@@ -21,10 +16,6 @@ export function buildCanvasContext({
     
     canvas.style.width = width + "px";
     canvas.style.height = height + "px";
-    
-    canvas.style.position = "absolute";
-    canvas.style.left = "50%";
-    canvas.style.transform = "translateX(-50%)"
     canvas.style.backgroundColor = graphicsConfig.BG_MAIN_COLOR;
 
     const ctx = canvas.getContext('2d');

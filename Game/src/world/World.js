@@ -20,12 +20,7 @@ export default class World {
                 renderPoints: this.gamePath.getRenderPoints(),
                 movementPoints: this.gamePath.getMovementPoints()
             },
-            entities: this.entities.map(entity => ({
-                position: entity.getPosition(),
-                radius: entity.getRadius(),
-                color: entity.getColor(),
-                rank: entity.getRank()
-            }))
+            entities: this.entities.map(entity => entity.getRenderSnapshot())
         };
     }
 

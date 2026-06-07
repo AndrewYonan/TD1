@@ -7,7 +7,6 @@ export default class CanvasRenderer {
         this.width = width;
         this.height = height;
         this.graphicsConfig = graphicsConfig;
-        this.PI = 3.1415;
         
     }
 
@@ -31,7 +30,9 @@ export default class CanvasRenderer {
         this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
-    renderPath(locs) {
+    renderPath(points) {
+
+        if (!points || points.length === 0) return;
 
         this.ctx.lineCap = "round";
         this.ctx.lineJoin = "round";
@@ -39,9 +40,9 @@ export default class CanvasRenderer {
         this.ctx.strokeStyle = this.graphicsConfig.PATH_COLOR;
 
         this.ctx.beginPath();
-        this.ctx.moveTo(locs[0].x, locs[0].y);
+        this.ctx.moveTo(points[0].x, points[0].y);
         
-        for (let i = 1; i < locs.length; ++i) {this.ctx.lineTo(locs[i].x, locs[i].y)}
+        for (let i = 1; i < points.length; ++i) {this.ctx.lineTo(points[i].x, points[i].y)}
 
         this.ctx.stroke();
     }
@@ -55,7 +56,7 @@ export default class CanvasRenderer {
 
         for (const pt of pts) {
             this.ctx.beginPath();
-            this.ctx.arc(pt.x, pt.y, r, 0, 2*this.PI);
+            this.ctx.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
             this.ctx.stroke();
         }
         

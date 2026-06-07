@@ -71,9 +71,9 @@ export default class BezierPathBuilder {
         for (const curve of curves) {
             
             const cps = curve.getControlPoints();
-            
+
             if (cps.length <= 2) {
-                for (const cp of curve.cps) {pts.push(cp);}
+                for (const cp of cps) {pts.push(cp);}
             }
             else {
                 for (const pt of curve.bake(res)) {pts.push(pt);}

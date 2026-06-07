@@ -1,12 +1,27 @@
+
+
 export default class Clock {
+
     constructor() {
-        this.seconds = 0;
-        this.deltaSeconds = 1;
+        this.lastTime = null;
     }
+
     reset() {
-        console.log("resetting clock...");
+        this.lastTime = performance.now();
     }
+    
     getDeltaSeconds() {
-        return this.deltaSeconds;
+
+        const now = performance.now();
+
+        if (this.lastTime == null) {
+            this.lastTime = now;
+            return 0;
+        }
+
+        const dt = (now - this.lastTime) / 1000;
+        this.lastTime = now;
+
+        return dt;
     }
 }

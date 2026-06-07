@@ -14,18 +14,15 @@ export default class Game {
             fpsUpdateIntervalFrames: 20,
             ...gameConfig
         };
-
-        const pathPreset = this.config.PATH_PRESET;
-
+        
         this.isRunning = false;
         this.animationFrameId = null;
-        this.world = this.worldFactory.makeDefaultWorld(pathPreset);
         this.speedMultiplier =  this.config.initialSpeedMultiplier;
         this.loop = this.loop.bind(this);
     }
 
     initialize() {
-        // console.log("initializing game...");
+        this.world = this.worldFactory.makeDefaultWorld(this.config.PATH_PRESET);
     }
 
     start() {
@@ -46,8 +43,8 @@ export default class Game {
         const rawDt = this.clock.getDeltaSeconds();
         const scaledDt = rawDt * this.speedMultiplier;
 
-        this.render();
         this.update(scaledDt, rawDt);
+        this.render();
         this.animationFrameId = requestAnimationFrame(this.loop);
 
     }

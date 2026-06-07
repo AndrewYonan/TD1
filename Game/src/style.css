@@ -6,10 +6,11 @@ button:focus {
     outline: none;
 }
 
-#canvas {
-    border: 2px solid black;
-    margin-top: 10px;
-    border-radius: 20px;
+#game-canvas {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
 }
 
 #fps {

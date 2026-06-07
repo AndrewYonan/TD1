@@ -4,7 +4,7 @@ export const GAME_CONFIG = {
     HEIGHT : 800,
     PATH_MOVEMENT_RES: 40,
 
-    PATH_PRESET : "path0",
+    PATH_PRESET : "path4",
     STARTING_LIVES: 100,
     STARTING_MONEY: 100
 

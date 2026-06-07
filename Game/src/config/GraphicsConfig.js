@@ -2,10 +2,11 @@ export const GRAPHICS_CONFIG = {
 
     BG_MAIN_COLOR: "rgb(193, 255, 146)",
     PATH_COLOR: "rgb(51, 51, 51)",
+
     ADAPTIVE_CANVAS_RES : true,
     PATH_WIDTH: 100,
     PATH_RENDER_RES: 5,
-    MOVEMENT_POINT_RADIUS: 15,
-    SHOW_MOVEMENT_POINTS: false
-    
+    MOVEMENT_POINT_RADIUS: 10,
+    SHOW_MOVEMENT_POINTS: true
+
 }
