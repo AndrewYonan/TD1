@@ -4,11 +4,11 @@ export function buildCanvasContext({
     canvas,
     width,
     height,
-    adaptiveResolution = true,
     graphicsConfig
 }) {
 
     const dpr = window.devicePixelRatio || 1; 
+    const adaptiveResolution = graphicsConfig.ADAPTIVE_CANVAS_RES;
 
     if (adaptiveResolution) {
         canvas.width = width * dpr;

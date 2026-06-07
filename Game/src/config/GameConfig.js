@@ -1,7 +1,11 @@
 export const GAME_CONFIG = {
-    pathPreset : "path2",
-    width : 1400,
-    height : 800,
-    adaptiveRes : true,
-    pathMovementRes: 50
+
+    WIDTH : 1400,
+    HEIGHT : 800,
+    PATH_MOVEMENT_RES: 40,
+
+    PATH_PRESET : "path0",
+    STARTING_LIVES: 100,
+    STARTING_MONEY: 100
+
 };

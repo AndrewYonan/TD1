@@ -15,7 +15,7 @@ export default class Game {
             ...gameConfig
         };
 
-        const pathPreset = this.config.pathPreset;
+        const pathPreset = this.config.PATH_PRESET;
 
         this.isRunning = false;
         this.animationFrameId = null;

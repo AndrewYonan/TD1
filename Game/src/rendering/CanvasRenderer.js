@@ -7,7 +7,6 @@ export default class CanvasRenderer {
         this.width = width;
         this.height = height;
         this.graphicsConfig = graphicsConfig;
-        this.pathRes = graphicsConfig.PATH_RENDER_RES;
         this.PI = 3.1415;
         
     }

@@ -1,7 +1,9 @@
+
 import Vector2 from "../math/Vector2.js";
 import BezierCurve from "./BezierCurve.js";
 import GamePath from "./GamePath.js";
 import { dist } from "../math/Utils.js";
+
 
 export default class BezierPathBuilder {
     
@@ -20,7 +22,7 @@ export default class BezierPathBuilder {
 
         const movementPoints = this.buildPoints({
             controlPoints,
-            resolution: this.gameConfig.pathMovementRes,
+            resolution: this.gameConfig.PATH_MOVEMENT_RES,
             removeDuplicates: true
         });
 
@@ -39,8 +41,8 @@ export default class BezierPathBuilder {
 
     buildPoints({controlPoints, resolution, removeDuplicates}) {
 
-        const width = this.gameConfig.width;
-        const height = this.gameConfig.height;
+        const width = this.gameConfig.WIDTH;
+        const height = this.gameConfig.HEIGHT;
         const bzPath = this.packBezierPathControlPoints(controlPoints, width, height);
         const bakedPoints = this.bakeBezierCurves(bzPath, resolution);
 

@@ -19,8 +19,8 @@ export default class WorldFactory {
 
         return new World({
             gamePath,
-            startingLives: 100,
-            startingMoney: 100
+            startingLives: this.gameConfig.STARTING_LIVES,
+            startingMoney: this.gameConfig.STARTING_MONEY
         });
     }
 }

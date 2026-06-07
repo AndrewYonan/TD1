@@ -22,9 +22,8 @@ const canvas = document.querySelector("#game-canvas");
 
 const ctx = buildCanvasContext({
     canvas,
-    width: GAME_CONFIG.width,
-    height: GAME_CONFIG.height,
-    adpRes: GAME_CONFIG.adaptiveRes,
+    width: GAME_CONFIG.WIDTH,
+    height: GAME_CONFIG.HEIGHT,
     graphicsConfig: GRAPHICS_CONFIG
 });
 
