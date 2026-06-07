@@ -4,7 +4,7 @@ export default class Entity {
     constructor(rank, speed, health, pathPoints) {
 
         this.rank = rank;
-        this.speed = speed * 10;
+        this.speed = speed;
         this.health = health;
         this.targetIdx = 1;
 

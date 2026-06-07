@@ -1,13 +1,14 @@
 
-
+import RoundSystem from "../systems/RoundSystem.js";
 import World from "./World.js";
 
 export default class WorldFactory {
 
-    constructor({entityConfigs, gameConfig, bezierPathBuilder}) {
+    constructor({entityConfig, gameConfig, roundConfig, bezierPathBuilder}) {
 
-        this.entityConfigs = entityConfigs;
+        this.entityConfig = entityConfig;
         this.gameConfig = gameConfig;
+        this.roundConfig = roundConfig
         this.bezierPathBuilder = bezierPathBuilder;
 
     }
@@ -18,9 +19,8 @@ export default class WorldFactory {
 
         return new World({
             gamePath,
-            startingLives: this.gameConfig.STARTING_LIVES,
-            startingMoney: this.gameConfig.STARTING_MONEY,
-            entityConfigs: this.entityConfigs,
+            entityConfig: this.entityConfig,
+            roundSystem: new RoundSystem(this.roundConfig, this.entityConfig)
         });
     }
 }

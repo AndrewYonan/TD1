@@ -11,6 +11,7 @@ import { buildCanvasContext } from "./rendering/CanvasBuilder.js";
 import { ENTITY_CONFIG } from "./config/EntityConfig.js";
 import { PATH_CONFIG } from "./config/PathConfig.js";
 import { GAME_CONFIG } from "./config/GameConfig.js";
+import { ROUND_CONFIG } from "./config/RoundConfig.js";
 import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 
 
@@ -36,8 +37,9 @@ const bezierPathBuilder = new BezierPathBuilder({
 
 
 const worldFactory = new WorldFactory({
-    entityConfigs : ENTITY_CONFIG,
+    entityConfig : ENTITY_CONFIG,
     gameConfig: GAME_CONFIG,
+    roundConfig: ROUND_CONFIG,
     bezierPathBuilder
 });
 

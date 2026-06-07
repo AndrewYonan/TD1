@@ -75,9 +75,12 @@ export default class CanvasRenderer {
         const color = this.graphicsConfig.ENTITY_RANK_APPEARENCE[rank].color;
         const size = this.graphicsConfig.ENTITY_RANK_APPEARENCE[rank].size;
 
+        this.ctx.lineWidth = 1;
         this.ctx.fillStyle = color;
+        this.ctx.strokeStyle = "#fff";
         this.ctx.beginPath();
         this.ctx.arc(position.x, position.y, size, 0, 2 * Math.PI);
         this.ctx.fill();
+        this.ctx.stroke();
     }
 }

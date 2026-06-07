@@ -2,20 +2,54 @@ import Entity from "../entities/Entity.js";
 
 export default class World {
 
-    constructor({gamePath, startingLives, startingMoney, entityConfigs}) {
+    constructor({gamePath, entityConfig, roundSystem}) {
 
         this.entities = [];
         this.gamePath = gamePath;
-        this.lives = startingLives;
-        this.money = startingMoney;
-        this.entityConfigs = entityConfigs;
+        this.entityConfig = entityConfig;
+        this.lives = 1;
 
-        this.spawned = false;
+        this.roundActive = false;
+        this.roundSystem = roundSystem;
+        this.startRound();
 
     }
 
-    getMovementPoints() {
-        return this.gamePath.getMovementPoints();
+    incrementRound() {
+        this.currentRound++;
+    }
+
+    startRound() {
+        this.roundActive = true;
+    }
+
+    isGameOver() {
+        return this.lives <= 0;
+    }
+
+    spawnEntity(rank, path) {
+        const speed = this.entityConfig[rank].speed;
+        const health = this.entityConfig[rank].health;
+        this.entities.push(new Entity(rank, speed, health, path));
+    }
+    
+
+    update(dt) {
+
+        if (this.roundActive) {
+
+            const rank = this.roundSystem.spawn(dt);
+
+            if (rank == -2) {
+                this.roundActive = false;
+                return;
+            } 
+
+            if (rank > 0) {
+                this.spawnEntity(rank, this.gamePath.getMovementPoints())
+            }
+        }
+        this.updateEntities(dt);
     }
 
     getRenderSnapshot() {
@@ -26,15 +60,6 @@ export default class World {
             },
             entityData: this.entities.map(entity => entity.getRenderSnapshot())
         };
-    }
-
-    update(dt) {
-        if (!this.spawned) {
-            this.spawnEntity(1, this.gamePath.getMovementPoints());
-            this.spawned = true;
-        }
-
-        this.updateEntities(dt);
     }
 
     updateEntities(dt) {
@@ -48,15 +73,5 @@ export default class World {
                 i++;
             }
         }
-    }
-
-    spawnEntity(rank, path) {
-        const speed = this.entityConfigs[rank].speed;
-        const health = this.entityConfigs[rank].health;
-        this.entities.push(new Entity(rank, speed, health, path));
-    }
-
-    isGameOver() {
-        return this.lives <= 0;
     }
 }

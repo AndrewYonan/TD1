@@ -32,6 +32,8 @@ export default class Game {
         this.isRunning = true;
         this.clock.reset();
         this.syncUI();
+
+        this.world.startRound();
         this.animationFrameId = requestAnimationFrame(this.loop);
 
     }
