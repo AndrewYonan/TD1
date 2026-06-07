@@ -67,9 +67,13 @@ export default class BezierPathBuilder {
     bakeBezierCurves(curves, res) {
 
         let pts = [];
+
         for (const curve of curves) {
-            if (curve.control_points.length <= 2) {
-                for (const cp of curve.control_points) {pts.push(cp);}
+            
+            const cps = curve.getControlPoints();
+            
+            if (cps.length <= 2) {
+                for (const cp of curve.cps) {pts.push(cp);}
             }
             else {
                 for (const pt of curve.bake(res)) {pts.push(pt);}

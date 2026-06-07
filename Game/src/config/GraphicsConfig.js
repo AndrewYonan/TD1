@@ -7,4 +7,5 @@ export const GRAPHICS_CONFIG = {
     PATH_RENDER_RES: 5,
     MOVEMENT_POINT_RADIUS: 15,
     SHOW_MOVEMENT_POINTS: false
+    
 }

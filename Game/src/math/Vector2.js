@@ -32,15 +32,7 @@ export default class Vector2 {
     mag() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
-    manhattan_mag() {
+    manhattanMag() {
         return Math.abs(this.x) + Math.abs(this.y);
     }
-}
-
-function dist(v1, v2) {
-    return (v1.sub(v2)).mag();
-}
-
-function randint(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
