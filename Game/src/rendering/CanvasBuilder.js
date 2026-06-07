@@ -28,6 +28,7 @@ export function buildCanvasContext({
     canvas.style.backgroundColor = graphicsConfig.BG_MAIN_COLOR;
 
     const ctx = canvas.getContext('2d');
+    
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 

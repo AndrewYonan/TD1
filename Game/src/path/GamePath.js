@@ -1,23 +1,44 @@
 import Vector2 from "../math/Vector2.js";
 import BezierCurve from "./BezierCurve.js";
-
+import { dist } from "../math/Utils.js";
 
 export default class GamePath {
 
-    constructor(piecwiseCurveCPList, worldWidth, worldHeight) {
+    constructor(piecwiseCurveCPList, worldWidth, worldHeight, gameConfig) {
 
-        this.controlPathRes = 100;
-        this.renderPathRes = 50;
+        this.controlPathRes = gameConfig.pathMovementRes;
         this.piecewiseBZPath = this.piecewiseBezierPath(piecwiseCurveCPList, worldWidth, worldHeight);
+        this.removeDuplicateCPThreshold = 5;
     }
 
     getMovementPoints() {
-        return this.bakeBezierCurves(this.controlPathRes);
+        const pts = this.bakeBezierCurves(this.controlPathRes);
+        return this.remove_duplicates(pts);
     }
 
-    getRenderPoints() {
-        return this.bakeBezierCurves(this.renderPathRes);
+    getRenderPoints(res) {
+        return this.bakeBezierCurves(res);
     }
+
+    remove_duplicates(locs) {
+
+        if (locs.length == 0) {return [];}
+        let newLocs = [locs[0]];
+
+        let i = 1;
+        while (i < locs.length) {
+
+            const lastKept = newLocs[newLocs.length - 1];
+
+            if (dist(locs[i], lastKept) > this.removeDuplicateCPThreshold) {
+                newLocs.push(locs[i]);
+            }
+
+            i++;
+        }
+        return newLocs;
+    }
+
 
     bakeBezierCurves(res) {
 
@@ -40,9 +61,9 @@ export default class GamePath {
         let bz_path = [];
 
         for (const curve of piecwiseCurveCPList) {
-
-            let bz = new BezierCurve(curve.map(cp => 
-                (new Vector2(cp[0] * worldWidth, cp[1] * worldHeight))));
+            
+            const cps = curve.map(cp => (new Vector2(cp[0] * worldWidth, cp[1] * worldHeight)))
+            let bz = new BezierCurve(cps);
 
             bz_path.push(bz);
         }

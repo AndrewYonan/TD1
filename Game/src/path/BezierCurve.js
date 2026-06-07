@@ -1,7 +1,7 @@
 
 export default class BezierCurve {
 
-    constructor(control_points = []) {
+    constructor(control_points) {
 
         this.control_points = control_points;
         this.resolution = this.calculate_curve_resolution();
@@ -40,10 +40,10 @@ export default class BezierCurve {
     calculate_curve_resolution() {
         let len = this.length_approx();
         if (len > 0) {
-            this.resolution = 1 / (3 * Math.sqrt(len));
+            return 1 / (3 * Math.sqrt(len));
         }
         else {
-            this.resolution = 1;
+            return 1;
         }
         
     }
@@ -67,7 +67,7 @@ export default class BezierCurve {
     
         const cp_vecs = this.control_points;
         const dt = this.resolution;
-        let prev = this.control_points[0];
+        let prev = cp_vecs[0];
         let dist_since_last_drawn = 0;
         let t = dt;
 

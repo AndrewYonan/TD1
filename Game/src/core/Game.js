@@ -17,9 +17,9 @@ export default class Game {
 
         const pathPreset = this.config.pathPreset;
 
-        this.world = this.worldFactory.makeDefaultWorld(pathPreset);
         this.isRunning = false;
         this.animationFrameId = null;
+        this.world = this.worldFactory.makeDefaultWorld(pathPreset);
         this.speedMultiplier =  this.config.initialSpeedMultiplier;
         this.loop = this.loop.bind(this);
     }
@@ -46,8 +46,8 @@ export default class Game {
         const rawDt = this.clock.getDeltaSeconds();
         const scaledDt = rawDt * this.speedMultiplier;
 
-        this.update(scaledDt, rawDt);
         this.render();
+        this.update(scaledDt, rawDt);
         this.animationFrameId = requestAnimationFrame(this.loop);
 
     }

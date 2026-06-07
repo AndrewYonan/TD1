@@ -38,7 +38,8 @@ const worldFactory = new WorldFactory({
 const renderer = new CanvasRenderer({
     ctx,
     width: canvas.width,
-    height: canvas.height
+    height: canvas.height,
+    graphicsConfig: GRAPHICS_CONFIG
 });
 
 

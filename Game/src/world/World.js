@@ -16,7 +16,7 @@ export default class World {
 
     getRenderSnapshot() {
         return {
-            gamePathPoints: this.gamePath.getRenderPoints(),
+            gamePath: this.gamePath,
             entities: this.entities.map(entity => ({
                 position: entity.getPosition(),
                 radius: entity.getRadius(),

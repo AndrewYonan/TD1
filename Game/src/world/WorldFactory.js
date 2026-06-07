@@ -17,7 +17,7 @@ export default class WorldFactory {
         const controlPoints = this.pathConfigs[pathPreset];
         const canvasW = this.gameConfig.width;
         const canvasH = this.gameConfig.height;
-        const gamePath = new GamePath(controlPoints, canvasW, canvasH);
+        const gamePath = new GamePath(controlPoints, canvasW, canvasH, this.gameConfig);
 
         return new World({
             gamePath,

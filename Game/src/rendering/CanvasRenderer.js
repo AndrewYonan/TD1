@@ -1,20 +1,30 @@
 
 export default class CanvasRenderer {
 
-    constructor({ctx, width, height}) {
+    constructor({ctx, width, height, graphicsConfig}) {
 
         this.ctx = ctx;
         this.width = width;
         this.height = height;
+        this.graphicsConfig = graphicsConfig;
+        this.pathRes = graphicsConfig.PATH_RENDER_RES;
+        this.PI = 3.1415;
         
     }
 
     render(world) {
 
         const snapshot = world.getRenderSnapshot();
+        const pathRenderPoints = snapshot.gamePath.getRenderPoints(this.pathRes);
+        const mvmt_pts = snapshot.gamePath.getMovementPoints();
 
         this.clear();
-        this.renderPath(snapshot.gamePathPoints);
+        this.renderPath(pathRenderPoints);
+
+        if (this.graphicsConfig.SHOW_CONTROL_POINTS) {
+            this.renderControlPoints(mvmt_pts);
+        }
+        
         this.renderEntities(snapshot.entities);
     }   
 
@@ -26,8 +36,8 @@ export default class CanvasRenderer {
 
         this.ctx.lineCap = "round";
         this.ctx.lineJoin = "round";
-        this.ctx.lineWidth = this.PATH_WIDTH/2;
-        this.ctx.strokeStyle = this.PATH_COLOR;
+        this.ctx.lineWidth = this.graphicsConfig.PATH_WIDTH/2;
+        this.ctx.strokeStyle = this.graphicsConfig.PATH_COLOR;
 
         this.ctx.beginPath();
         this.ctx.moveTo(locs[0].x, locs[0].y);
@@ -35,6 +45,21 @@ export default class CanvasRenderer {
         for (let i = 1; i < locs.length; ++i) {this.ctx.lineTo(locs[i].x, locs[i].y)}
 
         this.ctx.stroke();
+    }
+
+    renderControlPoints(pts) {
+
+        this.ctx.strokeStyle = "#fff";
+        this.ctx.lineWidth = 5;
+
+        const r = this.graphicsConfig.CONTROL_POINT_RADIUS;
+
+        for (const pt of pts) {
+            this.ctx.beginPath();
+            this.ctx.arc(pt.x, pt.y, r, 0, 2*this.PI);
+            this.ctx.stroke();
+        }
+        
     }
 
     renderEntities(entities) {

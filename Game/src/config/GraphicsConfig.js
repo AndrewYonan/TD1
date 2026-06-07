@@ -1,7 +1,9 @@
 export const GRAPHICS_CONFIG = {
 
-    BG_MAIN_COLOR: "rgb(185, 255, 132)",
+    BG_MAIN_COLOR: "rgb(193, 255, 146)",
     PATH_COLOR: "rgb(51, 51, 51)",
-    PATH_WIDTH: 100
-    
+    PATH_WIDTH: 100,
+    PATH_RENDER_RES: 25,
+    CONTROL_POINT_RADIUS: 15,
+    SHOW_CONTROL_POINTS: false
 }
