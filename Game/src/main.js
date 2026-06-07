@@ -1,6 +1,7 @@
 
 import Game from "./core/Game.js";
 import WorldFactory from "./world/WorldFactory.js"
+import BezierPathBuilder from "./path/BezierPathBuilder.js";
 import CanvasRenderer from "./rendering/CanvasRenderer.js";
 import UIManager from "./ui/UIManager.js";
 import InputController from "./input/InputController.js";
@@ -25,13 +26,21 @@ const ctx = buildCanvasContext({
     height: GAME_CONFIG.height,
     adpRes: GAME_CONFIG.adaptiveRes,
     graphicsConfig: GRAPHICS_CONFIG
-})
+});
+
+
+const bezierPathBuilder = new BezierPathBuilder({
+    pathConfigs: PATH_CONFIGS,
+    gameConfig: GAME_CONFIG,
+    graphicsConfig: GRAPHICS_CONFIG
+});
 
 
 const worldFactory = new WorldFactory({
     entityConfigs: ENTITY_CONFIGS,
     pathConfigs: PATH_CONFIGS,
-    gameConfig: GAME_CONFIG
+    gameConfig: GAME_CONFIG,
+    bezierPathBuilder
 });
 
 

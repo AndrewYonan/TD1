@@ -15,14 +15,14 @@ export default class CanvasRenderer {
     render(world) {
 
         const snapshot = world.getRenderSnapshot();
-        const pathRenderPoints = snapshot.gamePath.getRenderPoints(this.pathRes);
-        const mvmt_pts = snapshot.gamePath.getMovementPoints();
+        const pathRenderPoints = snapshot.path.renderPoints;
+        const movementPoints = snapshot.path.movementPoints;
 
         this.clear();
         this.renderPath(pathRenderPoints);
 
-        if (this.graphicsConfig.SHOW_CONTROL_POINTS) {
-            this.renderControlPoints(mvmt_pts);
+        if (this.graphicsConfig.SHOW_MOVEMENT_POINTS) {
+            this.renderMovementPoints(movementPoints);
         }
         
         this.renderEntities(snapshot.entities);
@@ -47,12 +47,12 @@ export default class CanvasRenderer {
         this.ctx.stroke();
     }
 
-    renderControlPoints(pts) {
+    renderMovementPoints(pts) {
 
         this.ctx.strokeStyle = "#fff";
         this.ctx.lineWidth = 5;
 
-        const r = this.graphicsConfig.CONTROL_POINT_RADIUS;
+        const r = this.graphicsConfig.MOVEMENT_POINT_RADIUS;
 
         for (const pt of pts) {
             this.ctx.beginPath();

@@ -1,23 +1,21 @@
 
-import GamePath from "../path/GamePath.js";
+
 import World from "./World.js";
 
 export default class WorldFactory {
 
-    constructor({entityConfigs, pathConfigs, gameConfig}) {
+    constructor({entityConfigs, pathConfigs, gameConfig, bezierPathBuilder}) {
 
         this.entityConfigs = entityConfigs;
         this.pathConfigs = pathConfigs;
         this.gameConfig = gameConfig;
+        this.bezierPathBuilder = bezierPathBuilder;
 
     }
 
     makeDefaultWorld(pathPreset) {
 
-        const controlPoints = this.pathConfigs[pathPreset];
-        const canvasW = this.gameConfig.width;
-        const canvasH = this.gameConfig.height;
-        const gamePath = new GamePath(controlPoints, canvasW, canvasH, this.gameConfig);
+        const gamePath = this.bezierPathBuilder.buildFromPreset(pathPreset);
 
         return new World({
             gamePath,
