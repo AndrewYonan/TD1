@@ -14,7 +14,7 @@ export default class Game {
             fpsUpdateIntervalFrames: 20,
             ...gameConfig
         };
-        
+
         this.isRunning = false;
         this.animationFrameId = null;
         this.speedMultiplier =  this.config.initialSpeedMultiplier;
@@ -45,6 +45,7 @@ export default class Game {
 
         this.update(scaledDt, rawDt);
         this.render();
+        
         this.animationFrameId = requestAnimationFrame(this.loop);
 
     }

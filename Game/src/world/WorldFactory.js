@@ -4,10 +4,8 @@ import World from "./World.js";
 
 export default class WorldFactory {
 
-    constructor({entityConfigs, pathConfigs, gameConfig, bezierPathBuilder}) {
+    constructor({gameConfig, bezierPathBuilder}) {
 
-        this.entityConfigs = entityConfigs;
-        this.pathConfigs = pathConfigs;
         this.gameConfig = gameConfig;
         this.bezierPathBuilder = bezierPathBuilder;
 

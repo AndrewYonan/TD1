@@ -4,9 +4,9 @@ export const GRAPHICS_CONFIG = {
     PATH_COLOR: "rgb(51, 51, 51)",
 
     ADAPTIVE_CANVAS_RES : true,
-    PATH_WIDTH: 100,
+    PATH_WIDTH: 80,
     PATH_RENDER_RES: 5,
     MOVEMENT_POINT_RADIUS: 10,
-    SHOW_MOVEMENT_POINTS: true
+    SHOW_MOVEMENT_POINTS: false
 
 }

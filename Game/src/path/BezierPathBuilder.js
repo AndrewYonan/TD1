@@ -43,25 +43,25 @@ export default class BezierPathBuilder {
 
         const width = this.gameConfig.WIDTH;
         const height = this.gameConfig.HEIGHT;
-        const bzPath = this.packBezierPathControlPoints(controlPoints, width, height);
-        const bakedPoints = this.bakeBezierCurves(bzPath, resolution);
+        const bezierPath = this.buildBezierCurves(controlPoints, width, height);
+        const bakedPoints = this.bakeBezierCurves(bezierPath, resolution);
 
         if (removeDuplicates) return this.removeDuplicates(bakedPoints);
         else return bakedPoints;
 
     }
 
-    packBezierPathControlPoints(piecewiseControlPointList, worldWidth, worldHeight) {
+    buildBezierCurves(piecewiseControlPointList, worldWidth, worldHeight) {
 
-        let bzPath = [];
+        let bezierPath = [];
 
         for (const curve of piecewiseControlPointList) {    
             const cps = curve.map(cp => (new Vector2(cp[0] * worldWidth, cp[1] * worldHeight)))
             let bz = new BezierCurve(cps);
-            bzPath.push(bz);
+            bezierPath.push(bz);
         }
 
-        return bzPath;
+        return bezierPath;
     }
 
     bakeBezierCurves(bezierCurves, pointSpacing) {

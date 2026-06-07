@@ -36,8 +36,6 @@ const bezierPathBuilder = new BezierPathBuilder({
 
 
 const worldFactory = new WorldFactory({
-    entityConfigs: ENTITY_CONFIGS,
-    pathConfigs: PATH_CONFIGS,
     gameConfig: GAME_CONFIG,
     bezierPathBuilder
 });
