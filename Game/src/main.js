@@ -8,8 +8,8 @@ import InputController from "./input/InputController.js";
 import Clock from "./core/Clock.js";
 
 import { buildCanvasContext } from "./rendering/CanvasBuilder.js";
-import { ENTITY_CONFIGS } from "./config/EntityConfigs.js";
-import { PATH_CONFIGS } from "./config/PathConfigs.js";
+import { ENTITY_CONFIG } from "./config/EntityConfig.js";
+import { PATH_CONFIG } from "./config/PathConfig.js";
 import { GAME_CONFIG } from "./config/GameConfig.js";
 import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 
@@ -29,13 +29,14 @@ const ctx = buildCanvasContext({
 
 
 const bezierPathBuilder = new BezierPathBuilder({
-    pathConfigs: PATH_CONFIGS,
+    pathConfig: PATH_CONFIG,
     gameConfig: GAME_CONFIG,
     graphicsConfig: GRAPHICS_CONFIG
 });
 
 
 const worldFactory = new WorldFactory({
+    entityConfigs : ENTITY_CONFIG,
     gameConfig: GAME_CONFIG,
     bezierPathBuilder
 });

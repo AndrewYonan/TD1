@@ -23,7 +23,7 @@ export default class CanvasRenderer {
             this.renderMovementPoints(movementPoints);
         }
         
-        this.renderEntities(snapshot.entities);
+        this.renderEntities(snapshot.entityData);
     }   
 
     clear() {
@@ -62,13 +62,22 @@ export default class CanvasRenderer {
         
     }
 
-    renderEntities(entities) {
-        for (const entity of entities) {
-            this.renderEntity(entity);
+    renderEntities(entityData) {
+        for (const entry of entityData) {
+            this.renderEntity(
+                entry.position, 
+                entry.rank);
         }
     }
 
-    renderEntity(entity) {
-    
+    renderEntity(position, rank) {
+
+        const color = this.graphicsConfig.ENTITY_RANK_APPEARENCE[rank].color;
+        const size = this.graphicsConfig.ENTITY_RANK_APPEARENCE[rank].size;
+
+        this.ctx.fillStyle = color;
+        this.ctx.beginPath();
+        this.ctx.arc(position.x, position.y, size, 0, 2 * Math.PI);
+        this.ctx.fill();
     }
 }
