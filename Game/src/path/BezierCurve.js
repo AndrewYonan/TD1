@@ -14,10 +14,10 @@ export default class BezierCurve {
         return (v1.mult(1 - t)).add(v2.mult(t));
     }
 
-    bezierInterp(t, points = this.controlPoints) {
+    interpolate(t, points = this.controlPoints) {
 
         if (points.length === 1) {
-            return cps[0];
+            return points[0];
         }
         else if (points.length === 2) {
             return this.lerp(points[0], points[1], t);
@@ -29,7 +29,7 @@ export default class BezierCurve {
             intermediatePoints.push(this.lerp(points[i], points[i + 1], t));
         }
 
-        return this.bezierInterp(t, intermediatePoints);
+        return this.interpolate(t, intermediatePoints);
     }
 
 
@@ -63,7 +63,7 @@ export default class BezierCurve {
     
         while (t <= 1) {
 
-            const curr = this.bezierInterp(t, cpVecs);
+            const curr = this.interpolate(t, cpVecs);
     
             let segmentVec = curr.sub(prev);
             let segmentLen = segmentVec.mag();

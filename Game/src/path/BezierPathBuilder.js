@@ -29,7 +29,7 @@ export default class BezierPathBuilder {
         const renderPoints = this.buildPoints({
             controlPoints,
             resolution: this.graphicsConfig.PATH_RENDER_RES,
-            removeDuplicates: true
+            removeDuplicates: false
         });
 
         return new GamePath({
@@ -64,36 +64,36 @@ export default class BezierPathBuilder {
         return bzPath;
     }
 
-    bakeBezierCurves(curves, res) {
+    bakeBezierCurves(bezierCurves, pointSpacing) {
 
         let pts = [];
 
-        for (const curve of curves) {
+        for (const curve of bezierCurves) {
             
-            const cps = curve.getControlPoints();
+            const controlPoints = curve.getControlPoints();
 
-            if (cps.length <= 2) {
-                for (const cp of cps) {pts.push(cp);}
+            if (controlPoints.length <= 2) {
+                for (const cp of controlPoints) {pts.push(cp);}
             }
             else {
-                for (const pt of curve.bake(res)) {pts.push(pt);}
+                for (const pt of curve.bake(pointSpacing)) {pts.push(pt);}
             }
         }
         return pts;
     }
 
-    removeDuplicates(locs) {
+    removeDuplicates(points) {
 
-        if (locs.length == 0) {return [];}
-        let newLocs = [locs[0]];
+        if (points.length == 0) {return [];}
+        let newLocs = [points[0]];
     
         let i = 1;
-        while (i < locs.length) {
+        while (i < points.length) {
     
             const lastKept = newLocs[newLocs.length - 1];
     
-            if (dist(locs[i], lastKept) > this.removeDuplicateCPThreshold) {
-                newLocs.push(locs[i]);
+            if (dist(points[i], lastKept) > this.removeDuplicateCPThreshold) {
+                newLocs.push(points[i]);
             }
     
             i++;
