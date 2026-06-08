@@ -1,6 +1,8 @@
 
 import Game from "./core/Game.js";
 import WorldFactory from "./world/WorldFactory.js"
+import EntityFactory from "./entities/EntityFactory.js";
+import RoundSystemFactory from "./round/RoundSystemFactory.js";
 import BezierPathBuilder from "./path/BezierPathBuilder.js";
 import CanvasRenderer from "./rendering/CanvasRenderer.js";
 import UIManager from "./ui/UIManager.js";
@@ -36,10 +38,20 @@ const bezierPathBuilder = new BezierPathBuilder({
 });
 
 
-const worldFactory = new WorldFactory({
-    entityConfig : ENTITY_CONFIG,
-    gameConfig: GAME_CONFIG,
+const entityFactory = new EntityFactory({
+    entityConfig : ENTITY_CONFIG
+});
+
+const roundSystemFactory = new RoundSystemFactory({
     roundConfig: ROUND_CONFIG,
+    entityConfig : ENTITY_CONFIG
+});
+
+
+const worldFactory = new WorldFactory({
+    entityFactory,
+    roundSystemFactory,
+    gameConfig: GAME_CONFIG,
     bezierPathBuilder
 });
 

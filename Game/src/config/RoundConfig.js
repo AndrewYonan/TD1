@@ -2,63 +2,100 @@
 export const ROUND_CONFIG = {
 
     1: {
-        simultaneous: false,
         waves: [{rank: 1,
                 count: 3,
-                spacing: 100
+                spacing: 50
         }]
     },
 
     2: {
-        simultaneous: false,
         waves: [{
             rank: 1,
             count: 20,
-            spacing: 100
+            spacing: 50
         }]
     },
 
     3: {
-        simultaneous: false,
         waves: [{
             rank: 1,
             count: 5,
-            spacing: 100
+            spacing: 50
         }, {
             rank: 2,
             count: 5,
-            spacing: 100
+            spacing: 50
         }]
     },
 
     4: {
-        simultaneous: false,
         waves: [{
             rank: 1,
             count: 10,
-            spacing: 100
+            spacing: 50
         }, {
             rank: 2,
             count: 10,
-            spacing: 100
+            spacing: 50
         }]
     },
 
     5: {
-        simultaneous: false,
         waves: [{
             rank: 2,
             count: 20,
-            spacing: 80
+            spacing: 50
         }]
     },
 
     6: {
-        simultaneous: false,
         waves: [{
             rank: 3,
             count: 10,
-            spacing: 100
+            spacing: 50
+        }]
+    },
+
+    7: {
+        waves: [{
+            rank: 4,
+            count: 10,
+            spacing: 50
+        }]
+    },
+
+    8: {
+        waves: [{
+            rank: 5,
+            count: 10,
+            spacing: 50
         }]
     } 
+}
+
+
+export const ROUND_CONFIG_EASY = {
+    1: {
+        waves: [{
+            rank: 1,
+            count: 3,
+            spacing: 20
+        }, {
+           rank: 5,
+           count: 3,
+           spacing: 20
+        }, {
+            rank: 1,
+            count: 3,
+            spacing: 20
+        },  {
+            rank: 5,
+            count: 3,
+            spacing: 20
+         }, {
+             rank: 1,
+             count: 3,
+             spacing: 20
+         }]
+    },
 }

@@ -1,12 +1,11 @@
 
-import RoundBuilder from "../entities/RoundBuilder.js";
+import RoundBuilder from "../round/RoundBuilder.js";
 
 export default class RoundSystem {
 
     constructor(roundConfig, entityConfig) {
 
         this.entityConfig = entityConfig;
-        this.roundConfig = roundConfig;
         this.roundBuilder = new RoundBuilder(roundConfig);
         this.rounds = this.roundBuilder.buildRounds();
 
@@ -22,32 +21,29 @@ export default class RoundSystem {
         this.currentRound = this.rounds[this.currentRoundIdx];
     }
 
-    spawn(dt) {
-        
+    update(dt) {
+
         this.clock += dt;
-        
-        if (this.clock > this.timeToNextSpawn) return this.consumeSpawn();
-        
-        return -1;
-    }
 
-
-    consumeSpawn() {
+        if (this.clock <= this.timeToNextSpawn) {
+            return {type : "none"};
+        } 
 
         const spawn = this.currentRound.pop();
 
         if (!spawn) {
             this.nextRound();
-            return;
+            return {type: "round-complete"};
         } 
 
-        const rank = spawn.rank;
-        const spacing = spawn.spacing;
-        const speed = this.entityConfig[rank].speed;
+        const speed = this.entityConfig[spawn.rank].speed
 
         this.clock = 0;
-        this.timeToNextSpawn = spacing / speed;
+        this.timeToNextSpawn = spawn.spacing / speed;
 
-        return rank;
+        return {
+            type: "spawn",
+            rank: spawn.rank
+        };
     }
 }

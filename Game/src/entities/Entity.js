@@ -1,15 +1,19 @@
 
 export default class Entity {
 
-    constructor(rank, speed, health, pathPoints) {
+    constructor({rank, speed, health, pathPoints}) {
 
         this.rank = rank;
         this.speed = speed;
         this.health = health;
         this.targetIdx = 1;
 
-
         this.pathPoints = pathPoints;
+        
+        if (!this.pathPoints || this.pathPoints.length < 2) {
+            throw new Error("Insufficient path length");
+        }
+
         this.prev = this.pathPoints[0];
         this.loc = this.pathPoints[0];
         this.targetPoint = this.pathPoints[1];
@@ -71,6 +75,12 @@ export default class Entity {
         while (remaining > 0 && !this.pathCompleted) {
             
             const dist = this.segmentDist;
+
+            if (dist === 0) {
+                this.advanceTarget();
+                continue;
+            }
+
             const distLeft = (1 - this.t) * dist;
 
             if (remaining < distLeft) {

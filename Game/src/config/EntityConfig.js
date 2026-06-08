@@ -6,22 +6,22 @@ export const ENTITY_CONFIG = {
     }, 
 
     2 : {
-        speed: 120,
+        speed: 150,
         health: 2
     },
 
     3 : {
-        speed : 140,
+        speed : 200,
         health : 3
     },
 
     4 : {
-        speed : 160,
+        speed : 280,
         health : 4
     },
 
     5 : {
-        speed : 180,
+        speed : 380,
         health : 5
     }
 };

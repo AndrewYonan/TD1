@@ -2,9 +2,9 @@ export const GAME_CONFIG = {
 
     WIDTH : 1400,
     HEIGHT : 800,
-    PATH_MOVEMENT_RES: 40,
+    PATH_MOVEMENT_RES: 20,
 
-    PATH_PRESET : "path3",
+    PATH_PRESET : "path4",
     STARTING_LIVES: 100,
     STARTING_MONEY: 100
 

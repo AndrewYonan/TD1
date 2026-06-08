@@ -1,22 +1,18 @@
-import Entity from "../entities/Entity.js";
+
 
 export default class World {
 
-    constructor({gamePath, entityConfig, roundSystem}) {
+    constructor({gamePath, entityFactory, roundSystem, startingLives, startingMoney}) {
 
         this.entities = [];
         this.gamePath = gamePath;
-        this.entityConfig = entityConfig;
-        this.lives = 1;
+        this.entityFactory = entityFactory;
+        this.lives = startingLives;
+        this.money = startingMoney;
 
         this.roundActive = false;
         this.roundSystem = roundSystem;
-        this.startRound();
 
-    }
-
-    incrementRound() {
-        this.currentRound++;
     }
 
     startRound() {
@@ -27,29 +23,29 @@ export default class World {
         return this.lives <= 0;
     }
 
-    spawnEntity(rank, path) {
-        const speed = this.entityConfig[rank].speed;
-        const health = this.entityConfig[rank].health;
-        this.entities.push(new Entity(rank, speed, health, path));
+    spawnEntity(rank) {
+
+        const entity = this.entityFactory.create(rank, this.gamePath.getMovementPoints());
+        this.entities.push(entity);
     }
     
 
     update(dt) {
 
-        if (this.roundActive) {
-
-            const rank = this.roundSystem.spawn(dt);
-
-            if (rank == -2) {
-                this.roundActive = false;
-                return;
-            } 
-
-            if (rank > 0) {
-                this.spawnEntity(rank, this.gamePath.getMovementPoints())
-            }
-        }
         this.updateEntities(dt);
+
+        if (!this.roundActive) return;
+
+        const result = this.roundSystem.update(dt);
+
+        if (result.type === "round-complete") {
+            this.roundActive = false;
+        }
+
+        if (result.type === "spawn") {
+            this.spawnEntity(result.rank);
+        }
+        
     }
 
     getRenderSnapshot() {

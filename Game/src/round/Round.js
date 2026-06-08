@@ -1,31 +1,31 @@
 
 export default class Round {
 
-    constructor(waves, parallelWaves) {
+    constructor(waves) {
         this.waves = waves;
         this.waveIdx = 0;
         this.entityIdx = 0;
         this.currWave = null;
-        this.parallelWaves = parallelWaves;
     }
 
     pop() {
 
-        if (this.currWave == null) this.currWave = this.waves[0];
+        if (!this.currWave) this.currWave = this.waves[0];
+
+        if (!this.currWave) return null;
         
         if (this.entityIdx >= this.currWave.count) {
 
-            if (++this.waveIdx >= this.waves.length) return null;
+            this.waveIdx++;
+
+            if (this.waveIdx >= this.waves.length) return null;
 
             this.currWave = this.waves[this.waveIdx];
-            this.entityIdx = 0;
+            this.entityIdx = 1;
         }
 
-        else {
-
-            this.entityIdx++;
-            
-        }
+        else this.entityIdx++;
+        
 
         return {
             rank: this.currWave.rank,

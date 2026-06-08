@@ -69,7 +69,6 @@ export default class Game {
     render() {
 
         if (!this.world) return;
-        
         this.renderer.render(this.world);
     }
 
