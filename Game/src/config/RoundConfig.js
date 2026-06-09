@@ -2,9 +2,10 @@
 export const ROUND_CONFIG = {
 
     1: {
-        waves: [{rank: 1,
-                count: 3,
-                spacing: 50
+        waves: [{
+            rank: 1,
+            count: 10,
+            spacing: 80
         }]
     },
 
@@ -71,31 +72,4 @@ export const ROUND_CONFIG = {
             spacing: 50
         }]
     } 
-}
-
-
-export const ROUND_CONFIG_EASY = {
-    1: {
-        waves: [{
-            rank: 1,
-            count: 3,
-            spacing: 20
-        }, {
-           rank: 5,
-           count: 3,
-           spacing: 20
-        }, {
-            rank: 1,
-            count: 3,
-            spacing: 20
-        },  {
-            rank: 5,
-            count: 3,
-            spacing: 20
-         }, {
-             rank: 1,
-             count: 3,
-             spacing: 20
-         }]
-    },
 }

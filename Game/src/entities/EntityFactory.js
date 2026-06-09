@@ -7,6 +7,8 @@ export default class EntityFactory {
     }
 
     create(rank, pathPoints) {
+
+        if (rank === 0) return null;
         
         const config = this.entityConfig[rank];
 

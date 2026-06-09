@@ -37,7 +37,8 @@ export default class World {
     spawnEntity(rank) {
 
         const entity = this.entityFactory.create(rank, this.gamePath.getMovementPoints());
-        this.entities.push(entity);
+        if (entity) this.entities.push(entity);
+        
     }
 
     update(dt) {
@@ -76,7 +77,6 @@ export default class World {
 
     leak(entity) {
         this.lives = Math.max(0, this.lives - entity.health);
-        console.log(this.lives);
     }
 
     updateEntities(dt) {

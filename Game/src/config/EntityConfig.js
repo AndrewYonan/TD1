@@ -1,5 +1,4 @@
 export const ENTITY_CONFIG = {
-
     1 : {
         speed : 100,
         health : 1  

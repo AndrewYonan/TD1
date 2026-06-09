@@ -36,7 +36,8 @@ export default class RoundSystem {
 
         if (!spawn) return {type: "spawning-done"};
         
-        const speed = this.entityConfig[spawn.rank].speed
+        let defaultSpeed = this.entityConfig[1].speed;
+        let speed = (spawn.rank == 0) ?  defaultSpeed : this.entityConfig[spawn.rank].speed
 
         this.clock = 0;
         this.timeToNextSpawn = spawn.spacing / speed;
