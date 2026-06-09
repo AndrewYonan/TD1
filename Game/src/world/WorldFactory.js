@@ -13,7 +13,7 @@ export default class WorldFactory {
 
     }
 
-    makeDefaultWorld(pathPreset) {
+    makeDefaultWorld({round, pathPreset}) {
 
         const gamePath = this.bezierPathBuilder.buildFromPreset(pathPreset);
 
@@ -22,7 +22,8 @@ export default class WorldFactory {
             entityFactory: this.entityFactory,
             roundSystem: this.roundSystemFactory.create(),
             startingLives: this.gameConfig.STARTING_LIVES,
-            startingMoney: this.gameConfig.STARTING_MONEY
+            startingMoney: this.gameConfig.STARTING_MONEY,
+            startingRound: round
         });
     }
 }

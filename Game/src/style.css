@@ -51,7 +51,7 @@ button:focus {
 .edit-button {
     padding: 15px;
     margin: 20px;
-    background-color: rgb(177, 255, 190);
+    background-color: rgb(41, 255, 76);
     border: none;
     border-radius: 10px;
     font-family: "Font1";
@@ -61,7 +61,7 @@ button:focus {
 .stat-pad {
     padding: 15px;
     margin: 20px;
-    background-color: rgb(41, 255, 76);
+    background-color: rgb(177, 255, 190);
     border: none;
     border-radius: 10px;
     font-family: "Font1";

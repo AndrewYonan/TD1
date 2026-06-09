@@ -31,7 +31,9 @@ export default class Game {
     }
 
     initialize() {
-        this.world = this.worldFactory.makeDefaultWorld(this.config.PATH_PRESET);
+        this.world = this.worldFactory.makeDefaultWorld({
+            round: this.config.STARTING_ROUND,
+            pathPreset: this.config.PATH_PRESET});
         this.render();
         this.syncUI();
     }
@@ -44,7 +46,7 @@ export default class Game {
         this.clock.reset();
         this.syncUI();
 
-        if (!this.world.isRoundActive()) this.world.startRound();
+        if (!this.world.isRoundActive()) this.world.startNextRound();
         
         this.animationFrameId = requestAnimationFrame(this.loop);
 
@@ -138,6 +140,6 @@ export default class Game {
     }
 
     handleGameOver() {
-        // console.log("Game Over...");
+        console.log("Game Over...");
     }
 }

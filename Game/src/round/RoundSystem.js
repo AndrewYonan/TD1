@@ -15,6 +15,10 @@ export default class RoundSystem {
 
     }
 
+    setRound(round) {
+        this.currentRoundIdx = Math.max(round - 2, -1);
+    }
+
     getCurrentRound() {
         return this.currentRoundIdx + 1
     }
@@ -30,7 +34,7 @@ export default class RoundSystem {
 
         if (this.clock <= this.timeToNextSpawn) {
             return {type : "none"};
-        } 
+        }
 
         const spawn = this.currentRound.pop();
 
@@ -38,8 +42,8 @@ export default class RoundSystem {
         
         let defaultSpeed = this.entityConfig[1].speed;
         let speed = (spawn.rank == 0) ?  defaultSpeed : this.entityConfig[spawn.rank].speed
-
-        this.clock = 0;
+        
+        this.clock -= this.timeToNextSpawn;
         this.timeToNextSpawn = spawn.spacing / speed;
 
         return {

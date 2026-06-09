@@ -2,7 +2,7 @@
 
 export default class World {
 
-    constructor({gamePath, entityFactory, roundSystem, startingLives, startingMoney}) {
+    constructor({gamePath, entityFactory, roundSystem, startingLives, startingMoney, startingRound}) {
 
         this.entities = [];
         this.gamePath = gamePath;
@@ -13,10 +13,11 @@ export default class World {
         this.roundActive = false;
         this.spawningDone = false;
         this.roundSystem = roundSystem;
+        this.roundSystem.setRound(startingRound);
 
     }
 
-    startRound() {
+    startNextRound() {
         this.roundSystem.nextRound();
         this.spawningDone = false;
         this.roundActive = true;
