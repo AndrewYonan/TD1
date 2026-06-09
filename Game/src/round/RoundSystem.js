@@ -15,6 +15,10 @@ export default class RoundSystem {
 
     }
 
+    getCurrentRound() {
+        return this.currentRoundIdx + 1
+    }
+
     nextRound() {
         if (++this.currentRoundIdx >= this.rounds.length) return
         this.currentRound = this.rounds[this.currentRoundIdx];

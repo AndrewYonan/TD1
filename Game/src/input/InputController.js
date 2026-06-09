@@ -4,9 +4,8 @@ export default class InputController {
         this.root = root;
     }
 
-    bindActions({onTogglePause, onToggleSpeed, onRestart}) {
-        this.root.querySelector("#pause-game").addEventListener("click", onTogglePause);
-        this.root.querySelector("#game-speed").addEventListener("click", onToggleSpeed);
+    bindActions({onToggleRoundPlay, onRestart}) {
+        this.root.querySelector("#run-game").addEventListener("click", onToggleRoundPlay);
         this.root.querySelector("#restart-game").addEventListener("click", onRestart);
     }
 }

@@ -65,7 +65,7 @@ const renderer = new CanvasRenderer({
 
 
 const ui = new UIManager({
-    root: document.querySelector("#game-ui")
+    root: document.querySelector("#game-ui"),
 });
 
 
@@ -88,4 +88,4 @@ const game = new Game({
 
 
 game.initialize();
-// game.start();
+game.syncUI();

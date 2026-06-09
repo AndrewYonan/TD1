@@ -2,22 +2,39 @@
 
 export default class UIManager {
     constructor({root}) {
+
         this.root = root;
 
         this.fpsElement = root.querySelector("#fps");
         this.livesElement = root.querySelector("#lives");
         this.moneyElement = root.querySelector("#money");
+        this.roundElement = root.querySelector("#round");
         this.gameOverScreen = root.querySelector("#game-over-screen");
-        this.speedButton = root.querySelector("#game-speed");
-        this.pauseButton = root.querySelector("#pause-game");
+        this.roundButton = root.querySelector("#run-game");
     }
 
-    render({lives, money, isGameOver, isFastPlay, isRunning}) {
-        this.livesElement.textContent = `Lives : ${lives}`;
+    render({lives, money, round, isGameOver, isFastPlay, isRunning}) {
+    
+        this.livesElement.textContent = `Lives: ${lives}`;
         this.moneyElement.textContent = `Money: ${money}`;
+        this.roundElement.textContent = `Round: ${round}`
         this.gameOverScreen.style.display = isGameOver ? "flex" : "none";
-        this.speedButton.textContent = isFastPlay ? "Normal" : "Fast >>";
-        this.pauseButton.textContent = isRunning ? "Pause" : "Play";
+        this.renderSpeedButton(isFastPlay, isRunning);
+    }       
+
+
+    renderSpeedButton(isFastPlay, isRunning) {
+        if (isRunning) {
+            if (isFastPlay) {
+                this.roundButton.textContent = "<< Slow";
+            } 
+            else {
+                this.roundButton.textContent = "Fast >>";
+            } 
+        }
+        else {
+            this.roundButton.textContent = "Start";
+        }
     }
 
     setFPS(fps) {

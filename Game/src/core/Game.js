@@ -25,8 +25,7 @@ export default class Game {
 
     bindInput() {
         this.input.bindActions({
-            onTogglePause: () => this.togglePause(),
-            onToggleSpeed: () => this.toggleSpeed(),
+            onToggleRoundPlay: () => this.toggleRoundPlay(),
             onRestart: () => this.restart()
         });
     }
@@ -60,19 +59,28 @@ export default class Game {
         this.syncUI();
     }
 
+    toggleRoundPlay() {
+        if (this.isRunning) this.toggleSpeed();
+        else this.togglePause();
+    }
+
     togglePause() {
         if (this.isRunning) this.stop();
         else this.start();
     }
 
     toggleSpeed() {
-        this.speedMultiplier = 3 - this.speedMultiplier;
+
+        const normal = this.config.initialSpeedMultiplier;
+        const fast = this.config.fastSpeedMultiplier;
+
+        this.speedMultiplier = (this.speedMultiplier == normal) ? fast : normal;
+        this.syncUI();
     }
 
     restart() {
         this.stop();
         this.initialize();
-        this.start();
     }
 
     loop() {
@@ -123,7 +131,7 @@ export default class Game {
         if (!this.world) return;
 
         this.ui.render({
-            ...this.world.getUISnapshot(),
+            ...this.world.getUIState(),
             isFastPlay: this.speedMultiplier > 1,
             isRunning: this.isRunning
         })

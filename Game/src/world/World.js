@@ -65,10 +65,11 @@ export default class World {
         };
     }
 
-    getUISnapshot() {
+    getUIState() {
         return {
             lives: this.lives,
             money: this.money,
+            round: this.roundSystem.getCurrentRound(),
             isGameOver: this.isGameOver()
         }
     }
