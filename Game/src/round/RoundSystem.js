@@ -32,9 +32,15 @@ export default class RoundSystem {
 
         this.clock += dt;
 
-        if (this.clock <= this.timeToNextSpawn) {
-            return {type : "none"};
+        if (this.clock > this.timeToNextSpawn) {
+            return this.consumeSpawn();
         }
+
+        return {type : "none"};
+
+    }
+
+    consumeSpawn() {
 
         const spawn = this.currentRound.pop();
 

@@ -72,8 +72,8 @@ export default class CanvasRenderer {
 
     renderEntity(position, rank) {
 
-        const color = this.graphicsConfig.ENTITY_RANK_APPEARENCE[rank].color;
-        const size = this.graphicsConfig.ENTITY_RANK_APPEARENCE[rank].size;
+        const color = this.graphicsConfig.ENTITY_RANK_APPEARANCE[rank].color;
+        const size = this.graphicsConfig.ENTITY_RANK_APPEARANCE[rank].size;
 
         this.ctx.lineWidth = 1;
         this.ctx.fillStyle = color;

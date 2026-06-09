@@ -15,12 +15,12 @@ export const ENTITY_CONFIG = {
     },
 
     4 : {
-        speed : 280,
+        speed : 260,
         health : 4
     },
 
     5 : {
-        speed : 380,
+        speed : 320,
         health : 5
     }
 };

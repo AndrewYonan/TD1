@@ -26,8 +26,13 @@ export default class Game {
     bindInput() {
         this.input.bindActions({
             onToggleRoundPlay: () => this.toggleRoundPlay(),
-            onRestart: () => this.restart()
+            onRestart: () => this.restart(),
+            onTowerSelect: () => this.selectTower()
         });
+    }
+
+    selectTower() {
+        console.log("Tower selected");
     }
 
     initialize() {

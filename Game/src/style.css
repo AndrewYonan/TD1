@@ -8,7 +8,7 @@ button:focus {
 
 #game-canvas {
     position: absolute;
-    left: 50%;
+    left: 47%;
     transform: translateX(-50%);
     border-radius: 10px;
 }
@@ -16,7 +16,7 @@ button:focus {
 #fps {
     font-family: "Font1";
     color: #fff;
-    font-size: 40px;
+    font-size: 30px;
     margin-left: 30px;
     margin-top: 30px;
     position:absolute;
@@ -56,6 +56,7 @@ button:focus {
     border-radius: 10px;
     font-family: "Font1";
     font-size: 30px;
+    box-shadow: 2px 2px 20px 0px rgba(90, 90, 90, 0.748);
 }
 
 .stat-pad {
@@ -79,6 +80,45 @@ button:focus {
     flex-direction: row;
     justify-content: center;
 }
+
+
+#tower-menu {
+    position: absolute;
+    top: 110px;
+    right: 25px;
+    height: 80%;      
+    z-index: 1;
+  }
+  
+  #tower-menu tr {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row; 
+  }
+  
+  
+  .tower-button {
+    display: block;    
+    color: rgb(32, 32, 32);
+    background-color: #00ff3c;
+    font-family: "Font1";
+    font-size: 25px;
+    border-radius: 20px;
+    margin-bottom: 1px;
+    border: none;
+    width: 105px;
+    height: 105px;
+    text-decoration: none;
+    box-shadow: 2px 2px 20px 0px rgba(90, 90, 90, 0.748);
+  }
+
+  .tower-button:hover {
+    background-color: black;
+    color: white;
+  }
+
+
 
 @font-face {
     font-family: "Font1";

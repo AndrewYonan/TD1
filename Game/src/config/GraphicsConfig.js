@@ -1,5 +1,5 @@
 
-const ENTITY_RANK_APPEARENCE = {
+const ENTITY_RANK_APPEARANCE = {
 
     1 : {
         color: "rgb(240, 98, 98)",
@@ -38,5 +38,5 @@ export const GRAPHICS_CONFIG = {
 
     BG_MAIN_COLOR: "rgb(193, 255, 146)",
     PATH_COLOR: "rgb(51, 51, 51)",
-    ENTITY_RANK_APPEARENCE
+    ENTITY_RANK_APPEARANCE
 }

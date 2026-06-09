@@ -11,6 +11,7 @@ export default class UIManager {
         this.roundElement = root.querySelector("#round");
         this.gameOverScreen = root.querySelector("#game-over-screen");
         this.roundButton = root.querySelector("#run-game");
+
     }
 
     render({lives, money, round, isGameOver, isFastPlay, isRunning}) {
