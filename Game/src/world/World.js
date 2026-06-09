@@ -11,11 +11,14 @@ export default class World {
         this.money = startingMoney;
 
         this.roundActive = false;
+        this.spawningDone = false;
         this.roundSystem = roundSystem;
 
     }
 
     startRound() {
+        this.roundSystem.nextRound();
+        this.spawningDone = false;
         this.roundActive = true;
     }
 
@@ -23,14 +26,23 @@ export default class World {
         return this.lives <= 0;
     }
 
+    isRoundActive() {
+        return this.roundActive;
+    }
+
+    roundComplete() {
+        return (this.spawningDone && this.entities.length == 0) || this.isGameOver();
+    }
+
     spawnEntity(rank) {
 
         const entity = this.entityFactory.create(rank, this.gamePath.getMovementPoints());
         this.entities.push(entity);
     }
-    
 
     update(dt) {
+
+        if (this.roundComplete()) this.roundActive = false;
 
         this.updateEntities(dt);
 
@@ -38,13 +50,8 @@ export default class World {
 
         const result = this.roundSystem.update(dt);
 
-        if (result.type === "round-complete") {
-            this.roundActive = false;
-        }
-
-        if (result.type === "spawn") {
-            this.spawnEntity(result.rank);
-        }
+        if (result.type === "spawn") this.spawnEntity(result.rank);
+        if (result.type === "spawning-done") this.spawningDone = true;
         
     }
 
@@ -58,10 +65,24 @@ export default class World {
         };
     }
 
+    getUISnapshot() {
+        return {
+            lives: this.lives,
+            money: this.money,
+            isGameOver: this.isGameOver()
+        }
+    }
+
+    leak(entity) {
+        this.lives = Math.max(0, this.lives - entity.health);
+        console.log(this.lives);
+    }
+
     updateEntities(dt) {
         let i = 0;
         while (i < this.entities.length) {
             if (this.entities[i].pathCompleted) {
+                this.leak(this.entities[i]);
                 this.entities.splice(i, 1);
             }
             else {

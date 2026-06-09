@@ -1,4 +1,4 @@
-import RoundSystem from "../systems/RoundSystem.js";
+import RoundSystem from "../round/RoundSystem.js";
 
 export default class RoundSystemFactory {
 

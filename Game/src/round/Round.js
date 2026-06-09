@@ -5,12 +5,10 @@ export default class Round {
         this.waves = waves;
         this.waveIdx = 0;
         this.entityIdx = 0;
-        this.currWave = null;
+        this.currWave = waves[0];
     }
 
     pop() {
-
-        if (!this.currWave) this.currWave = this.waves[0];
 
         if (!this.currWave) return null;
         

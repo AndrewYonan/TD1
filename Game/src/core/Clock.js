@@ -22,6 +22,6 @@ export default class Clock {
         const dt = (now - this.lastTime) / 1000;
         this.lastTime = now;
 
-        return dt;
+        return Math.min(dt, 0.05);
     }
 }

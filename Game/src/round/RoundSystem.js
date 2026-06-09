@@ -9,10 +9,9 @@ export default class RoundSystem {
         this.roundBuilder = new RoundBuilder(roundConfig);
         this.rounds = this.roundBuilder.buildRounds();
 
-        this.currentRoundIdx = 0;
-        this.currentRound = this.rounds[0];
+        this.currentRoundIdx = -1;
         this.timeToNextSpawn = 0;
-        this.clock = 0;
+        this.clock = 0; 
 
     }
 
@@ -31,11 +30,8 @@ export default class RoundSystem {
 
         const spawn = this.currentRound.pop();
 
-        if (!spawn) {
-            this.nextRound();
-            return {type: "round-complete"};
-        } 
-
+        if (!spawn) return {type: "spawning-done"};
+        
         const speed = this.entityConfig[spawn.rank].speed
 
         this.clock = 0;
