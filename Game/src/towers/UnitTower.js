@@ -1,14 +1,18 @@
+import UnitBullet from "./UnitBullet.js";
 import Vector2 from "../math/Vector2.js";
 import { dist } from "../math/Utils.js";
 
 export default class UnitTower {
 
-    constructor(x, y) {
-        this.loc = new Vector2(x, y);
+    constructor(x, y, projectileSet) {
         this.type = "unit";
+        this.loc = new Vector2(x, y);
+        this.projectileSet = projectileSet;
+        
         this.fireRate = 1;
-        this.range = 100;
-
+        this.bulletSpeed = 500;
+        this.pierce = 2;
+        this.range = 200;
         this.target = null;
         this.fireCooldownTimer = 0;
         this.gunAngle = 0;
@@ -46,9 +50,10 @@ export default class UnitTower {
     }
 
     closest(entities) {
-        let min = 10000;
-        let entity = null;
-        for (let i = 0; i < entities.length; ++i) {
+        if (entities.length == 0) return;
+        let entity = entities[0];
+        let min = dist(entity.loc, this.loc);
+        for (let i = 1; i < entities.length; ++i) {
             const d = dist(entities[i].loc, this.loc);
             if (d < min) {
                 min = d;
@@ -59,9 +64,19 @@ export default class UnitTower {
     }
 
     update(dt, entities) {
-        if (this.targetOutOfRange()) this.target == null;
-        if (!this.findTarget(entities)) return;
+
+        if (this.fireCooldownTimer > 0) {
+            this.fireCooldownTimer = Math.max(0, this.fireCooldownTimer - dt);
+        }
+
         this.watchTarget();
+
+        if (this.target && this.fireCooldownTimer == 0) this.fire();
+
+        if (this.targetOutOfRange()) {
+            this.target = null;
+            this.findTarget(entities)
+        } 
     }
 
     findTarget(entities) {
@@ -75,8 +90,17 @@ export default class UnitTower {
     }
 
     fire() {
-        console.log("Fire");
+
+        const bullet = new UnitBullet(
+            this.loc, 
+            this.gunAngle, 
+            this.bulletSpeed, 
+            this.pierce
+        );
+        
+        this.projectileSet.push(bullet);
         this.fireCooldownTimer = 1 / this.fireRate;
+        this.target = null;
     }
 
     getRenderSnapshot() {

@@ -1,11 +1,12 @@
-
+import UnitTower from "../towers/UnitTower.js";
 
 export default class World {
 
-    constructor({gamePath, entityFactory, roundSystem, startingLives, startingMoney, startingRound}) {
+    constructor({gamePath, entityFactory, roundSystem, collisionSystem, startingLives, startingMoney, startingRound}) {
 
         this.entities = [];
         this.towers = [];
+        this.projectiles = [];
         this.gamePath = gamePath;
         this.entityFactory = entityFactory;
         this.lives = startingLives;
@@ -15,6 +16,11 @@ export default class World {
         this.spawningDone = false;
         this.roundSystem = roundSystem;
         this.roundSystem.setRound(startingRound);
+
+        this.collisionSystem = collisionSystem;
+
+        const testTower = new UnitTower(300, 250, this.projectiles);
+        this.addTower(testTower);
 
     }
 
@@ -33,7 +39,9 @@ export default class World {
     }
 
     roundComplete() {
-        return (this.spawningDone && this.entities.length == 0) || this.isGameOver();
+        return (this.spawningDone 
+                && (this.entities.length == 0)
+                && (this.projectiles.length == 0)) || this.isGameOver();
     }
 
     addTower(tower) {
@@ -43,7 +51,11 @@ export default class World {
     spawnEntity(rank) {
 
         const entity = this.entityFactory.create(rank, this.gamePath.getMovementPoints());
-        if (entity) this.entities.push(entity);
+
+        if (entity) {
+            this.entities.push(entity);
+            this.collisionSystem.add(entity);
+        }
         
     }
 
@@ -53,6 +65,7 @@ export default class World {
 
         this.updateEntities(dt);
         this.updateTowers(dt);
+        this.updateProjectiles(dt);
 
         if (!this.roundActive) return;
 
@@ -63,6 +76,10 @@ export default class World {
         
     }
 
+    getProjectileEntityCollisions() {
+
+    }
+
     getRenderSnapshot() {
         return {
             path: {
@@ -70,7 +87,8 @@ export default class World {
                 movementPoints: this.gamePath.getMovementPoints()
             },
             entityData: this.entities.map(entity => entity.getRenderSnapshot()),
-            towerData: this.towers.map(tower => tower.getRenderSnapshot())
+            towerData: this.towers.map(tower => tower.getRenderSnapshot()),
+            projectileData: this.projectiles.map(projectile => projectile.getRenderSnapshot())
         };
     }
 
@@ -98,6 +116,34 @@ export default class World {
                 this.entities[i].update(dt);
                 i++;
             }
+        }
+    }
+
+    updateProjectiles(dt) {
+
+        let i = 0;
+
+        while (i < this.projectiles.length) {
+
+            if (this.collisionSystem.offScreen(this.projectiles[i])) {
+                this.projectiles.splice(i, 1);
+            }
+
+            else {
+
+                const entityCollideIdx = this.collisionSystem.getSingleCollision(this.projectiles[i], this.entities);
+                console.log(entityCollideIdx);
+
+                if (entityCollideIdx > -1) {
+                    this.entities.splice(entityCollideIdx, 1);
+                    this.projectiles.splice(i, 1);
+                }
+
+                else {
+                    this.projectiles[i].update(dt);
+                    i++;
+                }
+            }   
         }
     }
 

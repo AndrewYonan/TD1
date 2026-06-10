@@ -1,6 +1,7 @@
 
 import Game from "./core/Game.js";
 import WorldFactory from "./world/WorldFactory.js"
+import CollisionSystemFactory from "./systems/CollisionSystemFactory.js";
 import EntityFactory from "./entities/EntityFactory.js";
 import RoundSystemFactory from "./round/RoundSystemFactory.js";
 import BezierPathBuilder from "./path/BezierPathBuilder.js";
@@ -8,6 +9,7 @@ import CanvasRenderer from "./rendering/CanvasRenderer.js";
 import PathRenderer from "./rendering/PathRenderer.js";
 import TowerRenderer from "./rendering/TowerRenderer.js";
 import EntityRenderer from "./rendering/EntityRenderer.js";
+import ProjectileRenderer from "./rendering/ProjectileRenderer.js";
 import UIManager from "./ui/UIManager.js";
 import InputController from "./input/InputController.js";
 import Clock from "./core/Clock.js";
@@ -21,6 +23,7 @@ import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { PATH_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js"
 import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { TOWER_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import { PROJECTILE_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 
 
 // **********************************************************************
@@ -53,10 +56,14 @@ const roundSystemFactory = new RoundSystemFactory({
     entityConfig : ENTITY_CONFIG
 });
 
+const collisionSystemFactory = new CollisionSystemFactory({
+    config: GAME_CONFIG
+});
 
 const worldFactory = new WorldFactory({
     entityFactory,
     roundSystemFactory,
+    collisionSystemFactory,
     gameConfig: GAME_CONFIG,
     bezierPathBuilder
 });
@@ -73,6 +80,9 @@ const towerRenderer = new TowerRenderer({
     config: TOWER_GRAPHICS_CONFIG
 })
 
+const projectileRenderer = new ProjectileRenderer({
+    config: PROJECTILE_GRAPHICS_CONFIG
+})
 
 const renderer = new CanvasRenderer({
     ctx,
@@ -81,9 +91,9 @@ const renderer = new CanvasRenderer({
     graphicsConfig: GRAPHICS_CONFIG,
     pathRenderer,
     entityRenderer,
-    towerRenderer
+    towerRenderer,
+    projectileRenderer
 });
-
 
 const ui = new UIManager({
     root: document.querySelector("#game-ui"),

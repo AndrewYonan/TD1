@@ -1,7 +1,7 @@
 
 export default class CanvasRenderer {
 
-    constructor({ctx, width, height, graphicsConfig, pathRenderer, entityRenderer, towerRenderer}) {
+    constructor({ctx, width, height, graphicsConfig, pathRenderer, entityRenderer, towerRenderer, projectileRenderer}) {
 
         this.ctx = ctx;
         this.width = width;
@@ -10,6 +10,7 @@ export default class CanvasRenderer {
         this.pathRenderer = pathRenderer;
         this.entityRenderer = entityRenderer;
         this.towerRenderer = towerRenderer;
+        this.projectileRenderer = projectileRenderer;
         
     }
 
@@ -22,6 +23,7 @@ export default class CanvasRenderer {
         this.clear();
         this.renderPath(pathRenderPoints, movementPoints);
         this.renderEntities(snapshot.entityData);
+        this.renderProjectiles(snapshot.projectileData)
         this.renderTowers(snapshot.towerData);
 
     }   
@@ -55,6 +57,17 @@ export default class CanvasRenderer {
     renderTowers(towerData) {
         for (const entry of towerData) {
             this.towerRenderer.renderTower(
+                this.ctx,
+                entry.position,
+                entry.angle,
+                entry.type
+            )
+        }
+    }
+
+    renderProjectiles(projectileData) {
+        for (const entry of projectileData) {
+            this.projectileRenderer.renderProjectile(
                 this.ctx,
                 entry.position,
                 entry.angle,

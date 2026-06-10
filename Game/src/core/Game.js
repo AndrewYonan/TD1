@@ -1,9 +1,9 @@
-import UnitTower from "../towers/UnitTower.js";
+
 
 export default class Game {
 
     constructor({worldFactory, renderer, ui, input, clock, gameConfig}) {
-
+        
         this.worldFactory = worldFactory;
         this.renderer = renderer;
         this.ui = ui;
@@ -42,9 +42,6 @@ export default class Game {
         this.world = this.worldFactory.makeDefaultWorld({
             round: this.config.STARTING_ROUND,
             pathPreset: this.config.PATH_PRESET});
-        
-        const testTower = new UnitTower(300, 260);
-        this.world.addTower(testTower);
 
         this.render();
         this.syncUI();

@@ -25,6 +25,15 @@ export const TOWER_GRAPHICS_CONFIG = {
 }
 
 
+export const PROJECTILE_GRAPHICS_CONFIG = {
+    "unit" : {
+        main: "rgb(51, 51, 51)",
+        length: 20,
+        thickness: 5
+    }
+}
+
+
 export const ENTITY_GRAPHICS_CONFIG = {
 
     1 : {
