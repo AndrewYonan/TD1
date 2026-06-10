@@ -81,13 +81,13 @@ button:focus {
     justify-content: center;
 }
 
-
 #tower-menu {
     position: absolute;
     top: 110px;
     right: 25px;
     height: 80%;      
     z-index: 1;
+    display: none;
   }
   
   #tower-menu tr {

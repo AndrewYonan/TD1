@@ -5,6 +5,7 @@ export default class World {
     constructor({gamePath, entityFactory, roundSystem, startingLives, startingMoney, startingRound}) {
 
         this.entities = [];
+        this.towers = [];
         this.gamePath = gamePath;
         this.entityFactory = entityFactory;
         this.lives = startingLives;
@@ -35,6 +36,10 @@ export default class World {
         return (this.spawningDone && this.entities.length == 0) || this.isGameOver();
     }
 
+    addTower(tower) {
+        this.towers.push(tower);
+    }
+
     spawnEntity(rank) {
 
         const entity = this.entityFactory.create(rank, this.gamePath.getMovementPoints());
@@ -47,6 +52,7 @@ export default class World {
         if (this.roundComplete()) this.roundActive = false;
 
         this.updateEntities(dt);
+        this.updateTowers(dt);
 
         if (!this.roundActive) return;
 
@@ -63,7 +69,8 @@ export default class World {
                 renderPoints: this.gamePath.getRenderPoints(),
                 movementPoints: this.gamePath.getMovementPoints()
             },
-            entityData: this.entities.map(entity => entity.getRenderSnapshot())
+            entityData: this.entities.map(entity => entity.getRenderSnapshot()),
+            towerData: this.towers.map(tower => tower.getRenderSnapshot())
         };
     }
 
@@ -91,6 +98,12 @@ export default class World {
                 this.entities[i].update(dt);
                 i++;
             }
+        }
+    }
+
+    updateTowers(dt) {
+        for (let i = 0; i < this.towers.length; ++i) {
+            this.towers[i].update(dt, this.entities);
         }
     }
 }

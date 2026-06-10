@@ -5,6 +5,8 @@ import EntityFactory from "./entities/EntityFactory.js";
 import RoundSystemFactory from "./round/RoundSystemFactory.js";
 import BezierPathBuilder from "./path/BezierPathBuilder.js";
 import CanvasRenderer from "./rendering/CanvasRenderer.js";
+import TowerRenderer from "./rendering/TowerRenderer.js";
+import EntityRenderer from "./rendering/EntityRenderer.js";
 import UIManager from "./ui/UIManager.js";
 import InputController from "./input/InputController.js";
 import Clock from "./core/Clock.js";
@@ -15,6 +17,8 @@ import { PATH_CONFIG } from "./config/PathConfig.js";
 import { GAME_CONFIG } from "./config/GameConfig.js";
 import { ROUND_CONFIG } from "./config/RoundConfig.js";
 import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import { TOWER_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 
 
 // **********************************************************************
@@ -55,12 +59,22 @@ const worldFactory = new WorldFactory({
     bezierPathBuilder
 });
 
+const entityRenderer = new EntityRenderer({
+    config: ENTITY_GRAPHICS_CONFIG
+})
+
+const towerRenderer = new TowerRenderer({
+    config: TOWER_GRAPHICS_CONFIG
+})
+
 
 const renderer = new CanvasRenderer({
     ctx,
     width: GAME_CONFIG.WIDTH,
     height: GAME_CONFIG.HEIGHT,
-    graphicsConfig: GRAPHICS_CONFIG
+    graphicsConfig: GRAPHICS_CONFIG,
+    entityRenderer,
+    towerRenderer
 });
 
 

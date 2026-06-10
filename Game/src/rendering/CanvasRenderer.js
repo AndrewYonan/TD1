@@ -1,12 +1,14 @@
 
 export default class CanvasRenderer {
 
-    constructor({ctx, width, height, graphicsConfig}) {
+    constructor({ctx, width, height, graphicsConfig, entityRenderer, towerRenderer}) {
 
         this.ctx = ctx;
         this.width = width;
         this.height = height;
         this.graphicsConfig = graphicsConfig;
+        this.entityRenderer = entityRenderer;
+        this.towerRenderer = towerRenderer;
         
     }
 
@@ -24,6 +26,7 @@ export default class CanvasRenderer {
         }
         
         this.renderEntities(snapshot.entityData);
+        this.renderTowers(snapshot.towerData);
     }   
 
     clear() {
@@ -64,23 +67,23 @@ export default class CanvasRenderer {
 
     renderEntities(entityData) {
         for (const entry of entityData) {
-            this.renderEntity(
+            this.entityRenderer.renderEntity(
+                this.ctx,
                 entry.position, 
-                entry.rank);
+                entry.rank
+            );
         }
     }
 
-    renderEntity(position, rank) {
 
-        const color = this.graphicsConfig.ENTITY_RANK_APPEARANCE[rank].color;
-        const size = this.graphicsConfig.ENTITY_RANK_APPEARANCE[rank].size;
-
-        this.ctx.lineWidth = 1;
-        this.ctx.fillStyle = color;
-        this.ctx.strokeStyle = "#fff";
-        this.ctx.beginPath();
-        this.ctx.arc(position.x, position.y, size, 0, 2 * Math.PI);
-        this.ctx.fill();
-        this.ctx.stroke();
+    renderTowers(towerData) {
+        for (const entry of towerData) {
+            this.towerRenderer.renderTower(
+                this.ctx,
+                entry.position,
+                entry.angle,
+                entry.type
+            )
+        }
     }
 }

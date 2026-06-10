@@ -1,5 +1,16 @@
 
-const ENTITY_RANK_APPEARANCE = {
+export const TOWER_GRAPHICS_CONFIG = {
+    "unit" : {
+        main: "rgb(255, 200, 133)",
+        accent: "rgb(32, 32, 32)",
+        barrelRadius: 15,
+        barrelLength: 25,
+        size: 30
+    }
+}
+
+
+export const ENTITY_GRAPHICS_CONFIG = {
 
     1 : {
         color: "rgb(240, 98, 98)",
@@ -38,5 +49,4 @@ export const GRAPHICS_CONFIG = {
 
     BG_MAIN_COLOR: "rgb(193, 255, 146)",
     PATH_COLOR: "rgb(51, 51, 51)",
-    ENTITY_RANK_APPEARANCE
 }
