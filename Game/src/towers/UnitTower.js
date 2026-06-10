@@ -9,12 +9,40 @@ export default class UnitTower {
         this.fireRate = 1;
         this.range = 100;
 
+        this.target = null;
         this.fireCooldownTimer = 0;
-        this.gunArmAngle = 0;
+        this.gunAngle = 0;
     }
 
     inRangeOf(entity) {
-        return dist(this.loc, entity.loc) < this.range;
+        if (!entity) return false;
+        return dist(this.loc, entity.loc) <= this.range;
+    }
+
+    watchTarget() {
+        if (!this.target) return;
+        const dir = this.target.loc.sub(this.loc);
+        this.gunAngle = this.getGunAngle(dir);
+    }
+
+    targetOutOfRange() {
+        if (!this.target) return true;
+        return dist(this.loc, this.target.loc) > this.range;
+    }
+
+    getGunAngle(dir) {
+        if (dir.x == 0) {
+            if (dir.y > 0) {
+                return Math.PI/2;
+            }
+            else {
+                return -Math.PI/2;
+            }
+        }
+        if (dir.x < 0) {
+            return Math.PI + Math.atan(dir.y / dir.x);
+        }
+        return Math.atan(dir.y / dir.x);
     }
 
     closest(entities) {
@@ -30,35 +58,31 @@ export default class UnitTower {
         return entity;
     }
 
-    first() {
-        //TODO
-    }
-
-    last() {
-        //TODO
-    }
-
-    strong() {
-        //TODO
-    }
-
     update(dt, entities) {
+        if (this.targetOutOfRange()) this.target == null;
+        if (!this.findTarget(entities)) return;
+        this.watchTarget();
+    }
+
+    findTarget(entities) {
         for (let i = 0; i < entities.length; ++i) {
             if (this.inRangeOf(entities[i])) {
-                this.fire();
+                this.target = entities[i];
+                return true;
             }
-        }  
+        }
+        return false;
     }
 
     fire() {
         console.log("Fire");
-        this.fireCooldownTimer = 1 / this.fireRate
+        this.fireCooldownTimer = 1 / this.fireRate;
     }
 
     getRenderSnapshot() {
         return {
             position: this.loc,
-            angle: this.gunArmAngle,
+            angle: this.gunAngle,
             type: this.type
         }
     }

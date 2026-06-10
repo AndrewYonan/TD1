@@ -12,7 +12,6 @@ export default class TowerRenderer {
 
     renderUnitTower(ctx, position, angle) {
 
-        const N = 3;
         const M = 10;
         const unitConfig = this.config["unit"];
         const main = unitConfig.main;
@@ -21,24 +20,31 @@ export default class TowerRenderer {
         const barrelRadius = unitConfig.barrelRadius;
         const barrelLength = unitConfig.barrelLength;
 
-        ctx.fillStyle = main;
+        ctx.fillStyle = accent;
         ctx.strokeStyle = accent;
         ctx.lineWidth = 1;
 
-        ctx.fillStyle = accent;
+
+        ctx.save();
+
+        ctx.translate(position.x, position.y);
+        ctx.rotate(angle);
+
+        //==========================
+        
         ctx.beginPath();
-        ctx.rect(position.x + size - M, position.y - barrelRadius/2, barrelLength, barrelRadius/4)
+        ctx.rect(0 + size - M, 0 - barrelRadius/2, barrelLength, barrelRadius/4)
         ctx.stroke();
         ctx.fill();
 
         ctx.beginPath();
-        ctx.rect(position.x + size - M, position.y + barrelRadius/4, barrelLength, barrelRadius/4)
+        ctx.rect(0 + size - M, 0 + barrelRadius/4, barrelLength, barrelRadius/4)
         ctx.stroke();
         ctx.fill();
 
         ctx.fillStyle = main;
         ctx.beginPath();
-        ctx.arc(position.x, position.y, size, 0, 2 * Math.PI);
+        ctx.arc(0, 0, size, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
 
@@ -46,12 +52,16 @@ export default class TowerRenderer {
         ctx.lineCap = "square";
 
         ctx.beginPath();
-        ctx.arc(position.x, position.y, size, Math.PI/6, 3 * Math.PI/4);
+        ctx.arc(0, 0, size, Math.PI/6, 3 * Math.PI/4);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(position.x, position.y, size, 7 * Math.PI/6, 11 * Math.PI/6);
+        ctx.arc(0, 0, size, 7 * Math.PI/6, 11 * Math.PI/6);
         ctx.stroke();
+
+        //==========================
+
+        ctx.restore();
 
     }
 }

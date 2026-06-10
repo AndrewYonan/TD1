@@ -7,11 +7,11 @@ import { dist } from "../math/Utils.js";
 
 export default class BezierPathBuilder {
     
-    constructor({pathConfig, gameConfig, graphicsConfig}) {
+    constructor({pathConfig, gameConfig, pathGraphicsConfig}) {
 
         this.pathConfig = pathConfig;
         this.gameConfig = gameConfig;
-        this.graphicsConfig = graphicsConfig;
+        this.pathGraphicsConfig = pathGraphicsConfig;
         this.removeDuplicateCPThreshold = 5; //px
 
     }
@@ -28,7 +28,7 @@ export default class BezierPathBuilder {
 
         const renderPoints = this.buildPoints({
             controlPoints,
-            resolution: this.graphicsConfig.PATH_RENDER_RES,
+            resolution: this.pathGraphicsConfig.PATH_RENDER_RES,
             removeDuplicates: false
         });
 

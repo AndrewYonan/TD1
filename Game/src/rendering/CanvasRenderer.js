@@ -1,12 +1,13 @@
 
 export default class CanvasRenderer {
 
-    constructor({ctx, width, height, graphicsConfig, entityRenderer, towerRenderer}) {
+    constructor({ctx, width, height, graphicsConfig, pathRenderer, entityRenderer, towerRenderer}) {
 
         this.ctx = ctx;
         this.width = width;
         this.height = height;
         this.graphicsConfig = graphicsConfig;
+        this.pathRenderer = pathRenderer;
         this.entityRenderer = entityRenderer;
         this.towerRenderer = towerRenderer;
         
@@ -19,50 +20,25 @@ export default class CanvasRenderer {
         const movementPoints = snapshot.path.movementPoints;
 
         this.clear();
-        this.renderPath(pathRenderPoints);
-
-        if (this.graphicsConfig.SHOW_MOVEMENT_POINTS) {
-            this.renderMovementPoints(movementPoints);
-        }
-        
+        this.renderPath(pathRenderPoints, movementPoints);
         this.renderEntities(snapshot.entityData);
         this.renderTowers(snapshot.towerData);
+
     }   
 
     clear() {
         this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
-    renderPath(points) {
-
-        if (!points || points.length === 0) return;
-
-        this.ctx.lineCap = "round";
-        this.ctx.lineJoin = "round";
-        this.ctx.lineWidth = this.graphicsConfig.PATH_WIDTH/2;
-        this.ctx.strokeStyle = this.graphicsConfig.PATH_COLOR;
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(points[0].x, points[0].y);
-        
-        for (let i = 1; i < points.length; ++i) {this.ctx.lineTo(points[i].x, points[i].y)}
-
-        this.ctx.stroke();
-    }
-
-    renderMovementPoints(pts) {
-
-        this.ctx.strokeStyle = "#fff";
-        this.ctx.lineWidth = 5;
-
-        const r = this.graphicsConfig.MOVEMENT_POINT_RADIUS;
-
-        for (const pt of pts) {
-            this.ctx.beginPath();
-            this.ctx.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
-            this.ctx.stroke();
+    renderPath(pathRenderPoints, movementPoints) {
+        this.pathRenderer.renderPath(this.ctx, pathRenderPoints);
+        if (this.graphicsConfig.SHOW_MOVEMENT_POINTS) {
+            this.pathRenderer.renderMovementPoints(
+                this.ctx, 
+                movementPoints,
+                this.graphicsConfig.MOVEMENT_POINT_RADIUS
+            );
         }
-        
     }
 
     renderEntities(entityData) {

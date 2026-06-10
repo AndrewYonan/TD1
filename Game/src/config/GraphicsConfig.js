@@ -1,10 +1,25 @@
 
+export const GRAPHICS_CONFIG = {
+    ADAPTIVE_CANVAS_RES : true,
+    BG_MAIN_COLOR: "rgb(193, 255, 146)",
+    SHOW_MOVEMENT_POINTS: false,
+    MOVEMENT_POINT_RADIUS: 10
+}
+
+
+export const PATH_GRAPHICS_CONFIG = {
+    PATH_WIDTH: 70,
+    PATH_RENDER_RES: 5,
+    PATH_COLOR: "rgb(51, 51, 51)",
+}
+
+
 export const TOWER_GRAPHICS_CONFIG = {
     "unit" : {
-        main: "rgb(255, 200, 133)",
+        main: "rgb(255, 216, 167)",
         accent: "rgb(32, 32, 32)",
         barrelRadius: 15,
-        barrelLength: 25,
+        barrelLength: 20,
         size: 30
     }
 }
@@ -36,17 +51,4 @@ export const ENTITY_GRAPHICS_CONFIG = {
         color: "rgb(255, 98, 250)",
         size: 24
     },
-}
-
-
-export const GRAPHICS_CONFIG = {
-
-    ADAPTIVE_CANVAS_RES : true,
-    PATH_WIDTH: 80,
-    PATH_RENDER_RES: 5,
-    MOVEMENT_POINT_RADIUS: 20,
-    SHOW_MOVEMENT_POINTS: false,
-
-    BG_MAIN_COLOR: "rgb(193, 255, 146)",
-    PATH_COLOR: "rgb(51, 51, 51)",
 }
