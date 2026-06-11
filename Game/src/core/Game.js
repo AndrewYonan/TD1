@@ -23,18 +23,31 @@ export default class Game {
         this.speedMultiplier =  this.config.initialSpeedMultiplier;
         this.loop = this.loop.bind(this);
         this.bindInput();
+
+        this.currentSelectedTowerType = null;
     }
 
     bindInput() {
+
+        this.input.bindMouse({
+            onMouseClick: () => this.mouseClick()
+        });
+
         this.input.bindActions({
             onToggleRoundPlay: () => this.toggleRoundPlay(),
             onRestart: () => this.restart(),
-            onTowerSelect: () => this.selectTower()
+            onUnitTowerSelect: () => this.selectUnitTower(),
         });
     }
 
-    selectTower() {
-        console.log("Tower selected");
+    mouseClick() {
+        const mouseLoc = this.input.getMouseLoc();
+    }
+
+
+    selectUnitTower() {
+        this.currentSelectedTowerType = "unit";
+        console.log("Unit Tower selected");
     }
 
     initialize() {
@@ -125,7 +138,14 @@ export default class Game {
 
     render() {
         if (!this.world) return;
-        this.renderer.render(this.world);
+        this.renderer.render(this.world, this.getGameUIState());
+    }
+
+    getGameUIState() {
+        return {
+            mouseLoc : this.input.getMouseLoc(),
+            currentSelectedTowerType: this.currentSelectedTowerType
+        }
     }
 
     updateFPS(rawDt) {

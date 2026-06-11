@@ -39,31 +39,24 @@ export default class Entity {
     hit(damage) {
         
         this.isHit = true;
-        
-        let damageDone = 0;
+        const initialDamage = damage;
+
+        while (damage >= this.health && this.rank > 1) {
+            damage -= this.health;
+            this.rankDecrease();
+        }
 
         if (damage >= this.health) {
-            
-            damageDone = this.health;
-            let remainder = damage - this.health;
-
-            while (remainder >= 0) {
-
-                this.rankDecrease();
-
-                damageDone += remainder;
-                remainder -= this.health;   
-            }
-
-            console.log(`damageDone : ${damageDone}`);
-            return damageDone;
+            damage -= this.health;
+            this.rankDecrease();
         }
         else {
             this.health -= damage;
-            return damage;
+            damage = 0;
         }
-
         
+        return initialDamage - damage;
+
     }
 
     rankDecrease() {

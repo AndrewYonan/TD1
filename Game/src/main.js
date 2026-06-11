@@ -1,8 +1,8 @@
-
 import Game from "./core/Game.js";
 import WorldFactory from "./world/WorldFactory.js"
 import CollisionSystemFactory from "./systems/CollisionSystemFactory.js";
 import EntityFactory from "./entities/EntityFactory.js";
+import TowerFactory from "./towers/TowerFactory.js";
 import RoundSystemFactory from "./round/RoundSystemFactory.js";
 import BezierPathBuilder from "./path/BezierPathBuilder.js";
 import CanvasRenderer from "./rendering/CanvasRenderer.js";
@@ -19,12 +19,12 @@ import { ENTITY_CONFIG } from "./config/EntityConfig.js";
 import { PATH_CONFIG } from "./config/PathConfig.js";
 import { GAME_CONFIG } from "./config/GameConfig.js";
 import { ROUND_CONFIG } from "./config/RoundConfig.js";
+import { TOWER_CONFIG } from "./config/TowerConfig.js";
 import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { PATH_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js"
 import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { TOWER_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { PROJECTILE_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
-import ProjectileFactory from "./towers/ProjectileFactory.js";
 
 
 // **********************************************************************
@@ -52,6 +52,10 @@ const entityFactory = new EntityFactory({
     entityConfig : ENTITY_CONFIG
 });
 
+const towerFactory = new TowerFactory({
+    config: TOWER_CONFIG
+})
+
 const roundSystemFactory = new RoundSystemFactory({
     roundConfig: ROUND_CONFIG,
     entityConfig : ENTITY_CONFIG
@@ -63,6 +67,7 @@ const collisionSystemFactory = new CollisionSystemFactory({
 
 const worldFactory = new WorldFactory({
     entityFactory,
+    towerFactory,
     roundSystemFactory,
     collisionSystemFactory,
     gameConfig: GAME_CONFIG,
@@ -78,7 +83,8 @@ const entityRenderer = new EntityRenderer({
 })
 
 const towerRenderer = new TowerRenderer({
-    config: TOWER_GRAPHICS_CONFIG
+    towerGraphicsConfig: TOWER_GRAPHICS_CONFIG,
+    towerConfig: TOWER_CONFIG
 })
 
 const projectileRenderer = new ProjectileRenderer({
@@ -102,7 +108,8 @@ const ui = new UIManager({
 
 
 const input = new InputController({
-    root: document
+    root: document,
+    canvas
 });
 
 

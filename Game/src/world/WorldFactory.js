@@ -3,9 +3,11 @@ import ProjectileFactory from "../towers/ProjectileFactory.js";
 
 export default class WorldFactory {
 
-    constructor({entityFactory, roundSystemFactory, collisionSystemFactory, gameConfig, bezierPathBuilder}) {
+    constructor({entityFactory, towerFactory, roundSystemFactory, collisionSystemFactory, gameConfig, bezierPathBuilder}) {
+
 
         this.entityFactory = entityFactory;
+        this.towerFactory = towerFactory;
         this.roundSystemFactory = roundSystemFactory;
         this.collisionSystemFactory = collisionSystemFactory;
         this.gameConfig = gameConfig;
@@ -20,6 +22,7 @@ export default class WorldFactory {
         return new World({
             gamePath,
             entityFactory: this.entityFactory,
+            towerFactory: this.towerFactory,
             projectileFactory: new ProjectileFactory(),
             roundSystem: this.roundSystemFactory.create(),
             collisionSystem: this.collisionSystemFactory.create(),

@@ -1,0 +1,27 @@
+  killEntity(entityID) {
+        for (let i = 0; i < this.entities.length; ++i) {
+            if (this.entities[i].getUniqueID() == entityID) {
+                this.entities[i].kill();
+                this.entities.splice(i, 1);
+            }
+        }
+    }
+
+    killProjectile(projID) {
+        for (let i = 0; i < this.projectiles.length; ++i) {
+            if (this.projectiles[i].getUniqueID() == projID) {
+                this.projectiles[i].kill();
+                this.projectiles.splice(i, 1);
+            }
+        }
+    }
+
+
+
+
+
+___________________________
+
+this.root.querySelector("#electric-tower").addEventListener("click", onTowerSelect);
+        this.root.querySelector("#farm-tower").addEventListener("click", onTowerSelect);
+        this.root.querySelector("#rocket-tower").addEventListener("click", onTowerSelect);

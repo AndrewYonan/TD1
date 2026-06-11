@@ -1,20 +1,21 @@
-import Vector2 from "../math/Vector2.js";
 import { dist } from "../math/Utils.js";
 
 export default class UnitTower {
 
-    constructor(x, y, projectileSet, projectileFactory) {
+    constructor(loc, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, projectileSet, projectileFactory) {
 
+        this.loc = loc;
         this.type = "unit";
-        this.loc = new Vector2(x, y);
+        this.upgradeLevel = upgradeLevel,
         this.projectileSet = projectileSet;
         this.projectileFactory = projectileFactory;
         
-        this.fireRate = 2;
-        this.bulletSpeed = 700;
-        this.pierce = 1;
-        this.damage = 2;
-        this.range = 200;
+        this.fireRate = fireRate;
+        this.bulletSpeed = bulletSpeed;
+        this.pierce = pierce;
+        this.damage = damage;
+        this.range = range;
+
         this.target = null;
         this.fireCooldownTimer = 0;
         this.gunAngle = 0;
@@ -116,9 +117,9 @@ export default class UnitTower {
 
     getRenderSnapshot() {
         return {
+            upgradeLevel: this.upgradeLevel,
             position: this.loc,
             angle: this.gunAngle,
-            radius: this.range,
             showRadius: this.showRadius,
             type: this.type
         }

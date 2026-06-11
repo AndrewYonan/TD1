@@ -1,14 +1,14 @@
-import UnitTower from "../towers/UnitTower.js";
 
 export default class World {
 
-    constructor({gamePath, entityFactory, projectileFactory, roundSystem, collisionSystem, startingLives, startingMoney, startingRound}) {
+    constructor({gamePath, entityFactory, towerFactory, projectileFactory, roundSystem, collisionSystem, startingLives, startingMoney, startingRound}) {
 
         this.entities = [];
         this.towers = [];
         this.projectiles = [];
         this.gamePath = gamePath;
         this.entityFactory = entityFactory;
+        this.towerFactory = towerFactory;
         this.projectileFactory = projectileFactory
         this.lives = startingLives;
         this.money = startingMoney;
@@ -20,11 +20,11 @@ export default class World {
 
         this.collisionSystem = collisionSystem;
 
-        const testTower1 = new UnitTower(300, 100, this.projectiles, this.projectileFactory);
-        this.addTower(testTower1);
+        
 
-        // const testTower2 = new UnitTower(300, 210, this.projectiles, this.projectileFactory);
-        // this.addTower(testTower2);
+        const testTower1 = this.towerFactory.createUnitTower(300, 100, this.projectiles, this.projectileFactory, 0);
+
+        this.addTower(testTower1);
 
     }
 
@@ -80,10 +80,6 @@ export default class World {
         
     }
 
-    getProjectileEntityCollisions() {
-
-    }
-
     getRenderSnapshot() {
         return {
             path: {
@@ -119,24 +115,6 @@ export default class World {
             else {
                 this.entities[i].update(dt);
                 i++;
-            }
-        }
-    }
-
-    killEntity(entityID) {
-        for (let i = 0; i < this.entities.length; ++i) {
-            if (this.entities[i].getUniqueID() == entityID) {
-                this.entities[i].kill();
-                this.entities.splice(i, 1);
-            }
-        }
-    }
-
-    killProjectile(projID) {
-        for (let i = 0; i < this.projectiles.length; ++i) {
-            if (this.projectiles[i].getUniqueID() == projID) {
-                this.projectiles[i].kill();
-                this.projectiles.splice(i, 1);
             }
         }
     }
@@ -181,8 +159,8 @@ export default class World {
         const entity = this.entities[entityHitIdx];
         const entityId = entity.getUniqueID();
         const proj = this.projectiles[projIdx];
-
         const damageDone = entity.hit(proj.getDamage());
+        
         this.money += damageDone;
 
         proj.hit(entityId);

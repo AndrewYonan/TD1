@@ -1,25 +1,33 @@
 
 export default class TowerRenderer {
-    constructor({config}) {
-        this.config = config
+    constructor({towerGraphicsConfig, towerConfig}) {
+        this.towerGraphicsConfig = towerGraphicsConfig
+        this.towerConfig = towerConfig;
     }
 
-    renderTower(ctx, position, angle, radius, showRadius, type) {
+    renderTower(ctx, position, angle, showRadius, type, upgradeLevel) {
         if (type === "unit") {
-            this.renderUnitTower(ctx, position, angle, radius, showRadius);
+            this.renderUnitTower(ctx, position, angle, upgradeLevel, showRadius);
         } 
     }
 
-    renderUnitTower(ctx, position, angle, radius, showRadius) {
+    renderGhostTower(ctx, position, type) {
+        if (type === "unit") {
+            this.renderUnitTower(ctx, position, 0, 0, true);
+        }
+    }
+
+    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius) {
 
         const M = 10;
-        const unitConfig = this.config["unit"];
-        const main = unitConfig.main;
-        const accent = unitConfig.accent;
-        const field = unitConfig.rangeField;
-        const size = unitConfig.size;
-        const barrelRadius = unitConfig.barrelRadius;
-        const barrelLength = unitConfig.barrelLength;
+        const graphicsConfig = this.towerGraphicsConfig["unit"];
+        const main = graphicsConfig.main;
+        const accent = graphicsConfig.accent;
+        const field = graphicsConfig.rangeField;
+        const size = graphicsConfig.size;
+        const barrelRadius = graphicsConfig.barrelRadius;
+        const barrelLength = graphicsConfig.barrelLength;
+        const radius = this.towerConfig["unit"][upgradeLevel].range;
 
         ctx.fillStyle = accent;
         ctx.strokeStyle = accent;

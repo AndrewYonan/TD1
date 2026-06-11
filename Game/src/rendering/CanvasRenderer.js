@@ -14,7 +14,7 @@ export default class CanvasRenderer {
         
     }
 
-    render(world) {
+    render(world, gameUISnapshot) {
 
         const snapshot = world.getRenderSnapshot();
         const pathRenderPoints = snapshot.path.renderPoints;
@@ -25,6 +25,7 @@ export default class CanvasRenderer {
         this.renderEntities(snapshot.entityData);
         this.renderProjectiles(snapshot.projectileData)
         this.renderTowers(snapshot.towerData);
+        this.renderCurrentGrabbedTower(gameUISnapshot);
 
     }   
 
@@ -60,9 +61,9 @@ export default class CanvasRenderer {
                 this.ctx,
                 entry.position,
                 entry.angle,
-                entry.radius,
                 entry.showRadius,
-                entry.type
+                entry.type,
+                entry.upgradeLevel
             )
         }
     }
@@ -76,5 +77,13 @@ export default class CanvasRenderer {
                 entry.type
             )
         }
+    }
+
+    renderCurrentGrabbedTower(gameUISnapshot) {
+        this.towerRenderer.renderGhostTower(
+            this.ctx,
+            gameUISnapshot.mouseLoc,
+            gameUISnapshot.currentSelectedTowerType
+        )
     }
 }

@@ -92,7 +92,6 @@ button:focus {
     right: 25px;
     height: 80%;      
     z-index: 1;
-    display: none;
   }
   
   #tower-menu tr {
