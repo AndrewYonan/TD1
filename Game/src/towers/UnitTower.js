@@ -1,21 +1,24 @@
-import UnitBullet from "./UnitBullet.js";
 import Vector2 from "../math/Vector2.js";
 import { dist } from "../math/Utils.js";
 
 export default class UnitTower {
 
-    constructor(x, y, projectileSet) {
+    constructor(x, y, projectileSet, projectileFactory) {
+
         this.type = "unit";
         this.loc = new Vector2(x, y);
         this.projectileSet = projectileSet;
+        this.projectileFactory = projectileFactory;
         
-        this.fireRate = 1;
-        this.bulletSpeed = 500;
-        this.pierce = 2;
+        this.fireRate = 2;
+        this.bulletSpeed = 700;
+        this.pierce = 1;
+        this.damage = 2;
         this.range = 200;
         this.target = null;
         this.fireCooldownTimer = 0;
         this.gunAngle = 0;
+        this.showRadius = true;
     }
 
     inRangeOf(entity) {
@@ -23,10 +26,11 @@ export default class UnitTower {
         return dist(this.loc, entity.loc) <= this.range;
     }
 
-    watchTarget() {
-        if (!this.target) return;
+    locateTarget() {
+        if (!this.target) return false;
         const dir = this.target.loc.sub(this.loc);
         this.gunAngle = this.getGunAngle(dir);
+        return true;
     }
 
     targetOutOfRange() {
@@ -65,18 +69,26 @@ export default class UnitTower {
 
     update(dt, entities) {
 
-        if (this.fireCooldownTimer > 0) {
-            this.fireCooldownTimer = Math.max(0, this.fireCooldownTimer - dt);
-        }
+        this.updateCooldownTimer(dt);
 
-        this.watchTarget();
+        if (this.target && this.fireCooldownTimer == 0) {
+            if (this.locateTarget()) this.fire();
+        } 
 
-        if (this.target && this.fireCooldownTimer == 0) this.fire();
-
-        if (this.targetOutOfRange()) {
+        if (this.targetIsHit() || this.targetOutOfRange()) {
             this.target = null;
             this.findTarget(entities)
         } 
+    }
+
+    targetIsHit() {
+        return this.target && this.target.isHit;
+    }
+
+    updateCooldownTimer(dt) {
+        if (this.fireCooldownTimer > 0) {
+            this.fireCooldownTimer = Math.max(0, this.fireCooldownTimer - dt);
+        }
     }
 
     findTarget(entities) {
@@ -90,14 +102,13 @@ export default class UnitTower {
     }
 
     fire() {
-
-        const bullet = new UnitBullet(
+        const bullet = this.projectileFactory.create(
+            "unit", 
             this.loc, 
             this.gunAngle, 
             this.bulletSpeed, 
-            this.pierce
-        );
-        
+            this.pierce, 
+            this.damage);
         this.projectileSet.push(bullet);
         this.fireCooldownTimer = 1 / this.fireRate;
         this.target = null;
@@ -107,6 +118,8 @@ export default class UnitTower {
         return {
             position: this.loc,
             angle: this.gunAngle,
+            radius: this.range,
+            showRadius: this.showRadius,
             type: this.type
         }
     }

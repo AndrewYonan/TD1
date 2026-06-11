@@ -52,7 +52,7 @@ export const ROUND_CONFIG = {
     6: {
         waves: [{
             rank: 3,
-            count: 10,
+            count: 1,
             spacing: 50
         }]
     },

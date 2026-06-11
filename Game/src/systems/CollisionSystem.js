@@ -27,24 +27,4 @@ export default class CollisionSystem {
         }
         return -1;
     }
-
-    // getCollisions() {
-        
-    //     let colSet = [];
-
-    //     for (let i = 0; i < this.buffer.length; ++i) {
-    //         for (let j = i + 1; j < this.buffer.length; ++j) {
-    //             if (i != j) {
-    //                 if (this.colliding(this.buffer[i], this.buffer[j])) {
-    //                     colSet.push({
-    //                         obj1: this.buffer[i],
-    //                         obj2: this.buffer[j]
-    //                     });
-    //                 }
-    //             }
-    //         }
-    //     }
-
-        // return colSet;
-    // }
 }

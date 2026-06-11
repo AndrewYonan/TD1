@@ -4,6 +4,7 @@ export default class EntityFactory {
 
     constructor({entityConfig}) {
         this.entityConfig = entityConfig;
+        this.IDCount = 0;
     }
 
     create(rank, pathPoints) {
@@ -16,11 +17,13 @@ export default class EntityFactory {
             throw new Error(`Unknown entity rank ${rank}`);
         }
 
+        this.IDCount++;
+
         return new Entity({
             rank, 
-            speed: config.speed,    
-            health: config.health, 
-            pathPoints
+            pathPoints,
+            entityConfig: this.entityConfig,
+            uniqueID: this.IDCount
         });
     }
 }

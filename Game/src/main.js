@@ -24,6 +24,7 @@ import { PATH_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js"
 import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { TOWER_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { PROJECTILE_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import ProjectileFactory from "./towers/ProjectileFactory.js";
 
 
 // **********************************************************************

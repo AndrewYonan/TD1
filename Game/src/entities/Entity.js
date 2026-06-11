@@ -1,12 +1,16 @@
 
 export default class Entity {
 
-    constructor({rank, speed, health, pathPoints}) {
+    constructor({rank, pathPoints, entityConfig, uniqueID}) {
 
         this.rank = rank;
-        this.speed = speed;
-        this.health = health;
+        this.entityConfig = entityConfig;
+        this.speed = entityConfig[rank].speed;
+        this.health = entityConfig[rank].health;
+        this.isHit = false;
+        this.dead = false;
         this.targetIdx = 1;
+        this.uniqueID = uniqueID;
 
         this.pathPoints = pathPoints;
         
@@ -23,6 +27,67 @@ export default class Entity {
         this.t = 0;
 
     } 
+
+    getUniqueID() {
+        return this.uniqueID;
+    }
+
+    kill() {
+        this.dead = true;
+    }
+
+    hit(damage) {
+        
+        this.isHit = true;
+        
+        let damageDone = 0;
+
+        if (damage >= this.health) {
+            
+            damageDone = this.health;
+            let remainder = damage - this.health;
+
+            while (remainder >= 0) {
+
+                this.rankDecrease();
+
+                damageDone += remainder;
+                remainder -= this.health;   
+            }
+
+            console.log(`damageDone : ${damageDone}`);
+            return damageDone;
+        }
+        else {
+            this.health -= damage;
+            return damage;
+        }
+
+        
+    }
+
+    rankDecrease() {
+        if (this.rank > 1) {
+            this.rank--;
+            this.updateSpeed();
+            this.updateHealth();
+        }
+        else {
+            this.dead = true;    
+        }
+    }
+
+    updateSpeed() {
+        this.speed = this.entityConfig[this.rank].speed;
+    }
+
+    updateHealth() {
+        this.health = this.entityConfig[this.rank].health;
+    }
+
+    isDead() {
+        return this.dead;
+    }
 
     pathLength() {
         return this.pathPoints.length;

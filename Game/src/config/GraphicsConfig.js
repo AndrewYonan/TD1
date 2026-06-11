@@ -18,6 +18,7 @@ export const TOWER_GRAPHICS_CONFIG = {
     "unit" : {
         main: "rgb(255, 216, 167)",
         accent: "rgb(32, 32, 32)",
+        rangeField: "rgba(30, 30, 30, 0.39)",
         barrelRadius: 15,
         barrelLength: 20,
         size: 30
@@ -27,7 +28,7 @@ export const TOWER_GRAPHICS_CONFIG = {
 
 export const PROJECTILE_GRAPHICS_CONFIG = {
     "unit" : {
-        main: "rgb(51, 51, 51)",
+        main: "rgb(46, 46, 46)",
         length: 20,
         thickness: 5
     }

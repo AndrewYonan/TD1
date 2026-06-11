@@ -4,18 +4,19 @@ export default class TowerRenderer {
         this.config = config
     }
 
-    renderTower(ctx, position, angle, type) {
+    renderTower(ctx, position, angle, radius, showRadius, type) {
         if (type === "unit") {
-            this.renderUnitTower(ctx, position, angle);
+            this.renderUnitTower(ctx, position, angle, radius, showRadius);
         } 
     }
 
-    renderUnitTower(ctx, position, angle) {
+    renderUnitTower(ctx, position, angle, radius, showRadius) {
 
         const M = 10;
         const unitConfig = this.config["unit"];
         const main = unitConfig.main;
         const accent = unitConfig.accent;
+        const field = unitConfig.rangeField;
         const size = unitConfig.size;
         const barrelRadius = unitConfig.barrelRadius;
         const barrelLength = unitConfig.barrelLength;
@@ -24,9 +25,16 @@ export default class TowerRenderer {
         ctx.strokeStyle = accent;
         ctx.lineWidth = 1;
 
+        if (showRadius) {
+            ctx.fillStyle = field;
+            ctx.beginPath();
+            ctx.arc(position.x, position.y, radius, 0, 2 * Math.PI);
+            ctx.fill();
+        }
 
+        ctx.fillStyle = main;
+        
         ctx.save();
-
         ctx.translate(position.x, position.y);
         ctx.rotate(angle);
 

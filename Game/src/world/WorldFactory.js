@@ -1,4 +1,5 @@
 import World from "./World.js";
+import ProjectileFactory from "../towers/ProjectileFactory.js";
 
 export default class WorldFactory {
 
@@ -19,6 +20,7 @@ export default class WorldFactory {
         return new World({
             gamePath,
             entityFactory: this.entityFactory,
+            projectileFactory: new ProjectileFactory(),
             roundSystem: this.roundSystemFactory.create(),
             collisionSystem: this.collisionSystemFactory.create(),
             startingLives: this.gameConfig.STARTING_LIVES,

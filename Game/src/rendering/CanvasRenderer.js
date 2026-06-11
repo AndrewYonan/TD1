@@ -60,6 +60,8 @@ export default class CanvasRenderer {
                 this.ctx,
                 entry.position,
                 entry.angle,
+                entry.radius,
+                entry.showRadius,
                 entry.type
             )
         }

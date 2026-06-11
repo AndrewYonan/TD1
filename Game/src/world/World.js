@@ -2,13 +2,14 @@ import UnitTower from "../towers/UnitTower.js";
 
 export default class World {
 
-    constructor({gamePath, entityFactory, roundSystem, collisionSystem, startingLives, startingMoney, startingRound}) {
+    constructor({gamePath, entityFactory, projectileFactory, roundSystem, collisionSystem, startingLives, startingMoney, startingRound}) {
 
         this.entities = [];
         this.towers = [];
         this.projectiles = [];
         this.gamePath = gamePath;
         this.entityFactory = entityFactory;
+        this.projectileFactory = projectileFactory
         this.lives = startingLives;
         this.money = startingMoney;
 
@@ -19,8 +20,11 @@ export default class World {
 
         this.collisionSystem = collisionSystem;
 
-        const testTower = new UnitTower(300, 250, this.projectiles);
-        this.addTower(testTower);
+        const testTower1 = new UnitTower(300, 100, this.projectiles, this.projectileFactory);
+        this.addTower(testTower1);
+
+        // const testTower2 = new UnitTower(300, 210, this.projectiles, this.projectileFactory);
+        // this.addTower(testTower2);
 
     }
 
@@ -119,6 +123,24 @@ export default class World {
         }
     }
 
+    killEntity(entityID) {
+        for (let i = 0; i < this.entities.length; ++i) {
+            if (this.entities[i].getUniqueID() == entityID) {
+                this.entities[i].kill();
+                this.entities.splice(i, 1);
+            }
+        }
+    }
+
+    killProjectile(projID) {
+        for (let i = 0; i < this.projectiles.length; ++i) {
+            if (this.projectiles[i].getUniqueID() == projID) {
+                this.projectiles[i].kill();
+                this.projectiles.splice(i, 1);
+            }
+        }
+    }
+
     updateProjectiles(dt) {
 
         let i = 0;
@@ -127,25 +149,54 @@ export default class World {
 
             if (this.collisionSystem.offScreen(this.projectiles[i])) {
                 this.projectiles.splice(i, 1);
+                continue;
             }
 
-            else {
+            const proj = this.projectiles[i];
+            const entityCollideIdx = this.collisionSystem.getSingleCollision(proj, this.entities);
+            const entity = this.entities[entityCollideIdx];
+            let projectileKilled = false;
 
-                const entityCollideIdx = this.collisionSystem.getSingleCollision(this.projectiles[i], this.entities);
-                console.log(entityCollideIdx);
-
-                if (entityCollideIdx > -1) {
-                    this.entities.splice(entityCollideIdx, 1);
-                    this.projectiles.splice(i, 1);
+            if (entityCollideIdx > -1) {
+                if (this.isFreshCollision(proj,entity)) {
+                    if (this.projectileHitRoutine(entityCollideIdx, i)) {
+                        projectileKilled = true;
+                    }
                 }
+            }
 
-                else {
-                    this.projectiles[i].update(dt);
-                    i++;
-                }
-            }   
+            if (!projectileKilled) {
+                this.projectiles[i].update(dt);
+                i++;
+            }      
         }
     }
+
+    isFreshCollision(proj, entity) {
+        return proj.getMostRecentlyHitID() != entity.getUniqueID();
+    }
+
+    projectileHitRoutine(entityHitIdx, projIdx) {
+
+        const entity = this.entities[entityHitIdx];
+        const entityId = entity.getUniqueID();
+        const proj = this.projectiles[projIdx];
+
+        const damageDone = entity.hit(proj.getDamage());
+        this.money += damageDone;
+
+        proj.hit(entityId);
+
+        if (entity.isDead()) this.entities.splice(entityHitIdx, 1);
+
+        if (proj.isDead()) {
+            this.projectiles.splice(projIdx, 1);
+            return true;
+        }
+
+        return false;
+    }
+
 
     updateTowers(dt) {
         for (let i = 0; i < this.towers.length; ++i) {
