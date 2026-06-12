@@ -1,9 +1,10 @@
 
 export default class Entity {
 
-    constructor({rank, pathPoints, entityConfig, uniqueID}) {
+    constructor({rank, size, pathPoints, entityConfig, uniqueID}) {
 
         this.rank = rank;
+        this.size = size;
         this.entityConfig = entityConfig;
         this.speed = entityConfig[rank].speed;
         this.health = entityConfig[rank].health;
@@ -88,6 +89,10 @@ export default class Entity {
 
     getSpeed() {
         return this.speed
+    }
+
+    getVelocity() {
+        return this.getSegmentVec().normalized().mult(this.speed);
     }
 
     getHealth() {

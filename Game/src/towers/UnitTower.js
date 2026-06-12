@@ -2,9 +2,10 @@ import { dist } from "../math/Utils.js";
 
 export default class UnitTower {
 
-    constructor(loc, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, projectileSet, projectileFactory, uniqueID) {
+    constructor(loc, size, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, smartAim, projectileSet, projectileFactory, uniqueID) {
 
         this.loc = loc;
+        this.size = size;
         this.type = "unit";
         this.upgradeLevel = upgradeLevel,
         this.projectileSet = projectileSet;
@@ -15,6 +16,7 @@ export default class UnitTower {
         this.pierce = pierce;
         this.damage = damage;
         this.range = range;
+        this.smartAim = smartAim;
 
         this.target = null;
         this.fireCooldownTimer = 0;
@@ -40,11 +42,33 @@ export default class UnitTower {
         return dist(this.loc, entity.loc) <= this.range;
     }
 
-    locateTarget() {
+    pointAtTarget() {
         if (!this.target) return false;
         const dir = this.target.loc.sub(this.loc);
         this.gunAngle = this.getGunAngle(dir);
         return true;
+    }
+
+    pointAheadOfTarget() {
+
+        if (!this.target) return false;
+        const targetV = this.target.getVelocity();
+        const d = dist(this.loc, this.target.loc);
+        const bulletTransitTime = d / this.bulletSpeed;
+        const nextLoc = this.target.loc.add(targetV.mult(bulletTransitTime * 0.9));
+        const dir = nextLoc.sub(this.loc);
+
+        this.gunAngle = this.getGunAngle(dir);
+        return true;
+    }
+
+    targetLock() {
+        if (this.smartAim) {
+            return this.pointAheadOfTarget();
+        }
+        else {
+            return this.pointAtTarget();
+        }
     }
 
     targetOutOfRange() {
@@ -86,7 +110,7 @@ export default class UnitTower {
         this.updateCooldownTimer(dt);
 
         if (this.target && this.fireCooldownTimer == 0) {
-            if (this.locateTarget()) this.fire();
+            if (this.targetLock()) this.fire();
         } 
 
         if (this.targetIsHit() || this.targetOutOfRange()) {

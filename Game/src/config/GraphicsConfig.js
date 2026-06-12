@@ -8,12 +8,12 @@ export const GRAPHICS_CONFIG = {
     MOVEMENT_POINT_COLOR: "rgb(255, 255, 255)",
     MOVEMENT_POINT_RADIUS: 10,
     SHOW_MOVEMENT_POINTS: false,
-    SHOW_COLLISION_BUFFER: false
+    SHOW_COLLISION_BUFFER: false  
 }
 
 
 export const PATH_GRAPHICS_CONFIG = {
-    PATH_WIDTH: 50,
+    PATH_WIDTH: 40,
     PATH_RENDER_RES: 5,
     PATH_COLOR: "rgb(51, 51, 51)",
 }
@@ -24,10 +24,10 @@ export const TOWER_GRAPHICS_CONFIG = {
     forbiddenRangeColor : "rgba(245, 37, 37, 0.37)",
 
     "unit" : {
-        main: "rgb(255, 216, 167)",
+        main: "rgb(118, 198, 119)",
         accent: "rgb(32, 32, 32)",
         rangeField: "rgba(30, 30, 30, 0.39)",
-        barrelRadius: 15,
+        barrelRadius: 20,
         barrelLength: 20,
         size: 30
     }

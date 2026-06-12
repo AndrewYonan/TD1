@@ -5,7 +5,7 @@ export const GAME_CONFIG = {
     PATH_MOVEMENT_RES: 20,
     PATH_COLLISION_RES: 50,
 
-    PATH_PRESET : "path0",
+    PATH_PRESET : "path1",
     STARTING_LIVES: 250,
     STARTING_MONEY: 650,
     STARTING_ROUND: 1

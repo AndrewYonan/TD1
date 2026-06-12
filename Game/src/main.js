@@ -49,11 +49,13 @@ const bezierPathBuilder = new BezierPathBuilder({
 
 
 const entityFactory = new EntityFactory({
-    entityConfig : ENTITY_CONFIG
+    entityConfig : ENTITY_CONFIG,
+    entityGraphicsConfig: ENTITY_GRAPHICS_CONFIG
 });
 
 const towerFactory = new TowerFactory({
-    config: TOWER_CONFIG
+    towerConfig: TOWER_CONFIG,
+    towerGraphicsConfig: TOWER_GRAPHICS_CONFIG
 })
 
 const roundSystemFactory = new RoundSystemFactory({

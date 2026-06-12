@@ -8,6 +8,7 @@ export default class CollisionSystem {
         this.height = height;
         this.collisionThreshold = 20;
         this.offScreenMargin = 10;
+        this.projectileHitMargin = 10;
         this.towerGraphicsConfig = towerGraphicsConfig;
     }
 
@@ -68,7 +69,7 @@ export default class CollisionSystem {
 
     getProjEntityCollision(proj, entities) {
         for (let i = 0; i < entities.length; ++i) {
-            if ((dist(proj.loc, entities[i].loc)) <= this.collisionThreshold) {
+            if ((dist(proj.loc, entities[i].loc)) <= entities[i].size + this.projectileHitMargin) {
                 return i;
             }
         }
