@@ -1,14 +1,19 @@
 
 export const GRAPHICS_CONFIG = {
+
     ADAPTIVE_CANVAS_RES : true,
     BG_MAIN_COLOR: "rgb(193, 255, 146)",
+
+    COLLISION_COLOR: "rgb(255, 29, 29)",
+    MOVEMENT_POINT_COLOR: "rgb(255, 255, 255)",
+    MOVEMENT_POINT_RADIUS: 10,
     SHOW_MOVEMENT_POINTS: false,
-    MOVEMENT_POINT_RADIUS: 10
+    SHOW_COLLISION_BUFFER: false
 }
 
 
 export const PATH_GRAPHICS_CONFIG = {
-    PATH_WIDTH: 70,
+    PATH_WIDTH: 50,
     PATH_RENDER_RES: 5,
     PATH_COLOR: "rgb(51, 51, 51)",
 }

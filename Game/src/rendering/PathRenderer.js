@@ -1,7 +1,8 @@
 
 export default class PathRenderer {
-    constructor({config}) {
-        this.config = config
+    constructor({pathGraphicsConfig, graphicsConfig}) {
+        this.pathGraphicsConfig = pathGraphicsConfig;
+        this.graphicsConfig = graphicsConfig;
     }
 
     renderPath(ctx, points) {
@@ -10,8 +11,8 @@ export default class PathRenderer {
 
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
-        ctx.lineWidth = this.config.PATH_WIDTH/2;
-        ctx.strokeStyle = this.config.PATH_COLOR;
+        ctx.lineWidth = this.pathGraphicsConfig.PATH_WIDTH;
+        ctx.strokeStyle = this.pathGraphicsConfig.PATH_COLOR;
 
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
@@ -23,7 +24,7 @@ export default class PathRenderer {
 
     renderMovementPoints(ctx, points, radius) {
 
-        ctx.strokeStyle = "#fff";
+        ctx.strokeStyle = this.graphicsConfig.MOVEMENT_POINT_COLOR;
         ctx.lineWidth = 5;
 
         for (const pt of points) {

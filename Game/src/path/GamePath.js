@@ -2,9 +2,11 @@
 
 export default class GamePath {
 
-    constructor({movementPoints, renderPoints}) {
+    constructor({movementPoints, renderPoints, collisionPoints, pathWidth}) {
         this.movementPoints = movementPoints;
         this.renderPoints = renderPoints;
+        this.collisionPoints = collisionPoints;
+        this.pathWidth = pathWidth;
     }
 
     getMovementPoints() {
@@ -13,6 +15,14 @@ export default class GamePath {
 
     getRenderPoints() {
         return this.renderPoints;
+    }
+
+    getCollisionPoints() {
+        return this.collisionPoints
+    }
+
+    getWidth() {
+        return this.pathWidth
     }
 
 }

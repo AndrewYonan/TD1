@@ -23,28 +23,39 @@ export default class BezierPathBuilder {
         const movementPoints = this.buildPoints({
             controlPoints,
             resolution: this.gameConfig.PATH_MOVEMENT_RES,
+            skipLinearSegments: true,
             removeDuplicates: true
         });
 
         const renderPoints = this.buildPoints({
             controlPoints,
             resolution: this.pathGraphicsConfig.PATH_RENDER_RES,
+            skipLinearSegments: true,
             removeDuplicates: false
         });
 
+        const collisionPoints = this.buildPoints({
+            controlPoints,
+            resolution: this.gameConfig.PATH_COLLISION_RES,
+            skipLinearSegments: false,
+            removeDuplicates: false
+        })
+
         return new GamePath({
             movementPoints,
-            renderPoints
+            renderPoints,
+            collisionPoints,
+            pathWidth: this.pathGraphicsConfig.PATH_WIDTH
         })
 
     }
 
-    buildPoints({controlPoints, resolution, removeDuplicates}) {
+    buildPoints({controlPoints, resolution, skipLinearSegments, removeDuplicates}) {
 
         const width = this.gameConfig.WIDTH;
         const height = this.gameConfig.HEIGHT;
         const bezierPath = this.buildBezierCurves(controlPoints, width, height);
-        const bakedPoints = this.bakeBezierCurves(bezierPath, resolution);
+        const bakedPoints = this.bakeBezierCurves(bezierPath, resolution, skipLinearSegments);
 
         if (removeDuplicates) return this.removeDuplicates(bakedPoints);
         else return bakedPoints;
@@ -64,7 +75,7 @@ export default class BezierPathBuilder {
         return bezierPath;
     }
 
-    bakeBezierCurves(bezierCurves, pointSpacing) {
+    bakeBezierCurves(bezierCurves, pointSpacing, skipLinearSegments) {
 
         let pts = [];
 
@@ -72,7 +83,7 @@ export default class BezierPathBuilder {
             
             const controlPoints = curve.getControlPoints();
 
-            if (controlPoints.length <= 2) {
+            if (skipLinearSegments && controlPoints.length <= 2) {
                 for (const cp of controlPoints) {pts.push(cp);}
             }
             else {

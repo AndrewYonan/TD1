@@ -18,12 +18,21 @@ export default class CollisionSystem {
         })
     }
 
-    addPathToBuffer() {
-        // TODO
+    addPathToBuffer(pathPoints, pathWidth) {
+        for (const point of pathPoints) {
+            this.buffer.push({
+                loc: point,
+                radius: pathWidth/2
+            })
+        }
     }
 
     clear() {
         this.buffer = [];
+    }
+
+    getBuffer() {
+        return this.buffer
     }
 
     circlesIntersect(center1, radius1, center2, radius2) {

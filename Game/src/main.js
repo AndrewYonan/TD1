@@ -75,7 +75,8 @@ const worldFactory = new WorldFactory({
 });
 
 const pathRenderer = new PathRenderer({
-    config: PATH_GRAPHICS_CONFIG
+    pathGraphicsConfig: PATH_GRAPHICS_CONFIG,
+    graphicsConfig: GRAPHICS_CONFIG
 })
 
 const entityRenderer = new EntityRenderer({

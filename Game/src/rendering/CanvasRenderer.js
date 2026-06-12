@@ -19,6 +19,7 @@ export default class CanvasRenderer {
         const snapshot = world.getRenderSnapshot();
         const pathRenderPoints = snapshot.path.renderPoints;
         const movementPoints = snapshot.path.movementPoints;
+        const collisionBufferData = snapshot.collisionBufferData;
 
         this.clear();
         this.renderPath(pathRenderPoints, movementPoints);
@@ -26,6 +27,7 @@ export default class CanvasRenderer {
         this.renderProjectiles(snapshot.projectileData)
         this.renderTowers(snapshot.towerData);
         this.renderCurrentGrabbedTower(gameUIState);
+        this.renderCollisionBufferData(collisionBufferData);
 
     }   
 
@@ -86,5 +88,17 @@ export default class CanvasRenderer {
             gameUIState.currentSelectedTowerType,
             gameUIState.towerPlacementAllowed
         )
+    }
+
+    renderCollisionBufferData(collisionBufferData) {
+        if (this.graphicsConfig.SHOW_COLLISION_BUFFER) {
+            for (const entry of collisionBufferData) {
+                this.ctx.lineWidth = 5;
+                this.ctx.strokeStyle = this.graphicsConfig.COLLISION_COLOR;
+                this.ctx.beginPath();
+                this.ctx.arc(entry.loc.x, entry.loc.y, entry.radius, 0, 2 * Math.PI);
+                this.ctx.stroke();
+            }
+        }
     }
 }

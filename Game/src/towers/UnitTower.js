@@ -2,7 +2,7 @@ import { dist } from "../math/Utils.js";
 
 export default class UnitTower {
 
-    constructor(loc, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, projectileSet, projectileFactory) {
+    constructor(loc, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, projectileSet, projectileFactory, uniqueID) {
 
         this.loc = loc;
         this.type = "unit";
@@ -20,6 +20,7 @@ export default class UnitTower {
         this.fireCooldownTimer = 0;
         this.gunAngle = 0;
         this.showRadius = false;
+        this.uniqueID = uniqueID;
     }
 
     setShowRadius() {

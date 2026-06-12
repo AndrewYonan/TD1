@@ -19,6 +19,9 @@ export default class World {
         this.roundSystem.setRound(startingRound);
 
         this.collisionSystem = collisionSystem;
+        this.collisionSystem.addPathToBuffer(
+            gamePath.getCollisionPoints(), 
+            gamePath.getWidth());
     }
 
     startNextRound() {
@@ -85,7 +88,8 @@ export default class World {
             },
             entityData: this.entities.map(entity => entity.getRenderSnapshot()),
             towerData: this.towers.map(tower => tower.getRenderSnapshot()),
-            projectileData: this.projectiles.map(projectile => projectile.getRenderSnapshot())
+            projectileData: this.projectiles.map(projectile => projectile.getRenderSnapshot()),
+            collisionBufferData: this.collisionSystem.getBuffer()
         };
     }
 
