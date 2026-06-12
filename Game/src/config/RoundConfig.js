@@ -4,7 +4,7 @@ export const ROUND_CONFIG = {
     1: {
         waves: [{
             rank: 1,
-            count: 10,
+            count: 1,
             spacing: 80
         }]
     },

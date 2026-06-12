@@ -44,10 +44,8 @@ export default class Game {
         const mouseLoc = this.input.getMouseLoc();
     }
 
-
     selectUnitTower() {
         this.currentSelectedTowerType = "unit";
-        console.log("Unit Tower selected");
     }
 
     initialize() {
@@ -84,12 +82,7 @@ export default class Game {
     }
 
     toggleRoundPlay() {
-        if (this.isRunning) this.toggleSpeed();
-        else this.togglePause();
-    }
-
-    togglePause() {
-        if (this.isRunning) this.stop();
+        if (this.world.isRoundActive()) this.toggleSpeed();
         else this.start();
     }
 
