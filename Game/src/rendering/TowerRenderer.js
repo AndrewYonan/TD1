@@ -11,23 +11,28 @@ export default class TowerRenderer {
         } 
     }
 
-    renderGhostTower(ctx, position, type) {
+    renderGhostTower(ctx, position, type, allowedTowerPlacement) {
         if (type === "unit") {
-            this.renderUnitTower(ctx, position, 0, 0, true);
+            this.renderUnitTower(ctx, position, 0, 0, true, allowedTowerPlacement);
         }
     }
 
-    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius) {
+    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, allowedTowerPlacement) {
 
         const M = 10;
         const graphicsConfig = this.towerGraphicsConfig["unit"];
         const main = graphicsConfig.main;
         const accent = graphicsConfig.accent;
-        const field = graphicsConfig.rangeField;
         const size = graphicsConfig.size;
         const barrelRadius = graphicsConfig.barrelRadius;
         const barrelLength = graphicsConfig.barrelLength;
         const radius = this.towerConfig["unit"][upgradeLevel].range;
+
+        let field = graphicsConfig.rangeField;
+
+        if (!allowedTowerPlacement) {
+            field = this.towerGraphicsConfig.forbiddenRangeColor;
+        }
 
         ctx.fillStyle = accent;
         ctx.strokeStyle = accent;

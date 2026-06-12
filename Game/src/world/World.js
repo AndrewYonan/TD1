@@ -1,7 +1,7 @@
 
 export default class World {
 
-    constructor({gamePath, entityFactory, towerFactory, projectileFactory, roundSystem, collisionSystem, startingLives, startingMoney, startingRound}) {
+    constructor({gamePath, collisionSystem, entityFactory, towerFactory, projectileFactory, roundSystem, startingLives, startingMoney, startingRound}) {
 
         this.entities = [];
         this.towers = [];
@@ -19,13 +19,6 @@ export default class World {
         this.roundSystem.setRound(startingRound);
 
         this.collisionSystem = collisionSystem;
-
-        
-
-        const testTower1 = this.towerFactory.createUnitTower(300, 100, this.projectiles, this.projectileFactory, 0);
-
-        this.addTower(testTower1);
-
     }
 
     startNextRound() {
@@ -48,19 +41,23 @@ export default class World {
                 && (this.projectiles.length == 0)) || this.isGameOver();
     }
 
-    addTower(tower) {
-        this.towers.push(tower);
+    addTower(type, loc) {
+        if (type === "unit") {
+            const tower = this.towerFactory.createUnitTower({
+                loc, 
+                projectileSet: this.projectiles, 
+                projectileFactory: this.projectileFactory,
+                upgradeLevel: 0
+            });
+            this.towers.push(tower);
+            this.collisionSystem.addTowerToBuffer(tower);
+        }
+        
     }
 
     spawnEntity(rank) {
-
         const entity = this.entityFactory.create(rank, this.gamePath.getMovementPoints());
-
-        if (entity) {
-            this.entities.push(entity);
-            this.collisionSystem.add(entity);
-        }
-        
+        if (entity) this.entities.push(entity);
     }
 
     update(dt) {
@@ -131,7 +128,7 @@ export default class World {
             }
 
             const proj = this.projectiles[i];
-            const entityCollideIdx = this.collisionSystem.getSingleCollision(proj, this.entities);
+            const entityCollideIdx = this.collisionSystem.getProjEntityCollision(proj, this.entities);
             const entity = this.entities[entityCollideIdx];
             let projectileKilled = false;
 

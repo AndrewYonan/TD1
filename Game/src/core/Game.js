@@ -2,9 +2,10 @@
 
 export default class Game {
 
-    constructor({worldFactory, renderer, ui, input, clock, gameConfig}) {
+    constructor({worldFactory, collisionSystemFactory, renderer, ui, input, clock, gameConfig}) {
         
         this.worldFactory = worldFactory;
+        this.collisionSystem = collisionSystemFactory.create();
         this.renderer = renderer;
         this.ui = ui;
         this.input = input;
@@ -18,21 +19,18 @@ export default class Game {
         };
 
         this.frame = 0;
-        this.isRunning = false;
         this.animationFrameId = null;
         this.speedMultiplier =  this.config.initialSpeedMultiplier;
         this.loop = this.loop.bind(this);
         this.bindInput();
-
+        
         this.currentSelectedTowerType = null;
     }
 
     bindInput() {
-
         this.input.bindMouse({
-            onMouseClick: () => this.mouseClick()
+            onMouseClick: () => this.mouseClick(),
         });
-
         this.input.bindActions({
             onToggleRoundPlay: () => this.toggleRoundPlay(),
             onRestart: () => this.restart(),
@@ -42,34 +40,44 @@ export default class Game {
 
     mouseClick() {
         const mouseLoc = this.input.getMouseLoc();
+        if (this.currentSelectedTowerType && this.towerPlacementAllowed()) {
+            this.world.addTower(this.currentSelectedTowerType, mouseLoc);
+            this.currentSelectedTowerType = null;
+        }
     }
 
     selectUnitTower() {
         this.currentSelectedTowerType = "unit";
     }
 
+    towerPlacementAllowed() {
+        if (!this.currentSelectedTowerType) return false;
+        return this.collisionSystem.validTowerPlacement(
+            this.input.mouseLoc, 
+            this.currentSelectedTowerType
+        );
+    }
+
     initialize() {
 
         this.world = this.worldFactory.makeDefaultWorld({
             round: this.config.STARTING_ROUND,
-            pathPreset: this.config.PATH_PRESET});
+            pathPreset: this.config.PATH_PRESET,
+            collisionSystem: this.collisionSystem
+        });
 
-        this.render();
-        this.syncUI();
+        this.resetUIParams();
+        this.clock.reset();
+        this.animationFrameId = requestAnimationFrame(this.loop);
     }
 
-    start() {
+    resetUIParams() {
+        this.currentSelectedTowerType = null;
+    }
 
-        if (this.isRunning) return;
-
-        this.isRunning = true;
-        this.clock.reset();
-        this.syncUI();
-
-        if (!this.world.isRoundActive()) this.world.startNextRound();
-        
-        this.animationFrameId = requestAnimationFrame(this.loop);
-
+    startRound() {
+        if (this.world.isRoundActive()) return;
+        this.world.startNextRound();
     }
 
     stop() {
@@ -77,13 +85,12 @@ export default class Game {
             cancelAnimationFrame(this.animationFrameId);
             this.animationFrameId = null;
         }
-        this.isRunning = false;
         this.syncUI();
     }
 
     toggleRoundPlay() {
         if (this.world.isRoundActive()) this.toggleSpeed();
-        else this.start();
+        else this.startRound();
     }
 
     toggleSpeed() {
@@ -97,12 +104,11 @@ export default class Game {
 
     restart() {
         this.stop();
+        this.collisionSystem.clear();
         this.initialize();
     }
 
     loop() {
-
-        if (!this.isRunning) return;
         
         const rawDt = this.clock.getDeltaSeconds();
         const scaledDt = rawDt * this.speedMultiplier;
@@ -124,8 +130,6 @@ export default class Game {
         this.syncUI();
 
         if (this.world.isGameOver()) this.handleGameOver();
-        if (!this.world.isRoundActive()) this.stop(); 
-        
         this.frame++;
     }
 
@@ -137,7 +141,8 @@ export default class Game {
     getGameUIState() {
         return {
             mouseLoc : this.input.getMouseLoc(),
-            currentSelectedTowerType: this.currentSelectedTowerType
+            currentSelectedTowerType: this.currentSelectedTowerType,
+            towerPlacementAllowed: this.towerPlacementAllowed()
         }
     }
 
@@ -157,7 +162,7 @@ export default class Game {
         this.ui.render({
             ...this.world.getUIState(),
             isFastPlay: this.speedMultiplier > 1,
-            isRunning: this.isRunning
+            roundRunning: this.world.isRoundActive()
         })
     }
 

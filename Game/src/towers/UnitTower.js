@@ -19,7 +19,15 @@ export default class UnitTower {
         this.target = null;
         this.fireCooldownTimer = 0;
         this.gunAngle = 0;
+        this.showRadius = false;
+    }
+
+    setShowRadius() {
         this.showRadius = true;
+    }
+
+    getType() {
+        return this.type;
     }
 
     inRangeOf(entity) {

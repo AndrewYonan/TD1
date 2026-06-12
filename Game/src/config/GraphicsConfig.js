@@ -15,6 +15,9 @@ export const PATH_GRAPHICS_CONFIG = {
 
 
 export const TOWER_GRAPHICS_CONFIG = {
+
+    forbiddenRangeColor : "rgba(245, 37, 37, 0.37)",
+
     "unit" : {
         main: "rgb(255, 216, 167)",
         accent: "rgb(32, 32, 32)",

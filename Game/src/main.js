@@ -62,14 +62,14 @@ const roundSystemFactory = new RoundSystemFactory({
 });
 
 const collisionSystemFactory = new CollisionSystemFactory({
-    config: GAME_CONFIG
+    config: GAME_CONFIG,
+    towerGraphicsConfig: TOWER_GRAPHICS_CONFIG
 });
 
 const worldFactory = new WorldFactory({
     entityFactory,
     towerFactory,
     roundSystemFactory,
-    collisionSystemFactory,
     gameConfig: GAME_CONFIG,
     bezierPathBuilder
 });
@@ -118,6 +118,7 @@ const clock = new Clock();
 
 const game = new Game({
     worldFactory,
+    collisionSystemFactory,
     renderer,
     ui,
     input,

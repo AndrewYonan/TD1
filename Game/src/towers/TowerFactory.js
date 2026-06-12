@@ -6,11 +6,8 @@ export default class TowerFactory {
         this.config = config;
     }
 
-    createUnitTower(x, y, projectileSet, projectileFactory, upgradeLevel) {
-
+    createUnitTower({loc, projectileSet, projectileFactory, upgradeLevel}) {
         const unitConfig = this.config["unit"][upgradeLevel];
-        const loc = new Vector2(x, y);
-
         return new UnitTower(
             loc,
             upgradeLevel,

@@ -14,18 +14,18 @@ export default class UIManager {
 
     }
 
-    render({lives, money, round, isGameOver, isFastPlay, isRunning}) {
+    render({lives, money, round, isGameOver, isFastPlay, roundRunning}) {
     
         this.livesElement.textContent = `Lives | ${lives}`;
         this.moneyElement.textContent = `$${money}`;
         this.roundElement.textContent = `Round | ${round}`
         this.gameOverScreen.style.display = isGameOver ? "flex" : "none";
-        this.renderSpeedButton(isFastPlay, isRunning);
+        this.renderSpeedButton(isFastPlay, roundRunning);
     }       
 
 
-    renderSpeedButton(isFastPlay, isRunning) {
-        if (isRunning) {
+    renderSpeedButton(isFastPlay, roundRunning) {
+        if (roundRunning) {
             if (isFastPlay) {
                 this.roundButton.textContent = "<< Slow";
             } 
