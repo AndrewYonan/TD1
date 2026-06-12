@@ -11,10 +11,12 @@ export default class CollisionSystem {
         this.towerGraphicsConfig = towerGraphicsConfig;
     }
 
-    addTowerToBuffer(tower) { 
+    addTowerToBuffer(towerLoc, towerType, towerID) { 
         this.buffer.push({
-            loc: tower.loc,
-            radius: this.towerGraphicsConfig[tower.getType()].size
+            loc: towerLoc,
+            radius: this.towerGraphicsConfig[towerType].size,
+            towerID: towerID,
+            id: "tower"
         })
     }
 
@@ -22,9 +24,19 @@ export default class CollisionSystem {
         for (const point of pathPoints) {
             this.buffer.push({
                 loc: point,
-                radius: pathWidth/2
+                radius: pathWidth/2,
+                id: "path"
             })
         }
+    }
+
+    getSelectedTower(loc) {
+        for (const obj of this.buffer) {
+            if (obj.id === "tower" && (dist(loc, obj.loc) <= obj.radius)) {
+                return obj.towerID;
+            }
+        }
+        return null;
     }
 
     clear() {

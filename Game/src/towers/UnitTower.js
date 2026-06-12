@@ -23,8 +23,12 @@ export default class UnitTower {
         this.uniqueID = uniqueID;
     }
 
-    setShowRadius() {
-        this.showRadius = true;
+    highlight(value) {
+        this.showRadius = value;
+    }
+
+    getUniqueID() {
+        return this.uniqueID; 
     }
 
     getType() {

@@ -7,7 +7,7 @@ export default class TowerRenderer {
 
     renderTower(ctx, position, angle, showRadius, type, upgradeLevel) {
         if (type === "unit") {
-            this.renderUnitTower(ctx, position, angle, upgradeLevel, showRadius);
+            this.renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, true);
         } 
     }
 
@@ -17,7 +17,7 @@ export default class TowerRenderer {
         }
     }
 
-    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, allowedTowerPlacement) {
+    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, allowedPlacement) {
 
         const M = 10;
         const graphicsConfig = this.towerGraphicsConfig["unit"];
@@ -28,10 +28,10 @@ export default class TowerRenderer {
         const barrelLength = graphicsConfig.barrelLength;
         const radius = this.towerConfig["unit"][upgradeLevel].range;
 
-        let field = graphicsConfig.rangeField;
+        let fieldColor = this.towerGraphicsConfig["unit"].rangeField;
 
-        if (!allowedTowerPlacement) {
-            field = this.towerGraphicsConfig.forbiddenRangeColor;
+        if (!allowedPlacement) {
+            fieldColor = this.towerGraphicsConfig.forbiddenRangeColor;
         }
 
         ctx.fillStyle = accent;
@@ -39,7 +39,7 @@ export default class TowerRenderer {
         ctx.lineWidth = 1;
 
         if (showRadius) {
-            ctx.fillStyle = field;
+            ctx.fillStyle = fieldColor;
             ctx.beginPath();
             ctx.arc(position.x, position.y, radius, 0, 2 * Math.PI);
             ctx.fill();

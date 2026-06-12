@@ -39,19 +39,34 @@ export default class Game {
     }
 
     mouseClick() {
+
         const mouseLoc = this.input.getMouseLoc();
-        if (this.currentSelectedTowerType && this.towerPlacementAllowed()) {
-            this.world.addTower(this.currentSelectedTowerType, mouseLoc);
-            this.currentSelectedTowerType = null;
+
+        if (this.currentSelectedTowerType)  {
+            if (this.towerPlacementAllowed()) {
+                this.world.addTower(this.currentSelectedTowerType, mouseLoc);
+                this.currentSelectedTowerType = null;
+            }
+        }
+        else {
+            const selectedTowerID = this.collisionSystem.getSelectedTower(mouseLoc);
+            if (selectedTowerID) {
+                this.world.unhighlightAllTowers();
+                this.world.setHighlight(selectedTowerID, true);
+            } 
+            else {
+                this.world.unhighlightAllTowers();
+            }
         }
     }
 
     selectUnitTower() {
+        this.world.unhighlightAllTowers();
         this.currentSelectedTowerType = "unit";
     }
 
     towerPlacementAllowed() {
-        if (!this.currentSelectedTowerType) return false;
+        if (!this.currentSelectedTowerType) return true;
         return this.collisionSystem.validTowerPlacement(
             this.input.mouseLoc, 
             this.currentSelectedTowerType
@@ -119,7 +134,6 @@ export default class Game {
         this.animationFrameId = requestAnimationFrame(this.loop);
 
     }
-
 
     update(dt, rawDt) {
 

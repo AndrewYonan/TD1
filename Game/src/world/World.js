@@ -24,6 +24,20 @@ export default class World {
             gamePath.getWidth());
     }
 
+    setHighlight(towerID, value) {
+        for (const tower of this.towers) {
+            if (tower.getUniqueID() === towerID) {
+                tower.highlight(value);
+            }
+        }
+    }
+
+    unhighlightAllTowers() {
+        for (const tower of this.towers) {
+            tower.highlight(false);
+        }
+    }
+
     startNextRound() {
         this.roundSystem.nextRound();
         this.spawningDone = false;
@@ -53,7 +67,7 @@ export default class World {
                 upgradeLevel: 0
             });
             this.towers.push(tower);
-            this.collisionSystem.addTowerToBuffer(tower);
+            this.collisionSystem.addTowerToBuffer(tower.loc, tower.type, tower.uniqueID);
         }
         
     }
