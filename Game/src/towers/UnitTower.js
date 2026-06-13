@@ -172,6 +172,7 @@ export default class UnitTower {
             position: this.loc,
             angle: this.gunAngle,
             showRadius: this.showRadius,
+            radius: this.range,
             type: this.type
         };
     }

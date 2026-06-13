@@ -64,6 +64,7 @@ export default class CanvasRenderer {
                 entry.position,
                 entry.angle,
                 entry.showRadius,
+                entry.radius,
                 entry.type,
                 entry.upgradeLevel
             )
@@ -82,6 +83,7 @@ export default class CanvasRenderer {
     }
 
     renderCurrentGrabbedTower(gameUIState) {
+        if (!gameUIState.currentSelectedTowerType) return;
         this.towerRenderer.renderGhostTower(
             this.ctx,
             gameUIState.mouseLoc,

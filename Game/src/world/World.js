@@ -28,6 +28,20 @@ export default class World {
         return this.money;
     }
 
+    upgrade(towerID, level) {
+        console.log(`upgrading tower ${towerID}`);
+        let tower = this.getTower(towerID);
+        this.towerFactory.upgrade(tower, level);
+    }
+
+    getTower(ID) {
+        for (const tower of this.towers) {
+            if (tower.getUniqueID() === ID) {
+                return tower;
+            }
+        }
+    }
+
     setHighlight(towerID, value) {
         for (const tower of this.towers) {
             if (tower.getUniqueID() === towerID) {

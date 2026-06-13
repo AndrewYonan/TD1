@@ -41,6 +41,7 @@ export default class Game {
             onRestart: () => this.restart(),
             onUnitTowerSelect: () => this.selectUnitTower(),
             onAutoStart: () => this.autoStartToggle(),
+            onUpgradeClick: (level) => this.upgrade(level),
         });
     }
 
@@ -50,6 +51,10 @@ export default class Game {
             this.currentSelectedTowerID = null;
             this.currentSelectedTowerType = null;
         }
+    }
+
+    upgrade(level) {
+        this.world.upgrade(this.currentSelectedTowerID, level);
     }
 
     mouseClick() {

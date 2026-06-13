@@ -160,10 +160,10 @@ button:focus {
 
 .upgrade-button {
     display: block;    
-    color: rgb(32, 32, 32);
-    background-color: #00ff3c;
+    background-color: var(--btn-bg, #00ff3c);
+    color: var(--btn-color, #222);
     font-family: "Font1";
-    font-size: 25px;
+    font-size: 26px;
     border-radius: 20px;
     border: none;
     width: 150px;
@@ -183,6 +183,13 @@ button:focus {
 .upgrade-button:hover {
     background-color: black;
     color: white;
+}
+
+
+button:disabled {
+    opacity: 0.5; 
+    cursor: not-allowed; 
+    pointer-events: none; 
 }
 
 

@@ -3,5 +3,6 @@ export const UI_GRAPHICS_CONFIG = {
     DEACTIVATED_TEXT_COLOR: "rgb(158, 158, 158)",
     ACTIVATED_COLOR: "rgb(41, 255, 76)",
     ACTIVATED_TEXT_COLOR: "rgb(0,0,0)",
-    
+    UPGRADE_BOUGHT_COLOR: "rgba(0, 255, 47, 0.75)",
+    UPGRADE_BOUGHT_TEXT_COLOR: "rgb(0,0,0)",
 }

@@ -5,19 +5,20 @@ export default class TowerRenderer {
         this.towerUpgradeConfig = towerUpgradeConfig;
     }
 
-    renderTower(ctx, position, angle, showRadius, type, upgradeLevel) {
+    renderTower(ctx, position, angle, showRadius, radius, type, upgradeLevel) {
         if (type === "unit") {
-            this.renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, true);
+            this.renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, radius, true);
         } 
     }
 
     renderGhostTower(ctx, position, type, allowedTowerPlacement) {
+        const baseRadius = this.towerUpgradeConfig[type]["tier-0"].stats.range;
         if (type === "unit") {
-            this.renderUnitTower(ctx, position, 0, 0, true, allowedTowerPlacement);
+            this.renderUnitTower(ctx, position, 0, 0, true, baseRadius, allowedTowerPlacement);
         }
     }
 
-    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, allowedPlacement) {
+    renderUnitTower(ctx, position, angle, upgradeLevel, showRadius, radius, allowedPlacement) {
 
         const M = 10;
         const graphicsConfig = this.towerGraphicsConfig["unit"];
@@ -26,7 +27,6 @@ export default class TowerRenderer {
         const size = graphicsConfig.size;
         const barrelRadius = graphicsConfig.barrelRadius;
         const barrelLength = graphicsConfig.barrelLength;
-        const radius = this.towerUpgradeConfig["unit"][`tier-${upgradeLevel}`].stats.range;
 
         let fieldColor = this.towerGraphicsConfig["unit"].rangeField;
 

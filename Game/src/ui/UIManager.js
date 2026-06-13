@@ -70,19 +70,31 @@ export default class UIManager {
 
         const maxUpgradeLevel = Object.keys(this.towerUpgradeConfig[type]).length;
         const nextUpgradeLevel = Math.min(upgradeLevel + 1, maxUpgradeLevel);
-        const nextPossibleUpgrade = this.towerUpgradeConfig[type][`tier-${nextUpgradeLevel}`];
-        const nextUpgradeCost = nextPossibleUpgrade.cost;
 
-        console.log(nextUpgradeLevel, maxUpgradeLevel, currentMoney)
+        if (nextUpgradeLevel < maxUpgradeLevel) {
 
-        if (currentMoney >= nextUpgradeCost) {
-            this.renderUnlocked(nextUpgradeLevel);
-            this.lockUpgradesAbove(nextUpgradeLevel, maxUpgradeLevel);
-        } 
-        else {
-            this.lockUpgradesAbove(upgradeLevel, maxUpgradeLevel);
+            const nextPossibleUpgrade = this.towerUpgradeConfig[type][`tier-${nextUpgradeLevel}`];
+            const nextUpgradeCost = nextPossibleUpgrade.cost;   
+
+            if (currentMoney >= nextUpgradeCost) {
+                this.renderUnlocked(nextUpgradeLevel);
+                this.lockUpgradesAbove(nextUpgradeLevel, maxUpgradeLevel);
+            } 
+            else {
+                this.lockUpgradesAbove(upgradeLevel, maxUpgradeLevel);
+            }
+
         }
+
+        this.renderBoughtUpgrades(upgradeLevel);
     }
+
+    renderBoughtUpgrades(upgradeLevel) {
+        for (let i = 1; i <= upgradeLevel; ++i) {
+            const upgradeBttn = this.towerUpgradeMenu.querySelector(`#upgrade-${i}`);
+            this.showBought(upgradeBttn);
+        }
+    }   
 
     lockUpgradesAbove(level, maxLevel) {
         let i = level + 1;
@@ -102,16 +114,22 @@ export default class UIManager {
         this.activateButton(upgradeBttn);
     }
 
+    showBought(button) {
+        button.disabled = true; 
+        button.style.setProperty('--btn-bg', this.UIGraphicsConfig.UPGRADE_BOUGHT_COLOR);
+        button.style.setProperty('--btn-color', this.UIGraphicsConfig.UPGRADE_BOUGHT_TEXT_COLOR);
+    }
+
     deactivateButton(button) {
-        button.disabled = true;
-        // button.style.backgroundColor = this.UIGraphicsConfig.DEACTIVATED_COLOR;
-        // button.style.color = this.UIGraphicsConfig.DEACTIVATED_TEXT_COLOR;
+        button.disabled = true;    
+        button.style.setProperty('--btn-bg', this.UIGraphicsConfig.DEACTIVATED_COLOR);
+        button.style.setProperty('--btn-color', this.UIGraphicsConfig.DEACTIVATED_TEXT_COLOR);
     }
 
     activateButton(button) {
         button.disabled = false;
-        // button.style.backgroundColor = this.UIGraphicsConfig.ACTIVATED_COLOR;
-        // button.style.color = this.UIGraphicsConfig.ACTIVATED_TEXT_COLOR;
+        button.style.setProperty('--btn-bg', this.UIGraphicsConfig.ACTIVATED_COLOR);
+        button.style.setProperty('--btn-color', this.UIGraphicsConfig.ACTIVATED_TEXT_COLOR);
     }
 
     capitalize(s) {
