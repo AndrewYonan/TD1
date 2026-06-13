@@ -92,17 +92,17 @@ button:focus {
     right: 25px;
     height: 80%;      
     z-index: 1;
-  }
-  
-  #tower-menu tr {
+}
+
+#tower-menu tr {
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: row; 
-  }
-  
-  
-  .tower-button {
+}
+
+
+.tower-button {
     display: block;    
     color: rgb(32, 32, 32);
     background-color: #00ff3c;
@@ -115,12 +115,69 @@ button:focus {
     height: 105px;
     text-decoration: none;
     box-shadow: 2px 2px 20px 0px rgba(90, 90, 90, 0.748);
-  }
+}
 
-  .tower-button:hover {
+.tower-button:hover {
     background-color: black;
     color: white;
-  }
+}
+
+
+#tower-upgrade-menu {
+    display: none;
+    position: absolute;
+    background-color: rgb(32, 32, 32);
+    border-radius: 20px;
+    padding: 20px;
+    padding-right: 20px;
+    top: 110px;
+    right: 25px;
+    height: 650px;
+    z-index: 1;
+}
+
+#tower-title {
+    display: block;    
+    color: #fff;
+    background-color: rgb(32, 32, 32);
+    font-family: "Font1";
+    text-align: center;
+    font-size: 40px;
+    border-radius: 20px;
+    border: none;
+    width: 105px;
+    padding-bottom: 20px;
+    margin-top: 10px;
+}
+
+
+#tower-stats {
+    font-family: "Font1";
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 50px;
+}
+
+.tower-stat {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.upgrade-button {
+    display: block;    
+    color: rgb(32, 32, 32);
+    background-color: #00ff3c;
+    font-family: "Font1";
+    font-size: 25px;
+    border-radius: 20px;
+    border: none;
+    width: 150px;
+    height: 105px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    box-shadow: 2px 2px 20px 0px rgba(90, 90, 90, 0.748);
+}
 
 
 

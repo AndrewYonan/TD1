@@ -9,7 +9,7 @@ export default class World {
         this.gamePath = gamePath;
         this.entityFactory = entityFactory;
         this.towerFactory = towerFactory;
-        this.projectileFactory = projectileFactory
+        this.projectileFactory = projectileFactory;
         this.lives = startingLives;
         this.money = startingMoney;
 
@@ -39,6 +39,7 @@ export default class World {
     }
 
     startNextRound() {
+        if (!this.roundSystem.hasNextRound()) return;
         this.roundSystem.nextRound();
         this.spawningDone = false;
         this.roundActive = true;
@@ -114,6 +115,15 @@ export default class World {
             round: this.roundSystem.getCurrentRound(),
             isGameOver: this.isGameOver()
         }
+    }
+
+    getTowerUISnapshot(towerID) {
+        for (const tower of this.towers) {
+            if (tower.getUniqueID() === towerID) {
+                return tower.getUISnapshot();
+            }
+        }
+        return null;
     }
 
     leak(entity) {

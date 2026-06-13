@@ -7,7 +7,6 @@ export default class UnitTower {
         this.loc = loc;
         this.size = size;
         this.type = "unit";
-        this.upgradeLevel = upgradeLevel,
         this.projectileSet = projectileSet;
         this.projectileFactory = projectileFactory;
         
@@ -18,6 +17,10 @@ export default class UnitTower {
         this.range = range;
         this.smartAim = smartAim;
 
+        this.hitCount = 0;
+        this.targetPolicy = "first"; //TODO
+        this.upgradeLevel = upgradeLevel;
+        
         this.target = null;
         this.fireCooldownTimer = 0;
         this.gunAngle = 0;
@@ -140,6 +143,7 @@ export default class UnitTower {
     }
 
     fire() {
+        
         const bullet = this.projectileFactory.create(
             "unit", 
             this.loc, 
@@ -147,9 +151,19 @@ export default class UnitTower {
             this.bulletSpeed, 
             this.pierce, 
             this.damage);
+
         this.projectileSet.push(bullet);
         this.fireCooldownTimer = 1 / this.fireRate;
         this.target = null;
+    }
+
+    getUISnapshot() {
+        return {
+            type: this.type,
+            hitCount: this.hitCount,
+            targetPolicy: this.targetPolicy,
+            upgradeLevel: this.upgradeLevel,
+        };
     }
 
     getRenderSnapshot() {
@@ -159,6 +173,6 @@ export default class UnitTower {
             angle: this.gunAngle,
             showRadius: this.showRadius,
             type: this.type
-        }
+        };
     }
 }

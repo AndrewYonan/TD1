@@ -24,18 +24,32 @@ export default class Game {
         this.loop = this.loop.bind(this);
         this.bindInput();
         
+        this.autoStart = false;
         this.currentSelectedTowerType = null;
+        this.currentSelectedTowerID = null;
     }
 
     bindInput() {
         this.input.bindMouse({
             onMouseClick: () => this.mouseClick(),
         });
+        this.input.bindKeys({
+            onEscape: () => this.escape(),
+        })
         this.input.bindActions({
             onToggleRoundPlay: () => this.toggleRoundPlay(),
             onRestart: () => this.restart(),
             onUnitTowerSelect: () => this.selectUnitTower(),
+            onAutoStart: () => this.autoStartToggle(),
         });
+    }
+
+    escape() {
+        if (this.world) {
+            this.world.unhighlightAllTowers();
+            this.currentSelectedTowerID = null;
+            this.currentSelectedTowerType = null;
+        }
     }
 
     mouseClick() {
@@ -51,13 +65,16 @@ export default class Game {
         else {
             const selectedTowerID = this.collisionSystem.getSelectedTower(mouseLoc);
             if (selectedTowerID) {
+                this.currentSelectedTowerID = selectedTowerID;
                 this.world.unhighlightAllTowers();
                 this.world.setHighlight(selectedTowerID, true);
             } 
-            else {
-                this.world.unhighlightAllTowers();
-            }
+            else this.escape();
         }
+    }
+
+    autoStartToggle() {
+        this.autoStart = !this.autoStart;
     }
 
     selectUnitTower() {
@@ -143,7 +160,9 @@ export default class Game {
         this.updateFPS(rawDt);
         this.syncUI();
 
+        if (this.autoStart && !this.world.isRoundActive()) this.world.startNextRound(); 
         if (this.world.isGameOver()) this.handleGameOver();
+
         this.frame++;
     }
 
@@ -156,7 +175,7 @@ export default class Game {
         return {
             mouseLoc : this.input.getMouseLoc(),
             currentSelectedTowerType: this.currentSelectedTowerType,
-            towerPlacementAllowed: this.towerPlacementAllowed()
+            towerPlacementAllowed: this.towerPlacementAllowed(),
         }
     }
 
@@ -176,11 +195,17 @@ export default class Game {
         this.ui.render({
             ...this.world.getUIState(),
             isFastPlay: this.speedMultiplier > 1,
-            roundRunning: this.world.isRoundActive()
+            isAutoStart: this.autoStart,
+            roundRunning: this.world.isRoundActive(),
         })
+
+        this.ui.renderTowerUpgradeMenu({
+            selectedTowerID: this.currentSelectedTowerID,
+            ...this.world.getTowerUISnapshot(this.currentSelectedTowerID),
+        });
     }
 
     handleGameOver() {
-        console.log("Game Over...");
+        //
     }
 }

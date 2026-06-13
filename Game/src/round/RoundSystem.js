@@ -28,6 +28,10 @@ export default class RoundSystem {
         this.currentRound = this.rounds[this.currentRoundIdx];
     }
 
+    hasNextRound() {
+        return this.currentRoundIdx + 1 < this.rounds.length;
+    }
+
     update(dt) {
 
         this.clock += dt;

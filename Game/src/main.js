@@ -21,6 +21,7 @@ import { GAME_CONFIG } from "./config/GameConfig.js";
 import { ROUND_CONFIG } from "./config/RoundConfig.js";
 import { TOWER_CONFIG } from "./config/TowerConfig.js";
 import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import { UI_GRAPHICS_CONFIG } from "./ui/UIGraphicsConfig.js";
 import { PATH_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js"
 import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { TOWER_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
@@ -107,6 +108,7 @@ const renderer = new CanvasRenderer({
 
 const ui = new UIManager({
     root: document.querySelector("#game-ui"),
+    UIGraphicsConfig: UI_GRAPHICS_CONFIG
 });
 
 

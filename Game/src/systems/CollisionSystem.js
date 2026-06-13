@@ -75,6 +75,4 @@ export default class CollisionSystem {
         }
         return -1;
     }
-
-
 }
