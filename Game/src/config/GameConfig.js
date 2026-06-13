@@ -7,7 +7,7 @@ export const GAME_CONFIG = {
 
     PATH_PRESET : "path1",
     STARTING_LIVES: 250,
-    STARTING_MONEY: 650,
+    STARTING_MONEY: 850,
     STARTING_ROUND: 1
 
 };

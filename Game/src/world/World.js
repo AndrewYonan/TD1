@@ -24,6 +24,10 @@ export default class World {
             gamePath.getWidth());
     }
 
+    getMoney() {
+        return this.money;
+    }
+
     setHighlight(towerID, value) {
         for (const tower of this.towers) {
             if (tower.getUniqueID() === towerID) {

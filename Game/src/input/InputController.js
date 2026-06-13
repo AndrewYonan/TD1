@@ -11,8 +11,10 @@ export default class InputController {
 
         this.root.querySelector("#run-game").addEventListener("click", onToggleRoundPlay);
         this.root.querySelector("#restart-game").addEventListener("click", onRestart);
-        this.root.querySelector("#unit-tower").addEventListener("click", onUnitTowerSelect);
         this.root.querySelector("#auto-start").addEventListener("click", onAutoStart);
+
+        const unitTowerAdd = this.root.querySelector("#unit-tower");
+        if (unitTowerAdd) unitTowerAdd.addEventListener("click", onUnitTowerSelect);
         
     }
 

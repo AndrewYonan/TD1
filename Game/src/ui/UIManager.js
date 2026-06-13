@@ -1,9 +1,10 @@
 
 
 export default class UIManager {
-    constructor({root, UIGraphicsConfig}) {
+    constructor({root, towerUpgradeConfig, UIGraphicsConfig}) {
 
         this.root = root;
+        this.towerUpgradeConfig = towerUpgradeConfig;
         this.UIGraphicsConfig = UIGraphicsConfig;
 
         this.fpsElement = root.querySelector("#fps");
@@ -42,38 +43,75 @@ export default class UIManager {
         }
     }
 
-    renderTowerUpgradeMenu({selectedTowerID, type, hitCount, targetPolicy, upgradeLevel}) {
-
+    renderTowerUpgradeMenu({currentMoney, selectedTowerID, type, hitCount, targetPolicy, upgradeLevel}) {
         this.towerUpgradeMenu.style.display = selectedTowerID ? "block" : "none";
-
         if (!selectedTowerID) return;
-
-        this.towerUpgradeMenu.querySelector("#tower-title").textContent = this.capitalize(type);
-
-        const stats = this.towerUpgradeMenu.querySelector("#tower-stats");
-
-        stats.querySelector("#hit-count").textContent = `Hits: ${hitCount.toString()}`;
-        stats.querySelector("#upgrade-level").textContent = `Level: ${(upgradeLevel + 1).toString()}`;
-
-        this.deactivateUpgrade(2);
-        this.deactivateUpgrade(3);
-        this.deactivateUpgrade(4);
+        this.renderTowerStats(hitCount, type, targetPolicy);
+        this.renderUpgradeOptions(currentMoney, type, upgradeLevel);
+        this.renderUpgradeCosts(type);
 
     }
 
-    deactivateUpgrade(upgradeLevel) {
+    renderUpgradeCosts(type) {
+        const maxUpgradeLevel = Object.keys(this.towerUpgradeConfig[type]).length;
+        for (let i = 1; i < maxUpgradeLevel; ++i) {
+            const cost = this.towerUpgradeConfig[type][`tier-${i}`].cost;
+            this.towerUpgradeMenu.querySelector(`#upgrade-${i}`).textContent = `$${cost}`;
+        }
+    }
+
+    renderTowerStats(hitCount, type, targetPolicy) {
+        this.towerUpgradeMenu.querySelector("#tower-title").textContent = this.capitalize(type);
+        this.towerUpgradeMenu.querySelector("#tower-target-policy").textContent = targetPolicy;
+        this.towerUpgradeMenu.querySelector("#hit-count").textContent = `Hits: ${hitCount.toString()}`;
+    }
+
+    renderUpgradeOptions(currentMoney, type, upgradeLevel) {
+
+        const maxUpgradeLevel = Object.keys(this.towerUpgradeConfig[type]).length;
+        const nextUpgradeLevel = Math.min(upgradeLevel + 1, maxUpgradeLevel);
+        const nextPossibleUpgrade = this.towerUpgradeConfig[type][`tier-${nextUpgradeLevel}`];
+        const nextUpgradeCost = nextPossibleUpgrade.cost;
+
+        console.log(nextUpgradeLevel, maxUpgradeLevel, currentMoney)
+
+        if (currentMoney >= nextUpgradeCost) {
+            this.renderUnlocked(nextUpgradeLevel);
+            this.lockUpgradesAbove(nextUpgradeLevel, maxUpgradeLevel);
+        } 
+        else {
+            this.lockUpgradesAbove(upgradeLevel, maxUpgradeLevel);
+        }
+    }
+
+    lockUpgradesAbove(level, maxLevel) {
+        let i = level + 1;
+        while (i < maxLevel) {
+            this.renderLocked(i);
+            i++;
+        }
+    }
+
+    renderLocked(upgradeLevel) {
         const upgradeBttn = this.towerUpgradeMenu.querySelector(`#upgrade-${upgradeLevel}`);
         this.deactivateButton(upgradeBttn);
     }
 
+    renderUnlocked(upgradeLevel) {
+        const upgradeBttn = this.towerUpgradeMenu.querySelector(`#upgrade-${upgradeLevel}`);
+        this.activateButton(upgradeBttn);
+    }
+
     deactivateButton(button) {
         button.disabled = true;
-        button.style.backgroundColor = this.UIGraphicsConfig.DEACTIVATED_COLOR;
+        // button.style.backgroundColor = this.UIGraphicsConfig.DEACTIVATED_COLOR;
+        // button.style.color = this.UIGraphicsConfig.DEACTIVATED_TEXT_COLOR;
     }
 
     activateButton(button) {
-        button.disabled = true;
-        button.style.backgroundColor = this.UIGraphicsConfig.ACTIVATED_COLOR;
+        button.disabled = false;
+        // button.style.backgroundColor = this.UIGraphicsConfig.ACTIVATED_COLOR;
+        // button.style.color = this.UIGraphicsConfig.ACTIVATED_TEXT_COLOR;
     }
 
     capitalize(s) {

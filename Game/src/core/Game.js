@@ -200,12 +200,13 @@ export default class Game {
         })
 
         this.ui.renderTowerUpgradeMenu({
+            currentMoney: this.world.getMoney(),
             selectedTowerID: this.currentSelectedTowerID,
             ...this.world.getTowerUISnapshot(this.currentSelectedTowerID),
         });
     }
 
     handleGameOver() {
-        //
+        this.escape();
     }
 }

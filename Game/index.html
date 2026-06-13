@@ -10,6 +10,7 @@
         <div id = "game-ui">
             <div id = "fps">FPS</div>
             <div id = "top-bar">
+                <button class = "edit-button" id = "auto-start" type = "button">Auto Start</button>
                 <button class = "edit-button" id = "run-game" type = "button">Fast >> </button>
                 <button class = "edit-button" id = "restart-game" type = "button">Restart</button>
                 <div class = "stat-pad" id = "lives">Lives</div>
@@ -18,10 +19,20 @@
             </div>
             <table id = "tower-menu">
                 <tr><td><button class = "tower-button" id = "unit-tower">Unit</li></td></tr>
-                <!-- <tr><td><button class = "tower-button" id = "electric-tower">Electric</li></td></tr>
-                <tr><td><button class = "tower-button" id = "farm-tower">Farm</li></td></tr>
-                <tr><td><button class = "tower-button" id = "rocket-tower">Rocket</li></td></tr> -->
-              </table>
+            </table>
+            <div id = "tower-upgrade-menu">
+                <div id = "tower-title">Tower</div>
+                <div id = "tower-stats">
+                    <div class = "tower-stat" id = "hit-count">Hits | 0</div>
+                    <div class = "tower-stat" id = "tower-target-policy"></div>
+                </div>
+                <div id = "upgrade-list">
+                    <button class = "upgrade-button" id = "upgrade-1">U1</button>
+                    <button class = "upgrade-button" id = "upgrade-2">U2</button>
+                    <button class = "upgrade-button" id = "upgrade-3">U3</button>
+                    <button class = "upgrade-button" id = "upgrade-4">U3</button>
+                </div>
+            </div>
 
             <div id = "game-over-screen">
                 <div id = "game-over-text">Game Over</div>

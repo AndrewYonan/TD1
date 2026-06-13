@@ -19,12 +19,12 @@ import { ENTITY_CONFIG } from "./config/EntityConfig.js";
 import { PATH_CONFIG } from "./config/PathConfig.js";
 import { GAME_CONFIG } from "./config/GameConfig.js";
 import { ROUND_CONFIG } from "./config/RoundConfig.js";
-import { TOWER_CONFIG } from "./config/TowerConfig.js";
+import { TOWER_UPGRADE_CONFIG } from "./config/UpgradeConfig.js";
 import { GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { UI_GRAPHICS_CONFIG } from "./ui/UIGraphicsConfig.js";
 import { PATH_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js"
 import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
-import { TOWER_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import { TOWER_GRAPHICS_CONFIG } from "./config/TowerGraphicsConfig.js";
 import { PROJECTILE_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 
 
@@ -55,7 +55,7 @@ const entityFactory = new EntityFactory({
 });
 
 const towerFactory = new TowerFactory({
-    towerConfig: TOWER_CONFIG,
+    towerUpgradeConfig: TOWER_UPGRADE_CONFIG,
     towerGraphicsConfig: TOWER_GRAPHICS_CONFIG
 })
 
@@ -80,20 +80,20 @@ const worldFactory = new WorldFactory({
 const pathRenderer = new PathRenderer({
     pathGraphicsConfig: PATH_GRAPHICS_CONFIG,
     graphicsConfig: GRAPHICS_CONFIG
-})
+});
 
 const entityRenderer = new EntityRenderer({
     config: ENTITY_GRAPHICS_CONFIG
-})
+});
 
 const towerRenderer = new TowerRenderer({
     towerGraphicsConfig: TOWER_GRAPHICS_CONFIG,
-    towerConfig: TOWER_CONFIG
-})
+    towerUpgradeConfig: TOWER_UPGRADE_CONFIG
+});
 
 const projectileRenderer = new ProjectileRenderer({
     config: PROJECTILE_GRAPHICS_CONFIG
-})
+});
 
 const renderer = new CanvasRenderer({
     ctx,
@@ -108,6 +108,7 @@ const renderer = new CanvasRenderer({
 
 const ui = new UIManager({
     root: document.querySelector("#game-ui"),
+    towerUpgradeConfig: TOWER_UPGRADE_CONFIG,
     UIGraphicsConfig: UI_GRAPHICS_CONFIG
 });
 

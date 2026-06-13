@@ -1,8 +1,8 @@
 
 export default class TowerRenderer {
-    constructor({towerGraphicsConfig, towerConfig}) {
+    constructor({towerGraphicsConfig, towerUpgradeConfig}) {
         this.towerGraphicsConfig = towerGraphicsConfig
-        this.towerConfig = towerConfig;
+        this.towerUpgradeConfig = towerUpgradeConfig;
     }
 
     renderTower(ctx, position, angle, showRadius, type, upgradeLevel) {
@@ -26,7 +26,7 @@ export default class TowerRenderer {
         const size = graphicsConfig.size;
         const barrelRadius = graphicsConfig.barrelRadius;
         const barrelLength = graphicsConfig.barrelLength;
-        const radius = this.towerConfig["unit"][upgradeLevel].range;
+        const radius = this.towerUpgradeConfig["unit"][`tier-${upgradeLevel}`].stats.range;
 
         let fieldColor = this.towerGraphicsConfig["unit"].rangeField;
 

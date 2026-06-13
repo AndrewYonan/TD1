@@ -1,4 +1,7 @@
 export const UI_GRAPHICS_CONFIG = {
     DEACTIVATED_COLOR: "rgba(57, 57, 57, 0.43)",
+    DEACTIVATED_TEXT_COLOR: "rgb(158, 158, 158)",
     ACTIVATED_COLOR: "rgb(41, 255, 76)",
+    ACTIVATED_TEXT_COLOR: "rgb(0,0,0)",
+    
 }
