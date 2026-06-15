@@ -21,10 +21,19 @@
                 <tr><td><button class = "tower-button" id = "unit-tower">Unit</li></td></tr>
             </table>
             <div id = "tower-upgrade-menu">
-                <div id = "tower-title">Tower</div>
+                <div id = "tower-title">
+                    <div id = "tower-type">
+                        <div id = "tower-type-text"></div>
+                    </div>
+                    <div id = "tower-level"></div>
+                </div>
                 <div id = "tower-stats">
-                    <div class = "tower-stat" id = "hit-count">Hits | 0</div>
-                    <div class = "tower-stat" id = "tower-target-policy"></div>
+                    <div id="targeting-picker">
+                        <button class = "targeting-picker-btn" id="targeting-increase"> << </button>
+                        <span id = "targeting-picker-value"></span>
+                        <button class = "targeting-picker-btn" id="targeting-decrease"> >> </button>
+                      </div>
+                    <div class = "tower-stat" id = "hit-count"></div>
                 </div>
                 <div id = "upgrade-list">
                     <button class = "upgrade-button" id = "upgrade-1">U1</button>

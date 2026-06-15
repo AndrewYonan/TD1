@@ -46,7 +46,7 @@ export default class UIManager {
     renderTowerUpgradeMenu({currentMoney, selectedTowerID, type, hitCount, targetPolicy, upgradeLevel}) {
         this.towerUpgradeMenu.style.display = selectedTowerID ? "block" : "none";
         if (!selectedTowerID) return;
-        this.renderTowerStats(hitCount, type, targetPolicy);
+        this.renderTowerStats(hitCount, type, targetPolicy, upgradeLevel);
         this.renderUpgradeOptions(currentMoney, type, upgradeLevel);
         this.renderUpgradeCosts(type);
 
@@ -60,9 +60,10 @@ export default class UIManager {
         }
     }
 
-    renderTowerStats(hitCount, type, targetPolicy) {
-        this.towerUpgradeMenu.querySelector("#tower-title").textContent = this.capitalize(type);
-        this.towerUpgradeMenu.querySelector("#tower-target-policy").textContent = targetPolicy;
+    renderTowerStats(hitCount, type, targetPolicy, upgradeLevel) {
+        this.towerUpgradeMenu.querySelector("#tower-level").textContent = upgradeLevel.toString();
+        this.towerUpgradeMenu.querySelector("#tower-type-text").textContent = this.capitalize(type);
+        this.towerUpgradeMenu.querySelector("#targeting-picker-value").textContent = targetPolicy;
         this.towerUpgradeMenu.querySelector("#hit-count").textContent = `Hits: ${hitCount.toString()}`;
     }
 
