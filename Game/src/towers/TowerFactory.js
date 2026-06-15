@@ -1,10 +1,15 @@
 import UnitTower from "../towers/UnitTower.js";
 
 export default class TowerFactory {
-    constructor({towerUpgradeConfig, towerGraphicsConfig}) {
+    constructor({towerUpgradeConfig, towerGraphicsConfig, targetingPolicies}) {
         this.towerUpgradeConfig = towerUpgradeConfig;
-        this.towerGraphicsConfig = towerGraphicsConfig
+        this.towerGraphicsConfig = towerGraphicsConfig;
+        this.targetingPolicies = targetingPolicies;
         this.IDCount = 0;
+    }
+
+    getTargetingPolicies() {
+        return this.targetingPolicies;
     }
 
     createUnitTower({loc, projectileSet, projectileFactory, upgradeLevel}) {
@@ -24,9 +29,18 @@ export default class TowerFactory {
             baseUnitConfig.damage, 
             baseUnitConfig.range,
             baseUnitConfig.smartAim,
+            this.targetingPolicies[0],
             projectileSet, 
             projectileFactory,
             this.IDCount)
+    }
+
+
+    rotateTargetingPolicy(tower, val) {
+        const idx = this.targetingPolicies.indexOf(tower.targetingPolicy);
+        const N = this.targetingPolicies.length;
+        const newPolicy = this.targetingPolicies[(idx + val + N) % N];
+        tower.setTargetingPolicy(newPolicy);
     }
 
 
@@ -77,19 +91,3 @@ export default class TowerFactory {
 
 
 }
-
-
-
-// export const TOWER_UPGRADE_CONFIG = {
-//     "unit" : {
-//         "tier-0": {
-//             cost: 600,
-//             stats: {
-//                 range: 200,
-//                 fireRate: 0.75,
-//                 bulletSpeed: 500,
-//                 pierce: 1,
-//                 damage: 1,
-//                 smartAim: false
-//             }
-//         },

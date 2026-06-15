@@ -28,8 +28,16 @@ export default class World {
         return this.money;
     }
 
+    getTargetingPolicies() {
+        return this.towerFactory.getTargetingPolicies();
+    }
+
+    rotateTargetingPolicy(towerID, val) {
+        let tower = this.getTower(towerID);
+        this.towerFactory.rotateTargetingPolicy(tower, val);
+    }
+
     upgrade(towerID, level) {
-        console.log(`upgrading tower ${towerID}`);
         let tower = this.getTower(towerID);
         this.towerFactory.upgrade(tower, level);
     }

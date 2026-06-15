@@ -26,6 +26,7 @@ import { PATH_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js"
 import { ENTITY_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
 import { TOWER_GRAPHICS_CONFIG } from "./config/TowerGraphicsConfig.js";
 import { PROJECTILE_GRAPHICS_CONFIG } from "./config/GraphicsConfig.js";
+import { TARGETING_POLICIES } from "./config/TargetingPolicies.js";
 
 
 // **********************************************************************
@@ -56,7 +57,8 @@ const entityFactory = new EntityFactory({
 
 const towerFactory = new TowerFactory({
     towerUpgradeConfig: TOWER_UPGRADE_CONFIG,
-    towerGraphicsConfig: TOWER_GRAPHICS_CONFIG
+    towerGraphicsConfig: TOWER_GRAPHICS_CONFIG,
+    targetingPolicies: TARGETING_POLICIES,
 })
 
 const roundSystemFactory = new RoundSystemFactory({

@@ -24,7 +24,7 @@ export default class UIManager {
         this.moneyElement.textContent = `$${money}`;
         this.roundElement.textContent = `Round | ${round}`;
         this.gameOverScreen.style.display = isGameOver ? "flex" : "none";
-        this.autoStartButton.textContent = isAutoStart ? "<< Auto Start >>" : "Auto Start";
+        this.autoStartButton.textContent = isAutoStart ? "<< Auto >>" : "Auto";
         this.renderSpeedButton(isFastPlay, roundRunning);
     }       
 
@@ -43,10 +43,10 @@ export default class UIManager {
         }
     }
 
-    renderTowerUpgradeMenu({currentMoney, selectedTowerID, type, hitCount, targetPolicy, upgradeLevel}) {
+    renderTowerUpgradeMenu({currentMoney, selectedTowerID, type, hitCount, targetingPolicy, upgradeLevel}) {
         this.towerUpgradeMenu.style.display = selectedTowerID ? "block" : "none";
         if (!selectedTowerID) return;
-        this.renderTowerStats(hitCount, type, targetPolicy, upgradeLevel);
+        this.renderTowerStats(hitCount, type, targetingPolicy, upgradeLevel);
         this.renderUpgradeOptions(currentMoney, type, upgradeLevel);
         this.renderUpgradeCosts(type);
 

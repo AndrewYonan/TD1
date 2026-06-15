@@ -56,6 +56,7 @@ button:focus {
 .edit-button {
     padding: 15px;
     margin: 20px;
+    min-width: 175px;
     background-color: rgb(41, 255, 76);
     border: none;
     border-radius: 10px;
@@ -173,7 +174,7 @@ button:focus {
     color:rgb(41, 255, 76);
     font-size: 80px;
     padding-left: 20px;
-    margin-left: 15px;
+    margin-left: 20px;
     border-left: solid 2px #fff;
 }
 
@@ -185,7 +186,7 @@ button:focus {
     font-size: 26px;
     border-radius: 20px;
     border: none;
-    width: 150px;
+    width: 100%;
     height: 105px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -202,6 +203,7 @@ button:focus {
     display: inline-flex;
     align-items: center;
     border-radius: 8px;
+    min-height: 80px;
     font-family: sans-serif;
 }
   
@@ -217,24 +219,23 @@ button:focus {
     min-width: 65px;
     transition: background-color 0.2s ease;
 }
-  
-.targeting-picker-btn:hover {
-    font-weight: bold;
-    font-size:35px;
-    /* box-shadow: 2px 2px 20px 0px rgba(61, 119, 70, 0.748); */
-}
 
   
 #targeting-picker-value {
-    padding: 20px;
+    padding: 10px;
     font-size: 25px;
-    min-width: 30px; 
+    min-width: 80px; 
     font-family: "Font1";
     text-align: center;
 }
 
 
 /* =============================================================== */
+
+.targeting-picker-btn:hover {
+    font-weight: bold;
+    font-size:35px;
+}
 
 
 .tower-button:hover {

@@ -2,7 +2,7 @@ import { dist } from "../math/Utils.js";
 
 export default class UnitTower {
 
-    constructor(loc, size, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, smartAim, projectileSet, projectileFactory, uniqueID) {
+    constructor(loc, size, upgradeLevel, fireRate, bulletSpeed, pierce, damage, range, smartAim, targetingPolicy, projectileSet, projectileFactory, uniqueID) {
 
         this.loc = loc;
         this.size = size;
@@ -18,7 +18,7 @@ export default class UnitTower {
         this.smartAim = smartAim;
 
         this.hitCount = 0;
-        this.targetPolicy = "first"; //TODO
+        this.targetingPolicy = targetingPolicy;
         this.upgradeLevel = upgradeLevel;
         
         this.target = null;
@@ -26,6 +26,10 @@ export default class UnitTower {
         this.gunAngle = 0;
         this.showRadius = false;
         this.uniqueID = uniqueID;
+    }
+
+    setTargetingPolicy(policy) {
+        this.targetingPolicy = policy;
     }
 
     highlight(value) {
@@ -161,7 +165,7 @@ export default class UnitTower {
         return {
             type: this.type,
             hitCount: this.hitCount,
-            targetPolicy: this.targetPolicy,
+            targetingPolicy: this.targetingPolicy,
             upgradeLevel: this.upgradeLevel,
         };
     }

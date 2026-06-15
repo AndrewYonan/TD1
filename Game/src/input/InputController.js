@@ -8,7 +8,14 @@ export default class InputController {
         this.towerUpgradeMenu = root.querySelector("#tower-upgrade-menu");
     }
 
-    bindActions({onToggleRoundPlay, onRestart, onUnitTowerSelect, onAutoStart, onUpgradeClick}) {
+    bindActions({
+        onToggleRoundPlay, 
+        onRestart, 
+        onUnitTowerSelect, 
+        onAutoStart, 
+        onUpgradeClick,
+        onTargetingForward,
+        onTargetingBack}) {
 
         this.root.querySelector("#run-game").addEventListener("click", onToggleRoundPlay);
         this.root.querySelector("#restart-game").addEventListener("click", onRestart);
@@ -18,6 +25,9 @@ export default class InputController {
         this.root.querySelector("#upgrade-2").addEventListener("click", () => {onUpgradeClick(2)});
         this.root.querySelector("#upgrade-3").addEventListener("click", () => {onUpgradeClick(3)});
         this.root.querySelector("#upgrade-4").addEventListener("click", () => {onUpgradeClick(4)});
+
+        this.root.querySelector("#targeting-forward").addEventListener("click", onTargetingForward);
+        this.root.querySelector("#targeting-back").addEventListener("click", onTargetingBack);
 
         const unitTowerAdd = this.root.querySelector("#unit-tower");
         if (unitTowerAdd) unitTowerAdd.addEventListener("click", onUnitTowerSelect);

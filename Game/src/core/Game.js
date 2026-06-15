@@ -42,6 +42,8 @@ export default class Game {
             onUnitTowerSelect: () => this.selectUnitTower(),
             onAutoStart: () => this.autoStartToggle(),
             onUpgradeClick: (level) => this.upgrade(level),
+            onTargetingForward: () => this.rotateTargetingPolicy(1),
+            onTargetingBack: () => this.rotateTargetingPolicy(-1)
         });
     }
 
@@ -51,6 +53,10 @@ export default class Game {
             this.currentSelectedTowerID = null;
             this.currentSelectedTowerType = null;
         }
+    }
+
+    rotateTargetingPolicy(val) {
+        this.world.rotateTargetingPolicy(this.currentSelectedTowerID, val);
     }
 
     upgrade(level) {
@@ -140,6 +146,7 @@ export default class Game {
     }
 
     restart() {
+        this.escape();
         this.stop();
         this.collisionSystem.clear();
         this.initialize();
