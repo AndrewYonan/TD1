@@ -3,7 +3,7 @@ export const TOWER_UPGRADE_CONFIG = {
         "tier-0": {
             cost: 600,
             stats: {
-                range: 150,
+                range: 200,
                 fireRate: 0.75,
                 bulletSpeed: 500,
                 pierce: 1,

@@ -98,21 +98,7 @@ export default class UnitTower {
         return Math.atan(dir.y / dir.x);
     }
 
-    closest(entities) {
-        if (entities.length == 0) return;
-        let entity = entities[0];
-        let min = dist(entity.loc, this.loc);
-        for (let i = 1; i < entities.length; ++i) {
-            const d = dist(entities[i].loc, this.loc);
-            if (d < min) {
-                min = d;
-                entity = entities[i];
-            }
-        }
-        return entity;
-    }
-
-    update(dt, entities) {
+    update(dt, entityViewer) {
 
         this.updateCooldownTimer(dt);
 
@@ -122,7 +108,7 @@ export default class UnitTower {
 
         if (this.targetIsHit() || this.targetOutOfRange()) {
             this.target = null;
-            this.findTarget(entities)
+            this.findTarget(entityViewer)
         } 
     }
 
@@ -136,14 +122,8 @@ export default class UnitTower {
         }
     }
 
-    findTarget(entities) {
-        for (let i = 0; i < entities.length; ++i) {
-            if (this.inRangeOf(entities[i])) {
-                this.target = entities[i];
-                return true;
-            }
-        }
-        return false;
+    findTarget(entityViewer) {
+        this.target = entityViewer.chooseEntity(this.loc, this.range, this.targetingPolicy);
     }
 
     fire() {

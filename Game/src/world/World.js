@@ -1,3 +1,5 @@
+import Entity from "../entities/Entity.js";
+import EntityViewer from "../entities/EntityViewer.js";
 
 export default class World {
 
@@ -229,7 +231,7 @@ export default class World {
 
     updateTowers(dt) {
         for (let i = 0; i < this.towers.length; ++i) {
-            this.towers[i].update(dt, this.entities);
+            this.towers[i].update(dt, new EntityViewer(this.entities));
         }
     }
 }
