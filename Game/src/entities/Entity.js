@@ -25,6 +25,7 @@ export default class Entity {
         this.segmentVec = this.getSegmentVec();
         this.segmentDist = this.getSegmentDist();
         this.pathCompleted = false;
+        this.distanceTraveled = 0;
         this.t = 0;
 
     } 
@@ -115,6 +116,10 @@ export default class Entity {
         return this.t >= 1 || (this.segmentVec).dot(this.toTargetVec()) < 0;
     }
 
+    getDistanceTraveled() {
+        return this.distanceTraveled;
+    }
+
     advanceTarget() {
 
         if (this.targetIdx >= this.pathLength() - 1) {
@@ -160,6 +165,7 @@ export default class Entity {
         if (!this.pathCompleted) {
             const progress = this.segmentVec.mult(this.t);
             this.loc = this.prev.add(progress);
+            this.distanceTraveled += this.speed;
         }
         
     }

@@ -22,6 +22,12 @@ export default class EntityViewer {
         else if (targetingPolicy === "strong") {
             return this.chooseStrongest(firingLocation, firingRange);
         }
+        else if (targetingPolicy === "first") {
+            return this.chooseFirst(firingLocation, firingRange);
+        }
+        else if (targetingPolicy === "last") {
+            return this.chooseLast(firingLocation, firingRange);
+        }
 
         return this.chooseAny(firingLocation, firingRange);
     }
@@ -102,6 +108,47 @@ export default class EntityViewer {
         }
         return entity;
         
+    }
+
+
+    chooseFirst(firingLocation, firingRange) {
+        
+        let entity = null;
+        let max = 0;
+
+        for (let i = 0; i < this.entities.length; ++i) {
+
+            const d = dist(this.entities[i].loc, firingLocation);
+            const distAlongPath = this.entities[i].getDistanceTraveled();
+
+            if (d > firingRange) continue;
+            if (distAlongPath > max) {
+                max = distAlongPath;
+                entity = this.entities[i];
+            }
+        }
+        return entity;
+
+    }
+
+    chooseLast(firingLocation, firingRange) {
+        
+        let entity = null;
+        let min = 100000;
+
+        for (let i = 0; i < this.entities.length; ++i) {
+
+            const d = dist(this.entities[i].loc, firingLocation);
+            const distAlongPath = this.entities[i].getDistanceTraveled();
+
+            if (d > firingRange) continue;
+            if (distAlongPath < min) {
+                min = distAlongPath;
+                entity = this.entities[i];
+            }
+        }
+        return entity;
+
     }
 
     
